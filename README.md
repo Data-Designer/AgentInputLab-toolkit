@@ -34,7 +34,7 @@ in the installed package, including a real HTTP backend example and troubleshoot
 Python 3.10+; optional model dependencies have their own Python/platform constraints.
 
 ```sh
-python -m pip install agentinputlab==0.1.0a16
+python -m pip install agentinputlab==0.1.0a17
 python -m agentinputlab --version
 python -m agentinputlab doctor --offline --json
 python -m agentinputlab smoke --json
@@ -49,9 +49,9 @@ locally, with no repository account, source extraction or optional dependencies.
 To obtain the public source and included documentation from PyPI:
 
 ```sh
-python -m pip download --no-deps --no-binary=agentinputlab agentinputlab==0.1.0a16
-tar -xzf agentinputlab-0.1.0a16.tar.gz
-cd agentinputlab-0.1.0a16
+python -m pip download --no-deps --no-binary=agentinputlab agentinputlab==0.1.0a17
+tar -xzf agentinputlab-0.1.0a17.tar.gz
+cd agentinputlab-0.1.0a17
 python -m pip install .
 ```
 
@@ -70,7 +70,7 @@ The Python distribution is an initial alpha. The JavaScript SDK remains source-o
 ```sh
 python -m pip install build
 python -m build
-python -m pip install dist/agentinputlab-0.1.0a16-py3-none-any.whl
+python -m pip install dist/agentinputlab-0.1.0a17-py3-none-any.whl
 cd packages/sdk
 npm ci
 npm test

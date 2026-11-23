@@ -50,8 +50,9 @@
         <label>Retrieval calls<input id="retrieval-calls" type="number" min="0" value="8" required></label>
         <label>Tool calls<input id="tool-calls" type="number" min="0" value="8" required></label>
         <label>Seed<input id="seed" type="number" min="0" value="17" required></label>
-        <label>Case workers<input id="workers" type="number" min="1" max="4" value="1" required></label>
+        <label>Case workers<input id="workers" type="number" min="1" max="1" value="1" readonly required></label>
       </div>
+      <p class="wf-help">The unified workflow runs cases sequentially (one worker). The separate campaign interface supports bounded concurrency; this setting does not control campaign workers.</p>
       <details class="wf-details"><summary>Method parameters, retrieval and runtime settings</summary>
         <p class="wf-help">Use the method's native parameter names for temperature, per-call output caps and max_length. Unknown parameters are reported by preflight. File paths are on the server.</p>
         <div class="wf-grid">

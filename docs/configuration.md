@@ -108,6 +108,11 @@ print(result)
 ```
 
 `config.to_dict()` gives the JSON-serializable settings for your own storage.
+From a16, inline BM25 documents without a `corpus_revision` receive a stable
+`inline-sha256:` revision derived from the complete inline document collection.
+Changing its content changes that identity. Explicit source revisions remain
+unchanged. This supplies provenance required by RRR without another model call
+or a user-invented version label.
 Never put a plaintext key in that file: use `api_key_env`. Backend `extra_body`
 can hold provider-specific options, but request-owned fields (`temperature`,
 `max_tokens`, `seed`, model/messages, etc.) are rejected there. Set those on the
@@ -115,8 +120,8 @@ method/request instead; previously overlapping options could be overwritten.
 
 ### Hosted model identities, structured output and stage ceilings
 
-These new options are available in the development branch. Until the next PyPI
-release, install that source checkout with `python -m pip install .`.
+These options are included in the published `0.1.0a15` package and the public
+source. They do not require a research checkout.
 
 Set the exact provider model ID and a revision in `backend`. Providers can return
 a shorter family name in the response; declare verified names explicitly:
@@ -2061,8 +2066,8 @@ extensions from `backend.extra_body`, without inherited native defaults. STATE
 and ToolSandbox support the separate `environment_extra_body_mode` for user/judge
 requests. For example, combine this mode with
 `"extra_body": {"thinking": {"type": "disabled"}}` for an endpoint that accepts
-that option. Both modes default to `"merge"`; these new mode options are in the
-development branch described above.
+that option. Both modes default to `"merge"` and are included in the published
+`0.1.0a15` package.
 Omitting these options preserves existing requests. Extensions must be finite
 JSON and cannot override native model identity, task input, tools, seed, temperature,
 token caps, stop strings or response schema. Configure budgets through `budget`

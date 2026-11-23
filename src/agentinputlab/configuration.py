@@ -16,7 +16,7 @@ from typing import Any, Union, get_args, get_origin, get_type_hints
 
 from agentinputlab.contracts import ExecutionBudget, FrozenAgentState, InterventionContext
 from agentinputlab.contracts.errors import ValidationError
-from agentinputlab.contracts.serialization import freeze_mapping, to_jsonable
+from agentinputlab.contracts.serialization import content_hash, freeze_mapping, to_jsonable
 
 _MAX_CONFIG_BYTES = 1024 * 1024
 
@@ -386,6 +386,12 @@ class RunConfig:
             documents.append(Document(**data))
         if len({d.doc_id for d in documents}) != len(documents):
             raise ValidationError("retriever document IDs must be unique")
+        # Inline documents are already fully specified here. Bind missing
+        # provenance to their content rather than failing after a model call.
+        # Never replace an explicitly supplied source revision.
+        inline_revision = "inline-sha256:" + content_hash(documents)
+        documents = [replace(d, corpus_revision=inline_revision)
+                     if not d.corpus_revision.strip() else d for d in documents]
         return InMemoryBM25Retriever(documents, k1=self.retriever.get("k1", 1.2),
                                      b=self.retriever.get("b", 0.75))
 

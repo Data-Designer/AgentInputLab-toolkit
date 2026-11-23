@@ -4,7 +4,7 @@ The installed Studio workflow builder uses the same preparation, execution,
 budget accounting and native scoring code as `agentinputlab workflow`.
 It is included in the published wheel and runs locally in your environment.
 
-From an environment containing this updated source installation:
+From an environment containing the published package or public source installation:
 
 ```sh
 agentinputlab-studio --workflow-root ./studio-workflows
@@ -23,7 +23,8 @@ use an SSH tunnel rather than exposing the service publicly.
 2. Enter your served model ID, API base URL and deployment revision. Credentials
    remain in the server environment; enter an environment-variable **name**, not
    an API key. The form does not automatically deploy model weights.
-3. Set the per-case budget, seed and concurrency (1–4 cases). Expand advanced
+3. Set the per-case budget and seed. This unified workflow uses one case worker;
+   the separate campaign interface supports bounded concurrency. Expand advanced
    settings for the method's native parameters, retriever, artifacts, runtime and
    preparation. Temperature, per-call token caps and `max_length` use the names
    shown in the selected method's parameter reference; they are not interchangeable
@@ -61,7 +62,7 @@ root restores the list. **Resume saved run** uses the immutable saved configurat
 and the native journal; completed attempts, including failures, are not repeated.
 Editing the draft and launching creates a separate run instead.
 
-Only one workflow is active per Studio manager; its cases may run concurrently.
+Only one workflow is active per Studio manager, and its cases run sequentially.
 After an unclean process termination, an existing `.studio-running` guard requires
 operator reconciliation of the original process and journal before continuation.
 Do not remove that guard while a worker might still be running. Uncertain attempts

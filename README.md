@@ -1,5 +1,9 @@
 # AgentInputLab
 
+**English** · [简体中文](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/README.zh-CN.md)
+
+[Step-by-step tutorial](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/tutorial.md) · [中文教程](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/tutorial.zh-CN.md) · [Configuration reference](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/configuration.md) · [Troubleshooting](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/troubleshooting.md)
+
 A Python toolkit and typed JavaScript client for composing and evaluating input interventions for LLM agents.
 
 This public repository contains reusable library code, worker adapters, synthetic tests and documentation. It contains no paper results, experiment logs, datasets, trained weights or private execution configuration.
@@ -8,13 +12,29 @@ This public repository contains reusable library code, worker adapters, syntheti
 
 ## Install
 
+Start with one of these routes:
+
+| Goal | Entry point | What you get |
+| --- | --- | --- |
+| Try an intervention without a model | `config init`, then `config run` | A transformed input; no generated answer or benchmark score |
+| Rewrite, retrieve and answer with your API | [API tutorial](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/tutorial.md#2-run-with-your-model-api) | Two real model calls and a small BM25 retrieval |
+| Run a dataset and obtain native scores | [Native evaluation tutorial](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/tutorial.md#3-evaluate-a-native-benchmark) | Per-case predictions, scores, usage and retained failures |
+| Edit and run through a browser | [Studio](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/studio-workflows.md) | A local UI over the same configuration/workflow APIs |
+
+Methods have explicit release profiles: some are immediately runnable, while
+trained or native profiles need their declared weights, sources or runtime.
+Use `show RELEASE --parameters` and `workflow inspect` to check those inputs
+before execution. An API key alone does not supply a trained retriever or a
+benchmark environment. The [acceptance guide](https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/validation.md) distinguishes
+interface checks, replay and live execution.
+
 The commands below work without GitHub access. All Markdown guides are bundled
 in the installed package, including a real HTTP backend example and troubleshooting.
 
 Python 3.10+; optional model dependencies have their own Python/platform constraints.
 
 ```sh
-python -m pip install agentinputlab==0.1.0a15
+python -m pip install agentinputlab==0.1.0a16
 python -m agentinputlab --version
 python -m agentinputlab doctor --offline --json
 python -m agentinputlab smoke --json
@@ -29,9 +49,9 @@ locally, with no repository account, source extraction or optional dependencies.
 To obtain the public source and included documentation from PyPI:
 
 ```sh
-python -m pip download --no-deps --no-binary=agentinputlab agentinputlab==0.1.0a15
-tar -xzf agentinputlab-0.1.0a15.tar.gz
-cd agentinputlab-0.1.0a15
+python -m pip download --no-deps --no-binary=agentinputlab agentinputlab==0.1.0a16
+tar -xzf agentinputlab-0.1.0a16.tar.gz
+cd agentinputlab-0.1.0a16
 python -m pip install .
 ```
 
@@ -50,7 +70,7 @@ The Python distribution is an initial alpha. The JavaScript SDK remains source-o
 ```sh
 python -m pip install build
 python -m build
-python -m pip install dist/agentinputlab-0.1.0a15-py3-none-any.whl
+python -m pip install dist/agentinputlab-0.1.0a16-py3-none-any.whl
 cd packages/sdk
 npm ci
 npm test

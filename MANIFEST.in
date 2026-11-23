@@ -1,4 +1,4 @@
-include LICENSE NOTICE THIRD_PARTY_NOTICES.md CITATION.cff README.md
+include LICENSE NOTICE THIRD_PARTY_NOTICES.md CITATION.cff README.md README.zh-CN.md CONTRIBUTING.md
 include PUBLISHING.md .release/PYPI_PUBLISHING_DISABLED
 recursive-include src *.py *.typed *.json *.html *.css *.js
 recursive-include docs *.md

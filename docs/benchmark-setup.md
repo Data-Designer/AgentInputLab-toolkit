@@ -23,7 +23,7 @@ sample for large datasets when appropriate.
 Install the optional dependencies required by the selected adapter:
 
 ```sh
-python -m pip install 'agentinputlab[benchmarks,evaluation]==0.1.0a17'
+python -m pip install 'agentinputlab[benchmarks,evaluation]==0.1.0a18'
 agentinputlab datasets prepare beir.arguana --cache-dir ./toolkit-cache
 ```
 

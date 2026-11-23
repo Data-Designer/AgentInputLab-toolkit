@@ -11,7 +11,7 @@ assume Python 3.10+ and a new working directory; keep API keys out of files.
 ```sh
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install agentinputlab==0.1.0a17
+python -m pip install agentinputlab==0.1.0a18
 agentinputlab --version
 agentinputlab doctor --offline --json
 agentinputlab smoke --json
@@ -101,7 +101,7 @@ length. Changing a total budget does not automatically change a stage cap.
 Use LongBench MultiFieldQA-en for a bounded end-to-end scoring example:
 
 ```sh
-python -m pip install 'agentinputlab[longbench]==0.1.0a17'
+python -m pip install 'agentinputlab[longbench]==0.1.0a18'
 ```
 
 Prepare the original data archive, native scorer and prompt templates at the

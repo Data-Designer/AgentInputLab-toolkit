@@ -11,7 +11,7 @@ can require a particular Python version, platform, upstream checkout or weights.
 python -m venv .venv
 # macOS/Linux; Windows PowerShell: .venv\Scripts\Activate.ps1
 source .venv/bin/activate
-python -m pip install agentinputlab==0.1.0a17
+python -m pip install agentinputlab==0.1.0a18
 python -m agentinputlab --version
 python -m agentinputlab doctor --offline --json
 python -m agentinputlab smoke --json
@@ -35,7 +35,7 @@ agentinputlab show plan.plan_and_solve.ps_prompt --parameters
 
 Use the exact release ID and its prerequisite documentation. An available
 entrypoint is not a configured runtime. Install only the extras you need, for
-example `python -m pip install 'agentinputlab[benchmarks,evaluation]==0.1.0a17'`.
+example `python -m pip install 'agentinputlab[benchmarks,evaluation]==0.1.0a18'`.
 Do not install all extras into one environment: some native methods deliberately
 pin incompatible upstream versions. Keep those runtimes in separate environments.
 

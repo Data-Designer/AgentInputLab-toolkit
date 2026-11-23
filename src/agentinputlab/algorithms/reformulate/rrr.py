@@ -511,7 +511,16 @@ class RRRCommonSupport:
                 },
             )
         )
-        query = _parse_common_support_query(rewritten.text)
+        rewrite_text = _common_support_rewrite_text(rewritten)
+        normalized_query_text = _normalize_common_support_query_format(rewrite_text)
+        query = _parse_common_support_query(rewrite_text)
+        format_normalization = (
+            {"format_normalization": "single_bold_wrapper.v1"}
+            if normalized_query_text != rewrite_text
+            else {}
+        )
+        if rewrite_text != rewritten.text:
+            format_normalization["retained_final_content_sha256"] = content_hash(rewrite_text)
         results = _validate_common_support_results(
             retriever.retrieve(query, top_k=self.config.top_k),
             top_k=self.config.top_k,
@@ -562,6 +571,7 @@ class RRRCommonSupport:
                         "query": query,
                         "parser": "semicolon_then_double_asterisk_single.v1",
                         "raw_rewrite_sha256": content_hash(rewritten.text),
+                        **format_normalization,
                     },
                 ),
                 TraceEvent(
@@ -626,10 +636,45 @@ class RRRCommonSupport:
         )
 
 
+def _common_support_rewrite_text(response: Any) -> Any:
+    text = response.text
+    if not isinstance(text, str) or text.strip():
+        return text
+    raw = response.raw
+    stop = raw.get("agentinputlab_final_channel_stop", {})
+    if not isinstance(stop, Mapping) or (
+        stop.get("policy_id") != "gpt-oss.final-channel-stop.v1"
+        or stop.get("requested_stop") not in (["**"], ("**",))
+        or stop.get("matched_stop") != "**"
+    ):
+        return text
+    choices = raw.get("choices")
+    if not isinstance(choices, (list, tuple)) or len(choices) != 1:
+        return text
+    choice = choices[0]
+    if not isinstance(choice, Mapping) or not isinstance(choice.get("message"), Mapping):
+        return text
+    final = choice["message"].get("content")
+    # The adapter retains provider final content and charges all its tokens.
+    # Recover only a complete single bold query, never reasoning or a suffix.
+    if isinstance(final, str) and _normalize_common_support_query_format(final) != final:
+        return final
+    return text
+
+
+def _normalize_common_support_query_format(raw: Any) -> Any:
+    if not isinstance(raw, str):
+        return raw
+    # Accept only one complete, single-line Markdown wrapper. Do not pick a
+    # query from multiple answers or discard text outside the wrapper.
+    wrapped = re.fullmatch(r"(?:Query:\s*)?\*\*([^*\r\n]+)\*\*", raw.strip())
+    return wrapped.group(1).strip() if wrapped else raw
+
+
 def _parse_common_support_query(raw: Any) -> str:
     if not isinstance(raw, str):
         raise AlgorithmOutputError("RRR common-support rewriter returned non-text output")
-    value = raw.split("**", 1)[0].strip()
+    value = _normalize_common_support_query_format(raw).split("**", 1)[0].strip()
     if "Query:" in value:
         value = value.rsplit("Query:", 1)[1].strip()
     queries = tuple(item.strip() for item in value.split(";") if item.strip())

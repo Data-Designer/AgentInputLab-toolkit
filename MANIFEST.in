@@ -1,0 +1,19 @@
+include LICENSE NOTICE THIRD_PARTY_NOTICES.md CITATION.cff README.md
+include PUBLISHING.md .release/PYPI_PUBLISHING_DISABLED
+recursive-include src *.py *.typed *.json *.html *.css *.js
+recursive-include docs *.md
+recursive-include tools *.py
+recursive-include scripts/selectors *.py
+recursive-include examples *.py
+include packages/sdk/package.json packages/sdk/package-lock.json packages/sdk/tsconfig.json
+include packages/sdk/README.md packages/sdk/LICENSE
+recursive-include packages/sdk/src *.ts
+recursive-include packages/sdk/test *.mjs
+recursive-include workers *.py *.md *.txt *.yaml *.yml *.json
+prune tests
+prune dist
+prune results
+prune data
+prune artifacts
+prune .runtime
+global-exclude __pycache__ *.pyc *.pyo *.log *.csv *.jsonl *.pdf *.pt *.pth *.safetensors

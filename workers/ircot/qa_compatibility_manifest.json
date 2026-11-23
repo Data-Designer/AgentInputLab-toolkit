@@ -1,0 +1,57 @@
+{
+  "schema_version": "agentinputlab.ircot.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/StonyBrookNLP/ircot",
+    "commit": "3c1820f698eea5eeddb4fba3c56b64c961e063e4",
+    "license_spdx": "Apache-2.0",
+    "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "commaqa/inference/configurable_inference.py": "6d19f148ef0637707d1dd481e604944144eb296754c88429706a514b111db54d",
+    "commaqa/inference/constants.py": "4482a7eb15e107e72f364b7357a8963662a063a730aa3861a6b51e3018d99570",
+    "commaqa/inference/data_instances.py": "018a4addbb5d6fb81c76af049e1ae1e50ac227ab48ee7a69a9cb453b00ff6317",
+    "commaqa/inference/ircot.py": "a2233cbdae107e80cd383993edadc43c2491d2360a878b05a97dfa66a0b0eebf",
+    "commaqa/inference/model_search.py": "c22ddb376bd165a0872da11fa0310cda8c25e00c62d9efa3e47cd36371889558",
+    "commaqa/inference/prompt_reader.py": "910b6e971edd00460a570260d669128163965f2f61fe230db64be055131d311e",
+    "commaqa/inference/participant_qa.py": "2e7e1e69509abc48483a1a656bd1e0fa97eff8692ad83cb11b962771a47a6eef",
+    "commaqa/execution/llm_qa_model.py": "1cbf61aa5d05948103b612bb7191319f4c895d6442a1fff1efc752548a8d4543",
+    "commaqa/models/gpt3generator.py": "93ef7b884859e63a56c1ad4ac28dcb3bdd15da1090cd9552908ff6dd2d0e9c78"
+  },
+  "allowed_model_names": [
+    "retrieve_and_reset_paragraphs",
+    "step_by_step_cot_gen",
+    "step_by_step_exit_controller",
+    "copy_question",
+    "llmqa",
+    "answer_extractor"
+  ],
+  "profiles": {
+    "upstream.hotpotqa.codex_qa.v1": {
+      "identity_kind": "upstream_native",
+      "config_scope": "upstream",
+      "config_path": "base_configs/ircot_qa_codex_hotpotqa.jsonnet",
+      "config_sha256": "191607081660bac659b1513718aa74d66250fa5e0f6bc8dd5efb0e459eb95cb6",
+      "prompt_scope": "upstream",
+      "prompt_path": "prompts/hotpotqa/gold_with_2_distractors_context_cot_qa_codex.txt",
+      "prompt_sha256": "af56b51582a5fdbebf5a5d50ab95cefcb95d92986cf820774ccbaa897a71552f",
+      "corpus_revision": "hotpotqa",
+      "binding_attestation": "startup_exact_model_retriever_tokenizer_dependencies_with_explicit_substitutions",
+      "config_ext_vars": {
+        "RETRIEVER_HOST": "AGENTINPUTLAB_IRCOT_RETRIEVER_HOST",
+        "RETRIEVER_PORT": "AGENTINPUTLAB_IRCOT_RETRIEVER_PORT"
+      }
+    }
+  },
+  "patches": [
+    {
+      "id": "native_qa_bounded_controls_v1",
+      "changes": [
+        "bound native reasoning sentences, retrieval counts and active documents to explicit controls",
+        "reserve the native final QA call inside the same total call/output budget",
+        "retain the original six-participant graph, prompt filtering/fitting and answer extractor",
+        "bind generation/retrieval/GPT2 tokenizer at startup, without native cache or retry"
+      ]
+    }
+  ]
+}

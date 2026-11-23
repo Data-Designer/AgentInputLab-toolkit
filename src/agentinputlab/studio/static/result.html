@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Experiment result · AgentInputLab Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/result.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">AI</span>
+          <span><strong>AgentInputLab</strong><small>Experiment Studio</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="Studio navigation">
+          <a class="nav-link" href="/workflows"><span>↗</span>Workflow builder</a>
+          <a class="nav-link" href="/#configure"><span>01</span>Configure</a>
+          <a class="nav-link" href="/campaigns"><span>02</span>Campaigns</a>
+          <a class="nav-link" href="/#runs"><span>03</span>Run queue</a>
+          <a class="nav-link active" href="/result"><span>04</span>Results</a>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="local-policy">
+          <div class="policy-heading"><span class="status-dot"></span>Measured locally</div>
+          <p>Provider billing tokens are never inferred. Replay results report a clearly labeled word-token estimate.</p>
+        </div>
+        <div class="build-label">STUDIO / ALPHA 01</div>
+      </aside>
+
+      <main class="main-canvas result-canvas">
+        <header class="result-header entrance">
+          <div>
+            <a class="back-link" href="/#runs">← Back to queue</a>
+            <p class="eyebrow">EXPERIMENT RESULT</p>
+            <h1 id="result-title">Select a run</h1>
+            <p class="result-subtitle" id="result-subtitle">Open a result from the queue to inspect its measurements and trace.</p>
+          </div>
+          <span class="run-status waiting" id="run-status">WAITING</span>
+        </header>
+
+        <div id="result-empty" class="result-empty entrance entrance-delay-1">
+          <span class="empty-glyph">↳</span>
+          <h2>No run selected</h2>
+          <p>Queue an experiment, then open its result to see quality, usage, timing, failures, and the full algorithm trace.</p>
+          <a class="primary-action inline-action" href="/">Configure a run <b>↗</b></a>
+        </div>
+
+        <div id="result-content" hidden>
+          <section class="metric-strip entrance entrance-delay-1" aria-label="Result summary">
+            <div><span>Quality</span><strong id="metric-quality">—</strong><small id="metric-quality-delta">top-1 accuracy</small></div>
+            <div><span>Cost</span><strong id="metric-cost">—</strong><small>measured USD</small></div>
+            <div><span>Tokens</span><strong id="metric-tokens">—</strong><small>estimated output words</small></div>
+            <div><span>Latency</span><strong id="metric-latency">—</strong><small>wall clock</small></div>
+            <div><span>Failures</span><strong id="metric-failures">—</strong><small>examples</small></div>
+          </section>
+
+          <section class="result-section entrance entrance-delay-2" aria-labelledby="quality-heading">
+            <div class="result-section-heading"><div><p class="section-index">01 / EFFECT</p><h2 id="quality-heading">Paired quality</h2></div><p id="scope-label">Synthetic smoke result</p></div>
+            <div class="quality-layout">
+              <div class="bar-compare">
+                <div class="bar-row"><span>Baseline</span><div class="bar-track"><i id="baseline-bar"></i></div><strong id="baseline-value">—</strong></div>
+                <div class="bar-row treatment"><span>Treatment</span><div class="bar-track"><i id="treatment-bar"></i></div><strong id="treatment-value">—</strong></div>
+              </div>
+              <dl class="effect-list">
+                <div><dt>Mean effect</dt><dd id="effect-value">—</dd></div>
+                <div><dt>Win / tie / harm</dt><dd id="rates-value">—</dd></div>
+                <div><dt>Intent recall</dt><dd id="intent-value">—</dd></div>
+                <div><dt>Token Jaccard</dt><dd id="jaccard-value">—</dd></div>
+              </dl>
+            </div>
+          </section>
+
+          <section class="result-section" aria-labelledby="runtime-heading">
+            <div class="result-section-heading"><div><p class="section-index">02 / RUNTIME</p><h2 id="runtime-heading">Usage and timing</h2></div><p>Instrumented at the Studio boundary</p></div>
+            <div class="runtime-columns">
+              <dl id="usage-list" class="dense-list"></dl>
+              <dl id="timing-list" class="dense-list"></dl>
+              <dl id="fairness-list" class="dense-list"></dl>
+            </div>
+          </section>
+
+          <section class="result-section" aria-labelledby="samples-heading">
+            <div class="result-section-heading"><div><p class="section-index">03 / EXAMPLES</p><h2 id="samples-heading">Sample outcomes</h2></div><p>Open a row to inspect its state transformation</p></div>
+            <div id="sample-list" class="sample-list"></div>
+          </section>
+
+          <section class="result-section" aria-labelledby="failure-heading">
+            <div class="result-section-heading"><div><p class="section-index">04 / FAILURES</p><h2 id="failure-heading">Failure ledger</h2></div><p id="failure-summary">No failures recorded</p></div>
+            <div id="failure-list" class="failure-list"></div>
+          </section>
+
+          <section class="result-section" aria-labelledby="trace-heading">
+            <div class="result-section-heading"><div><p class="section-index">05 / TRACE</p><h2 id="trace-heading">Execution trace</h2></div><button id="toggle-json" class="text-button" type="button">Raw JSON</button></div>
+            <div id="trace-list" class="trace-list"></div>
+            <pre id="raw-json" class="raw-json" hidden></pre>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

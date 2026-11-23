@@ -1,0 +1,94 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# JavaScript and website builds
+node_modules/
+dist/
+.next/
+.vinext/
+out/
+coverage/
+.wrangler/
+web/.openai/*
+!web/.openai/hosting.json
+
+# IDE and operating-system files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+tmp/
+work/
+
+# Generated experiment artifacts and large local assets
+/artifacts/runs/
+/artifacts/cache/
+/artifacts/paper_campaigns/preparation/
+/artifacts/paper_main_arenas/
+/artifacts/paper_protocol_freezes/
+/artifacts/paper_measurement_preparation/
+/results/
+/data/
+/datasets/
+/checkpoints/
+/weights/
+/operator/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Operator-local paper execution map (paths and environment names only)
+configs/experiments/paper/paper_runtime.local.json
+
+# Packaging
+/build/
+site/
+*.tar.gz
+
+# Paper-local compiler and font caches (the reviewed PDF is committed separately)
+doc/paper_kdd2027/.cache/
+doc/paper_kdd2027/.mplconfig/
+doc/paper_kdd2027/build/
+doc/paper_kdd2027/*.aux
+doc/paper_kdd2027/*.bbl
+doc/paper_kdd2027/*.blg
+doc/paper_kdd2027/*.fdb_latexmk
+doc/paper_kdd2027/*.fls
+doc/paper_kdd2027/*.out
+doc/paper_kdd2027/*.synctex.gz
+
+# Derived builds of archived paper revisions; source, figures and tables stay tracked.
+doc/paper_*/build*/
+doc/paper_*/.cache/
+doc/paper_*/.mplconfig/
+doc/paper_*/*.aux
+doc/paper_*/*.bbl
+doc/paper_*/*.blg
+doc/paper_*/*.fdb_latexmk
+doc/paper_*/*.fls
+doc/paper_*/*.out
+doc/paper_*/*.synctex.gz

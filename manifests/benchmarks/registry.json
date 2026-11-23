@@ -1,0 +1,321 @@
+{
+  "schema_version": 1,
+  "cell_count": 31,
+  "cells": [
+    {
+      "cell_id": "tooltalk.full",
+      "suite": "ToolTalk",
+      "task": "official easy and tooltalk conversations",
+      "size": "78 conversations: 28 easy and 50 tooltalk",
+      "families": ["reformulate", "decompose", "acquire", "clarify", "curate"],
+      "source_revision": "e05f4ce6132c80ed33392b81535b077d56ab28fd",
+      "metrics": ["official_success", "precision", "recall", "action_precision", "bad_action_rate", "soft_success", "adapter_hard_stops"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires pinned ToolTalk provider and official conversation scorer, protected conversation identity, independent database initialization, shared model budget, and checkpoint-specific family dependencies; registration does not certify installed-package execution"
+    },
+    {
+      "cell_id": "beir.arguana",
+      "suite": "BEIR",
+      "task": "ArguAna",
+      "size": "1406 queries; ~8.67K documents",
+      "families": ["reformulate", "acquire", "curate"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "beir.cqadupstack",
+      "suite": "BEIR",
+      "task": "CQADupStack",
+      "size": "13145 queries; ~457K documents; 12 subforums",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "beir.quora",
+      "suite": "BEIR",
+      "task": "Quora duplicate-question retrieval",
+      "size": "suite-defined",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "beir.dbpedia_entity",
+      "suite": "BEIR",
+      "task": "DBPedia-Entity",
+      "size": "400 queries; ~4.63M documents",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "beir.fever",
+      "suite": "BEIR",
+      "task": "FEVER evidence retrieval",
+      "size": "suite-defined",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "beir.fiqa_2018",
+      "suite": "BEIR",
+      "task": "FiQA-2018",
+      "size": "648 queries; ~57K documents",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "ef83d29307061c65d04b035b4f4e7c18bd8374af",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "bright.earth_science",
+      "suite": "BRIGHT",
+      "task": "Earth Science",
+      "size": "116 queries; 121249 documents",
+      "families": ["reformulate", "acquire", "curate"],
+      "source_revision": "d99e8391d967d4c2b3a74732530d2309e2fc92b6",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "bright.economics",
+      "suite": "BRIGHT",
+      "task": "Economics",
+      "size": "103 queries; 50220 documents",
+      "families": ["reformulate", "acquire", "curate"],
+      "source_revision": "d99e8391d967d4c2b3a74732530d2309e2fc92b6",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "bright.robotics",
+      "suite": "BRIGHT",
+      "task": "Robotics",
+      "size": "domain subset of 1398 total queries",
+      "families": ["reformulate", "acquire", "decompose"],
+      "source_revision": "d99e8391d967d4c2b3a74732530d2309e2fc92b6",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "bright.stackoverflow",
+      "suite": "BRIGHT",
+      "task": "StackOverflow",
+      "size": "domain subset of 1398 total queries",
+      "families": ["reformulate", "acquire", "decompose"],
+      "source_revision": "d99e8391d967d4c2b3a74732530d2309e2fc92b6",
+      "metrics": ["ndcg_at_10", "recall"]
+    },
+    {
+      "cell_id": "trec_dl.2019",
+      "suite": "TREC Deep Learning",
+      "task": "Passage ranking 2019",
+      "size": "43 judged queries; 8.84M MS MARCO passages",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "nist-qrels-plus-msmarco-lock-required",
+      "metrics": ["ndcg", "map", "recall"]
+    },
+    {
+      "cell_id": "trec_dl.2020",
+      "suite": "TREC Deep Learning",
+      "task": "Passage ranking 2020",
+      "size": "54 judged queries; 8.84M MS MARCO passages",
+      "families": ["reformulate", "acquire"],
+      "source_revision": "nist-qrels-plus-msmarco-lock-required",
+      "metrics": ["ndcg", "map", "recall"]
+    },
+    {
+      "cell_id": "musique.answerable",
+      "suite": "MuSiQue",
+      "task": "2-4 hop answerable QA",
+      "size": "2417 answerable dev questions; 24814 total; 20 paragraphs each",
+      "families": ["decompose", "acquire", "curate"],
+      "source_revision": "922ac98f19a201998dbdae6d7f2887a5258dbdeb",
+      "metrics": ["answer_f1", "support_f1"]
+    },
+    {
+      "cell_id": "2wiki.multihop",
+      "suite": "2WikiMultiHopQA",
+      "task": "2-hop Wikipedia QA",
+      "size": "12576 dev questions; official data_ids_april7 release",
+      "families": ["decompose", "acquire", "curate"],
+      "source_revision": "13800e5be57df1b4040b9b1588c6c811779e69e9",
+      "metrics": ["answer_f1", "support_f1", "evidence_f1", "joint_f1"]
+    },
+    {
+      "cell_id": "hotpotqa.distractor",
+      "suite": "HotpotQA",
+      "task": "2-hop QA with supporting facts",
+      "size": "7405 validation questions; distractor profile",
+      "families": ["decompose", "acquire", "curate"],
+      "source_revision": "3635853403a8735609ee997664e1528f4480762a",
+      "metrics": ["answer_f1", "support_f1", "joint_f1"]
+    },
+    {
+      "cell_id": "clariq.main",
+      "suite": "ClariQ",
+      "task": "Clarification need, question, response, and retrieval utility",
+      "size": "187 train topics; 50 development topics",
+      "families": ["clarify", "reformulate"],
+      "source_revision": "46885a544581a0af8aff0681d29e4971807e2912",
+      "metrics": ["clarification_utility", "intent_preservation", "retrieval_utility"]
+    },
+    {
+      "cell_id": "qasper.v0_3_dev",
+      "suite": "QASPER",
+      "task": "Scientific-document QA with answer and evidence annotations",
+      "size": "281 dev papers; 1005 questions; 1764 annotations",
+      "families": ["curate", "acquire"],
+      "source_revision": "v0.3",
+      "metrics": ["answer_f1", "evidence_f1"]
+    },
+    {
+      "cell_id": "longbench.qasper",
+      "suite": "LongBench",
+      "task": "Qasper",
+      "size": "suite subset",
+      "families": ["curate", "acquire", "decompose"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["answer_f1"]
+    },
+    {
+      "cell_id": "longbench.multifieldqa_en",
+      "suite": "LongBench",
+      "task": "MultiFieldQA-en",
+      "size": "suite subset",
+      "families": ["curate"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["answer_f1"]
+    },
+    {
+      "cell_id": "longbench.govreport",
+      "suite": "LongBench",
+      "task": "GovReport",
+      "size": "suite subset",
+      "families": ["curate"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["rouge", "constraint_preservation"],
+      "adapter_metrics": ["rouge"],
+      "study_metrics": ["constraint_preservation"]
+    },
+    {
+      "cell_id": "longbench.qmsum",
+      "suite": "LongBench",
+      "task": "QMSum",
+      "size": "suite subset",
+      "families": ["curate"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["rouge", "query_fidelity"],
+      "adapter_metrics": ["rouge"],
+      "study_metrics": ["query_fidelity"]
+    },
+    {
+      "cell_id": "longbench.passage_retrieval_en",
+      "suite": "LongBench",
+      "task": "PassageRetrieval-en",
+      "size": "suite subset",
+      "families": ["curate", "acquire"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["passage_id_accuracy"]
+    },
+    {
+      "cell_id": "longbench.repobench_p",
+      "suite": "LongBench",
+      "task": "RepoBench-P",
+      "size": "suite subset",
+      "families": ["curate", "decompose"],
+      "source_revision": "2e00731f8d0bff23dc4325161044d0ed8af94c1e",
+      "metrics": ["exact_match", "code_metric"]
+    },
+    {
+      "cell_id": "bfcl.v3.simple_python",
+      "suite": "BFCL v3",
+      "task": "non-live Python simple function calling",
+      "size": "400 official simple cases",
+      "families": ["reformulate", "decompose"],
+      "source_revision": "ea13468e4423454d0c213704fb87cf7cb3990433",
+      "metrics": ["ast_accuracy"],
+      "adapter_metrics": ["ast_accuracy"],
+      "eligibility_gate": "requires the official v1.3 Python AST decode/check path through a revision-locked external scorer bridge; this cell is not an official aggregate BFCL v3 result and is not eligible for cross-cell ranking"
+    },
+    {
+      "cell_id": "tau3.banking_knowledge",
+      "suite": "tau3",
+      "task": "banking_knowledge",
+      "size": "97 tasks; 698 documents",
+      "families": ["reformulate", "decompose", "acquire", "clarify", "curate"],
+      "source_revision": "cf71a8070269883e38a365ffa85f78f46844c1f4",
+      "metrics": ["official_reward", "cost", "harm_rate", "valid_success"],
+      "adapter_metrics": ["official_reward", "cost"],
+      "paired_metrics": ["harm_rate"],
+      "study_metrics": ["valid_success"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires externally captured visible-state checkpoint, evaluation bridge, and structural family support audit"
+    },
+    {
+      "cell_id": "tau3.retail",
+      "suite": "tau3",
+      "task": "retail",
+      "size": "114 official tasks; 74 train and 40 test",
+      "families": ["reformulate", "decompose", "clarify", "curate"],
+      "source_revision": "cf71a8070269883e38a365ffa85f78f46844c1f4",
+      "metrics": ["official_reward", "terminal_success", "cost", "harm_rate", "valid_success"],
+      "adapter_metrics": ["official_reward", "terminal_success", "cost"],
+      "paired_metrics": ["harm_rate"],
+      "study_metrics": ["valid_success"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires first-attempt captured Retail checkpoints, independent native DB restores, common locked user and judge, approved execution scope and durable worker; acquisition remains unqualified until an approved public-only Retail retriever is bound; native reward and budget/timeout terminal_success are distinct"
+    },
+    {
+      "cell_id": "appworld_ul.common_support",
+      "suite": "AppWorld-UL",
+      "task": "user-in-the-loop cross-family checkpoint arena",
+      "size": "516 page-declared user-in-the-loop tasks; AppWorld runtime has 9 apps and 457 APIs",
+      "families": ["reformulate", "decompose", "acquire", "clarify", "curate"],
+      "source_revision": "a072b7a86e7c1d5b1d7175659d750ebb9b79f10a",
+      "metrics": ["task_success", "cost", "harm_rate", "valid_success"],
+      "adapter_metrics": ["task_success", "cost"],
+      "paired_metrics": ["harm_rate"],
+      "study_metrics": ["valid_success"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires an AppWorld-UL visible checkpoint with all five structural predicates, cloned runtime and user-simulator state, deterministic replay identity, and an official per-task evaluator bridge; TGC/SGC additionally require complete official task/scenario groups"
+    },
+    {
+      "cell_id": "state_bench.common_support",
+      "suite": "STATE-Bench",
+      "task": "stateful enterprise-agent cross-family checkpoint arena",
+      "size": "450 tasks; 150 each in travel, customer support, and shopping",
+      "families": ["reformulate", "decompose", "acquire", "clarify", "curate"],
+      "source_revision": "4efcbf2d4fe60df04878859b692d9391f3d5b33a",
+      "metrics": ["task_completion_pass", "state_requirements_met", "task_requirements_met", "ux_score", "cost_usd", "turns", "tool_calls", "harm_rate", "valid_success"],
+      "adapter_metrics": ["task_completion_pass", "state_requirements_met", "task_requirements_met", "ux_score", "cost_usd", "turns", "tool_calls"],
+      "paired_metrics": ["harm_rate"],
+      "study_metrics": ["valid_success"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires a visible checkpoint with all five structural predicates, task-local environment and simulator clone/reset, deterministic replay identity, and the official completion/UX evaluation bridge"
+    },
+    {
+      "cell_id": "toolsandbox.common_support",
+      "suite": "ToolSandbox",
+      "task": "stateful conversational cross-family checkpoint arena",
+      "size": "129 base scenarios; 1032 official source-generated tool variants",
+      "families": ["reformulate", "decompose", "acquire", "clarify", "curate"],
+      "source_revision": "165848b9a78cead7ca7fe7c89c688b58e6501219",
+      "metrics": ["milestone_similarity", "minefield_similarity", "official_similarity", "turn_count", "cost", "harm_rate", "valid_success"],
+      "adapter_metrics": ["milestone_similarity", "minefield_similarity", "official_similarity", "turn_count", "cost"],
+      "paired_metrics": ["harm_rate"],
+      "study_metrics": ["valid_success"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "requires a visible ToolSandbox checkpoint with all five structural predicates, deep-copied execution and user-simulator state, deterministic replay identity, and the official milestone/minefield evaluator bridge"
+    },
+    {
+      "cell_id": "ale.external_transfer",
+      "suite": "Agents' Last Exam",
+      "task": "long-horizon professional computer-use external transfer",
+      "size": "1000+ paper tasks; approximately 150 public repository tasks across 55 subdomains",
+      "families": ["reformulate", "decompose", "acquire", "curate"],
+      "source_revision": "1e615e456de7cef57706680613cb80ee13c7fc76",
+      "metrics": ["task_score", "cost_usd", "wall_seconds"],
+      "adapter_metrics": ["task_score", "cost_usd", "wall_seconds"],
+      "family_support": "checkpoint_conditional",
+      "eligibility_gate": "external-transfer only: requires a fresh official ALE environment, post-run hidden-reference staging, pinned agent/provider/image identities, and independent runs; clarification is ineligible because ALE has no standardized clarification-user oracle"
+    }
+  ]
+}

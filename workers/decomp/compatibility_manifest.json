@@ -1,0 +1,205 @@
+{
+  "schema_version": "agentinputlab.decomp.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/allenai/DecomP",
+    "commit": "8b157f6fe9ff5676ae51bd054f1df7b015adf278",
+    "license_spdx": "Apache-2.0",
+    "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "src/decomp/inference/configurable_inference.py": "63b83110a6ed6b440485f6b9d125edf4ff6809b2ddf1dc61d2c9fad152da7164",
+    "src/decomp/inference/model_search.py": "489c7eba1407fa17dad4798c72ec69eb288c6e310fab64ecbca8e472ba1b105e",
+    "src/decomp/inference/constants.py": "c9b4617653a33e1abe63b37f0371922cf59ece95e0b5b0f711ee08441c526677",
+    "src/decomp/inference/data_instances.py": "ea9fcab88c9965e6d5202b50ec8ecdf4ce33dde15784b57ecd396e6193ad93f1",
+    "src/decomp/inference/dataset_readers.py": "64d9b3453593713eb938e0d9eebf0af28cfa098a8e33e0300d97b196c01adc51",
+    "src/decomp/inference/participant_execution_routed.py": "dfc73f6abfed3f5030cec0310d8afb4a54527a7ed46c8f0b90a077239733a590",
+    "src/decomp/inference/participant_qa.py": "dc2573b6d97dfa929b8dd650f4f53bedf310ead0a732de5657a065d7f59be7ca",
+    "src/decomp/inference/participant_qgen.py": "a8e4a234669d541632289f956b454769c833320055b06d1683a8dadc207436ce",
+    "src/decomp/inference/participant_util.py": "62a99eaa2beff4110ecdaf6ffda58cf16add0599ed2686fbbc5211aa39875436",
+    "src/decomp/inference/utils.py": "efb9b8b8d606f6e6af179c779c42de6337addbd4c017f3e6725e7f17c777aab6",
+    "src/decomp/models/generator.py": "e9bf3b78d9f947095204b64fd37221681999e329c4e7164e83b827e9b3eeb1d3",
+    "src/decomp/models/gpt3generator.py": "a3bb80600cc87e46d569a80b0f46b983c28c5a967edece3c22d3406b333d5175",
+    "src/decomp/models/llm_client_generator.py": "8d8199b1b7e97599f05929b655ccb24b30b42f96f5a06828840a3b69ab72f4d9",
+    "src/decomp/models/llm_qa_model.py": "11b4fd1fa496cb2430b27a3c8963348c436e593cf23f66893b02c89f7f991004",
+    "configs/inference/primitives.libsonnet": "4691fe3bd3491333051c8355621090c57e0edd8e22b032e36d0934d350950779",
+    "configs/prompts/reverse/decomp.txt": "d824eaa035ce92d7094009b2dd17d69d8e2a8398840f3fcf5de67ba366e60c31",
+    "configs/prompts/reverse/cot.txt": "19be26b2ea732ac18968fc8df7fa5598f49ef8e22a2336607e0646e6b7907e39",
+    "configs/prompts/reverse/join.txt": "8b7fedea27c2eb2a310ed5a4caca0124caa3c6a610532763a855acce25b07d5d",
+    "configs/prompts/reverse/rm_num.txt": "8fc1ff7811754b11eee763ddce02377560149490cfa7295e79ed0c995fbfff21",
+    "configs/prompts/letter_cat/letter_cat_p1/letter_cat_n3_ex3_decomp.txt": "0ad934b584c6ca56be10f8988b84ab7d46d6e450d3cda2694b52fc9953567c55",
+    "configs/prompts/letter_cat/letter_cat_p2/letter_cat_n3_ex3_decomp.txt": "ac77efed2e366e6c1f5f235b5adbb119bbf0f515bc2c2b7203a509393c750aa6",
+    "configs/prompts/letter_cat/letter_cat_p3/letter_cat_n3_ex3_decomp.txt": "b0da80edecd20c9a4f304bf4422a6da94a089837c48bad3ed784c1604d9c265c",
+    "configs/prompts/commaqa_e/commaqa_e_p1/decomp_coarse.txt": "92fdcf74cdba062a11d49fb4facc847765e3007c772714479d4b4f58bec4afc8",
+    "configs/prompts/commaqa_e/commaqa_e_p2/decomp_coarse.txt": "92fdcf74cdba062a11d49fb4facc847765e3007c772714479d4b4f58bec4afc8",
+    "configs/prompts/commaqa_e/commaqa_e_p3/decomp_coarse.txt": "92fdcf74cdba062a11d49fb4facc847765e3007c772714479d4b4f58bec4afc8",
+    "configs/prompts/commaqa_e/commaqa_e_p1/decomp_fine.txt": "ae27f5438c8e68716b9aca38c19298e0cbe7d99f8abb165d13dde4f556ed4aed",
+    "configs/prompts/commaqa_e/commaqa_e_p2/decomp_fine.txt": "ae27f5438c8e68716b9aca38c19298e0cbe7d99f8abb165d13dde4f556ed4aed",
+    "configs/prompts/commaqa_e/commaqa_e_p3/decomp_fine.txt": "ae27f5438c8e68716b9aca38c19298e0cbe7d99f8abb165d13dde4f556ed4aed",
+    "configs/prompts/commaqa_e/commaqa_e_p1/qa.txt": "49cd68f9a93c92d541278f0dc5ad2a579f49058d19e68dc48b1d285165bf77d2",
+    "configs/prompts/commaqa_e/commaqa_e_p2/qa.txt": "fd535f9b3608a137fc4be2e3d672c98768380b8e50196c8f77f28607861af1fc",
+    "configs/prompts/commaqa_e/commaqa_e_p3/qa.txt": "2ae801ae809ea0b969594939801fd00f6d2d08558f255744cd44c9a15df16a95",
+    "configs/prompts/task_primitives/arr_position.txt": "8c0189d18f221a0a1f085c1f3d0417096180d0455d88ee8414bfccbed4b40326",
+    "configs/prompts/task_primitives/merge.txt": "5a0a19ccf0daac865f7b70cd12fcbecde0000bb5efebf8457b9c39f2d2ee49cc",
+    "configs/prompts/task_primitives/split.txt": "54741e3076d5c8140cdc13c288b323fdcf11204988631d4c422cc51edacbeffc",
+    "configs/prompts/task_primitives/str_position.txt": "9f067c7d8e1b9685f1400b1cf93a031085b4346deab4dc3270d9c0baacc73f1d"
+  },
+  "live_required_versions": {
+    "torch": "1.13.0+cpu",
+    "transformers": "4.24.0",
+    "numpy": "1.26.4",
+    "jsonnet": "0.21.0",
+    "nltk": "3.9.2",
+    "openai": "0.28.1",
+    "diskcache": "5.6.3",
+    "python-dateutil": "2.9.0.post0",
+    "requests": "2.32.5"
+  },
+  "config_artifacts": {
+    "decomp.reverse.decomp": {
+      "path": "configs/inference/reverse/decomp.jsonnet",
+      "sha256": "928040d3b99e78f08674379f271997c50366e37860d65119748b0f224d082d00",
+      "ext_vars": {}
+    },
+    "decomp.letter_cat.decomp.p1": {
+      "path": "configs/inference/letter_cat/letter_cat_greedy_search.jsonnet",
+      "sha256": "f77aef30df7a259bd004cb8561b81eb2e7adeabd9ad5ba8c7a02dff653a58a19",
+      "ext_vars": {
+        "promptid": "p1"
+      }
+    },
+    "decomp.letter_cat.decomp.p2": {
+      "path": "configs/inference/letter_cat/letter_cat_greedy_search.jsonnet",
+      "sha256": "f77aef30df7a259bd004cb8561b81eb2e7adeabd9ad5ba8c7a02dff653a58a19",
+      "ext_vars": {
+        "promptid": "p2"
+      }
+    },
+    "decomp.letter_cat.decomp.p3": {
+      "path": "configs/inference/letter_cat/letter_cat_greedy_search.jsonnet",
+      "sha256": "f77aef30df7a259bd004cb8561b81eb2e7adeabd9ad5ba8c7a02dff653a58a19",
+      "ext_vars": {
+        "promptid": "p3"
+      }
+    },
+    "decomp.commaqa.coarse.p1": {
+      "path": "configs/inference/commaqa_e/commaqae_coarse_greedy_search.jsonnet",
+      "sha256": "2917ed074b7dcc1a2f187289a15b8a548cfc40f4539d2abdfefd45b4152e52fc",
+      "ext_vars": {
+        "promptid": "p1"
+      }
+    },
+    "decomp.commaqa.coarse.p2": {
+      "path": "configs/inference/commaqa_e/commaqae_coarse_greedy_search.jsonnet",
+      "sha256": "2917ed074b7dcc1a2f187289a15b8a548cfc40f4539d2abdfefd45b4152e52fc",
+      "ext_vars": {
+        "promptid": "p2"
+      }
+    },
+    "decomp.commaqa.coarse.p3": {
+      "path": "configs/inference/commaqa_e/commaqae_coarse_greedy_search.jsonnet",
+      "sha256": "2917ed074b7dcc1a2f187289a15b8a548cfc40f4539d2abdfefd45b4152e52fc",
+      "ext_vars": {
+        "promptid": "p3"
+      }
+    },
+    "decomp.commaqa.fine.p1": {
+      "path": "configs/inference/commaqa_e/commaqae_fine_greedy_search.jsonnet",
+      "sha256": "7c3cdbd10ad04a634a49d7e5afcf1316a47ad1b58f0b2727111c9228190c1f72",
+      "ext_vars": {
+        "promptid": "p1"
+      }
+    },
+    "decomp.commaqa.fine.p2": {
+      "path": "configs/inference/commaqa_e/commaqae_fine_greedy_search.jsonnet",
+      "sha256": "7c3cdbd10ad04a634a49d7e5afcf1316a47ad1b58f0b2727111c9228190c1f72",
+      "ext_vars": {
+        "promptid": "p2"
+      }
+    },
+    "decomp.commaqa.fine.p3": {
+      "path": "configs/inference/commaqa_e/commaqae_fine_greedy_search.jsonnet",
+      "sha256": "7c3cdbd10ad04a634a49d7e5afcf1316a47ad1b58f0b2727111c9228190c1f72",
+      "ext_vars": {
+        "promptid": "p3"
+      }
+    }
+  },
+  "allowed_model_names": [
+    "answer_extractor",
+    "dump_chains",
+    "execute_router",
+    "llmqa",
+    "llmqadecomp",
+    "lmgen",
+    "randgen"
+  ],
+  "forbidden_model_names": [
+    "expr_eval"
+  ],
+  "allowed_reader_names": [
+    "drop",
+    "hotpot"
+  ],
+  "model_call_metric_names": [
+    "gpt3gen",
+    "lmgen",
+    "llm_apigen",
+    "llm_qa"
+  ],
+  "patches": [
+    {
+      "id": "explicit_native_completion_callbacks_v1",
+      "kind": "transport_compatibility_patch",
+      "upstream_symbol": "decomp.models.gpt3generator.GPT3Generator.generate_text_sequence",
+      "changes": [
+        "explicitly select a caller-bound raw-completion backend instead of the legacy engine and disk response cache",
+        "retain all native participant prompts, branch scoring, answer parsing, task routing and best-first control flow",
+        "preserve native sampling, stop and output caps; bound total calls and actual generated tokens before dispatch",
+        "require exact source, worker, dependency-version and import-origin attestation before completions",
+        "isolate native cache HOME per worker without exposing provider credentials or request-selected URLs",
+        "record this as controlled_adapter, not original GPT-3 checkpoint or transport parity"
+      ]
+    },
+    {
+      "id": "bounded_best_first_trace_v1",
+      "upstream_symbol": "decomp.inference.model_search.BestFirstDecomposer.find_answer_decomp",
+      "kind": "control_flow_preserving_compatibility_patch",
+      "changes": [
+        "bound controller.execute invocations by request.max_steps",
+        "record deterministic frontier pops and state transitions",
+        "return an explicit termination reason"
+      ]
+    },
+    {
+      "id": "bounded_generator_steps_v1",
+      "upstream_symbol": "decomp.inference.configurable_inference.build_decomposer_and_models",
+      "kind": "configuration_compatibility_patch",
+      "changes": [
+        "cap upstream question-generator max_steps by request.max_steps",
+        "deep-copy config before upstream builder mutation"
+      ]
+    },
+    {
+      "id": "context_identity_passthrough_v2",
+      "upstream_symbol": "decomp.inference.configurable_inference.inference_mode",
+      "kind": "input_contract_compatibility_patch",
+      "changes": [
+        "pass request paragraphs through upstream example.paras without rewriting their text",
+        "bind ordered paragraph IDs and texts to a request context hash",
+        "echo paragraph IDs and context hash for core-side identity validation"
+      ]
+    },
+    {
+      "id": "safe_jsonnet_and_model_gate_v1",
+      "upstream_symbol": "decomp.inference.configurable_inference.load_config",
+      "kind": "security_patch",
+      "changes": [
+        "resolve config only through a checksum-locked logical artifact ID",
+        "provide only manifest-pinned Jsonnet extVars",
+        "reject ExprEvalQAParticipantModel because it executes Python eval",
+        "never expose a request-controlled path, module, callable, host, or command"
+      ]
+    }
+  ]
+}

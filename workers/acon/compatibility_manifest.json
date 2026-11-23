@@ -1,0 +1,93 @@
+{
+  "schema_version": "agentinputlab.acon.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/microsoft/acon",
+    "commit": "d63f9ae18959dc7215ff62899c94c5e8c56847ae",
+    "license_spdx": "MIT",
+    "license_sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+    "minimum_python": [
+      3,
+      11
+    ],
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "src/productive_agents/ctxopt/base.py": "d6b52a26288760c18b60152be6e95ee8147b965d1293744734a706ac86de3fdb",
+    "src/productive_agents/ctxopt/history_optimizer.py": "343089f43f8235889303eea73cd323686a649f1dc3b8d374a988c9d243b44306",
+    "src/productive_agents/ctxopt/obs_optimizer.py": "ed21a897c90f6ae06b2d21ce563423dea30014a8df4db4b4896c439ba4915f9e"
+  },
+  "prompt_profiles": {
+    "appworld.history.v1": {
+      "mode": "history",
+      "prompt_dir": "experiments/appworld/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_history_v2",
+      "prompt_files": {
+        "experiments/appworld/prompts/context_opt/prompt_history_v2.jinja": "0508caa837c50403be2c8545646359a0fb72009fb14df3a8acf85aedaf649834",
+        "experiments/appworld/prompts/context_opt/system_prompt.jinja": "f9a0a5188d643d0990a422e94557e781e9e4f9c00a6506f699c4956b7096a392"
+      },
+      "prompt_artifact_hash": "b806c2f7ee7126e9746ddf6d553815d36ec026c411c9d805499af1d2e7d7c2e7",
+      "guideline_artifact_hash": "0508caa837c50403be2c8545646359a0fb72009fb14df3a8acf85aedaf649834"
+    },
+    "appworld.observation.v1": {
+      "mode": "observation",
+      "prompt_dir": "experiments/appworld/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_user",
+      "prompt_files": {
+        "experiments/appworld/prompts/context_opt/prompt_user.jinja": "f500677dfd6609aef26fe2dbb3f9c928d2bd7ea8c0e432114feeed0636c7b385",
+        "experiments/appworld/prompts/context_opt/system_prompt.jinja": "f9a0a5188d643d0990a422e94557e781e9e4f9c00a6506f699c4956b7096a392"
+      },
+      "prompt_artifact_hash": "e50fe6421387a3518695f6be72a6f577b458074599c4d326fab23c178f694363",
+      "guideline_artifact_hash": "f500677dfd6609aef26fe2dbb3f9c928d2bd7ea8c0e432114feeed0636c7b385"
+    },
+    "officebench.history.v1": {
+      "mode": "history",
+      "prompt_dir": "experiments/officebench/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_history",
+      "prompt_files": {
+        "experiments/officebench/prompts/context_opt/prompt_history.jinja": "a6c84b76dabc49e735cd264d1fdfd7810b73d0830e21f1dc71c4a719ae83a6ec",
+        "experiments/officebench/prompts/context_opt/system_prompt.jinja": "2f9dfd064e0c72c4473e12b028f481bc18b78aab86ebd73fb96a3db2c737de82"
+      },
+      "prompt_artifact_hash": "c266950825c7daf0ec0f7cc94cb401e3b177fd47ce62cd225b0c0616467c3f8a",
+      "guideline_artifact_hash": "a6c84b76dabc49e735cd264d1fdfd7810b73d0830e21f1dc71c4a719ae83a6ec"
+    },
+    "officebench.observation.v1": {
+      "mode": "observation",
+      "prompt_dir": "experiments/officebench/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_user",
+      "prompt_files": {
+        "experiments/officebench/prompts/context_opt/prompt_user.jinja": "cb91df9d652f4a399e4941483ed65ed8a337cec26fbdcffa424d0a18cb41d82f",
+        "experiments/officebench/prompts/context_opt/system_prompt.jinja": "2f9dfd064e0c72c4473e12b028f481bc18b78aab86ebd73fb96a3db2c737de82"
+      },
+      "prompt_artifact_hash": "a2b4e909519c1c2715cd9d1505568e96b9909b7c453514e8c19064e30d0874b0",
+      "guideline_artifact_hash": "cb91df9d652f4a399e4941483ed65ed8a337cec26fbdcffa424d0a18cb41d82f"
+    },
+    "smolagents.history.v1": {
+      "mode": "history",
+      "prompt_dir": "experiments/smolagents/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_history_v2",
+      "prompt_files": {
+        "experiments/smolagents/prompts/context_opt/prompt_history_v2.jinja": "a6c84b76dabc49e735cd264d1fdfd7810b73d0830e21f1dc71c4a719ae83a6ec",
+        "experiments/smolagents/prompts/context_opt/system_prompt.jinja": "f9a0a5188d643d0990a422e94557e781e9e4f9c00a6506f699c4956b7096a392"
+      },
+      "prompt_artifact_hash": "f0e1c88671bc645716af713b592883ea9732997041459f32535953a70d4d82a8",
+      "guideline_artifact_hash": "a6c84b76dabc49e735cd264d1fdfd7810b73d0830e21f1dc71c4a719ae83a6ec"
+    },
+    "smolagents.observation.v1": {
+      "mode": "observation",
+      "prompt_dir": "experiments/smolagents/prompts/context_opt",
+      "system_template": "system_prompt",
+      "user_template": "prompt_obs",
+      "prompt_files": {
+        "experiments/smolagents/prompts/context_opt/prompt_obs.jinja": "0210e1bc686c1d601c96daddeac09281aa5ab1639e68e39b1209bb9ae8205e1c",
+        "experiments/smolagents/prompts/context_opt/system_prompt.jinja": "f9a0a5188d643d0990a422e94557e781e9e4f9c00a6506f699c4956b7096a392"
+      },
+      "prompt_artifact_hash": "7a98fe868ca09d3bc5455df7f7b1ac8aa18a292eb105207e9d30a3484d82e96e",
+      "guideline_artifact_hash": "0210e1bc686c1d601c96daddeac09281aa5ab1639e68e39b1209bb9ae8205e1c"
+    }
+  }
+}

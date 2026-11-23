@@ -1,0 +1,39 @@
+{
+  "question": "Fixture entity relation?",
+  "generator_outputs": [
+    {
+      "text": "Evidence points to the second fixture entity.",
+      "input_tokens": 12,
+      "output_tokens": 8
+    },
+    {
+      "text": "Therefore, the answer is fixture-answer.",
+      "input_tokens": 18,
+      "output_tokens": 7
+    }
+  ],
+  "retrieval_rounds": [
+    {
+      "query": "Fixture entity relation?",
+      "documents": [
+        {
+          "id": "fixture-d1",
+          "title": "Fixture One",
+          "paragraph_text": "The first fixture fact points toward another entity.",
+          "score": 0.9
+        }
+      ]
+    },
+    {
+      "query": "Evidence points to the second fixture entity.",
+      "documents": [
+        {
+          "id": "fixture-d2",
+          "title": "Fixture Two",
+          "paragraph_text": "The second fixture fact establishes fixture-answer.",
+          "score": 0.8
+        }
+      ]
+    }
+  ]
+}

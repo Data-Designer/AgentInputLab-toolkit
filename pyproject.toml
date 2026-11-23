@@ -1,0 +1,199 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentinputlab"
+version = "0.1.0a15"
+description = "Auditable, intent-aware input intervention for LLM agents"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Chuang Zhao" },
+]
+keywords = [
+  "agents",
+  "llm",
+  "prompt-optimization",
+  "retrieval",
+  "benchmark",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+license = "MIT"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+
+[project.optional-dependencies]
+smartsearch-prepare = ["requests>=2.32,<3", "tqdm>=4.66,<5"]
+smartsearch-sample = ["jieba==0.42.1", "langid==1.1.6", "numpy>=1.26,<2"]
+smartsearch-policy = [
+  "torch==2.6.0", "torchvision==0.21.0", "torchaudio==2.6.0",
+  "transformers==4.51.1", "datasets==4.0.0", "accelerate==1.9.0",
+  "peft==0.17.1", "trl==0.9.6", "torchdata==0.11.0", "tyro==0.8.14",
+  "numpy==1.26.4", "pyarrow==21.0.0", "omegaconf==2.3.0",
+  "safetensors==0.6.2", "sentencepiece==0.2.1", "PyYAML==6.0.2",
+  "einops==0.8.1", "matplotlib==3.10.6", "nltk==3.9.1",
+  "jieba==0.42.1", "rouge-chinese==1.0.3", "protobuf==5.29.5",
+  "tiktoken==0.9.0", "fire==0.7.1", "wheel==0.45.1", "ninja==1.13.0",
+]
+smartsearch-grpo = [
+  "torch==2.6.0", "torchvision==0.21.0", "torchaudio==2.6.0",
+  "transformers==4.51.1", "vllm==0.8.4", "ray[default]==2.47.1",
+  "tensordict==0.6.2", "hydra-core==1.3.2", "omegaconf==2.3.0",
+  "antlr4-python3-runtime==4.9.3", "numpy==1.26.4", "torchdata==0.11.0",
+  "datasets==4.0.0", "pyarrow==21.0.0", "pandas==2.3.2", "accelerate==1.9.0",
+  "codetiming==1.4.0", "einops==0.8.1", "safetensors==0.6.2",
+  "tqdm==4.67.1", "requests==2.32.5", "PyYAML==6.0.2", "packaging==25.0",
+  "ninja==1.13.0", "wheel==0.45.1", "jieba==0.42.1", "langid==1.1.6",
+]
+dev = [
+  "build>=1.2",
+  "coverage[toml]>=7.6",
+  "pytest>=8.3",
+  "pytest-cov>=5.0",
+  "ir-measures>=0.4.1,<0.5",
+  "pyarrow>=18,<24",
+  "requests>=2.32,<3",
+  "rouge-score>=0.1.2,<0.2",
+  "ruff==0.12.5",
+  "scikit-learn>=1.4,<2",
+]
+compression = ["llmlingua==0.2.2"]
+llmlingua2-fit = ["llmlingua==0.2.2", "torch>=2.6,<3", "transformers>=4.51,<6", "spacy==3.8.7", "tensorboard==2.20.0", "numpy>=1.26,<2", "scikit-learn>=1.4,<2", "safetensors>=0.5,<1"]
+benchmarks = ["pyarrow>=18,<24"]
+clariq = ["pandas>=2.1,<3", "scikit-learn>=1.4,<2"]
+reformer = ["pandas>=2.1,<3"]
+reformer-fit = ["numpy>=1.26,<3", "pandas>=2.1,<3", "requests>=2.32,<3", "tqdm>=4.66,<5"]
+recomp = ["torch==1.13.0", "transformers==4.24.0", "tokenizers==0.13.2", "huggingface-hub==0.19.4", "numpy==1.26.4", "safetensors==0.5.3", "sentencepiece==0.2.1"]
+recomp-fit = ["torch==1.13.0", "torchvision==0.14.0", "sentence-transformers==2.2.2", "transformers==4.24.0", "tokenizers==0.13.2", "huggingface-hub==0.19.4", "numpy==1.26.4", "pandas==1.5.3", "safetensors==0.5.3"]
+recomp-seq2seq-fit = ["torch==1.13.0", "transformers==4.24.0", "tokenizers==0.13.2", "numpy==1.26.4", "datasets==2.14.7", "pyarrow==14.0.2", "fsspec==2023.10.0", "huggingface-hub==0.19.4", "nltk==3.9.2", "rouge==1.0.1", "safetensors==0.5.3", "sentencepiece==0.2.1"]
+adaptive-rag-fit = ["torch==1.13.0", "transformers==4.28.1", "tokenizers==0.13.3", "accelerate==0.15.0", "numpy==1.26.4", "datasets==2.14.7", "pyarrow==14.0.2", "fsspec==2023.10.0", "huggingface-hub==0.19.4", "nltk==3.9.2", "safetensors==0.5.3", "sentencepiece==0.2.1", "jsonlines==4.0.0"]
+plan-and-budget = ["numpy==1.26.4"]
+hyde-native = ["numpy>=1.26,<3"]
+infocqr-student = ["torch>=2.6,<3", "transformers>=4.51,<5", "sentencepiece>=0.2,<0.3", "safetensors>=0.5,<1"]
+llmcompiler = ["langchain==0.2.6", "langchain-community==0.2.6", "openai==1.3.7", "tiktoken==0.5.2"]
+decomp = ["torch==1.13.0", "transformers==4.24.0", "numpy==1.26.4", "jsonnet==0.21.0", "nltk==3.9.2", "openai==0.28.1", "diskcache==5.6.3", "python-dateutil==2.9.0.post0", "requests==2.32.5"]
+acon = ["requests>=2.32,<3", "jinja2>=3.1,<4", "tiktoken>=0.9,<1"]
+acon-fit = ["requests>=2.32,<3", "jinja2>=3.1,<4", "tiktoken>=0.9,<1", "numpy>=1.26,<3", "openai>=1.50,<3", "PyYAML>=6,<7", "msal>=1.30,<2", "tqdm>=4.66,<5"]
+ace = ["numpy>=1.26,<3", "openai>=1.50,<3", "python-dotenv>=1.2,<2", "tiktoken>=0.12,<1"]
+ircot = ["numpy==1.26.4", "jsonnet==0.21.0", "transformers==4.24.0", "spacy==3.4.1", "openai==0.28.1", "diskcache==5.6.3", "nltk==3.9.2", "requests==2.32.5", "rapidfuzz>=3,<4", "ftfy>=6,<7", "python-dateutil>=2.8,<3", "tqdm>=4.66,<5"]
+evaluation = [
+  "ir-measures>=0.4.1,<0.5",
+  "rouge-score>=0.1.2,<0.2",
+]
+longbench = [
+  "jieba==0.42.1",
+  "rouge==1.0.1",
+  "fuzzywuzzy==0.18.0",
+]
+dense-retrieval = [
+  "sentence-transformers>=3.0,<6",
+  "transformers>=4.51,<6",
+]
+selectors = ["scikit-learn>=1.4,<2"]
+mce-text = ["openai>=1.50,<3", "httpx>=0.27,<1", "python-dotenv>=1.2,<2"]
+paper = [
+  "matplotlib>=3.8,<4",
+  "numpy>=1.26,<3",
+  "pandas>=2.1,<3",
+  "scikit-learn>=1.4,<2",
+]
+local = [
+  "torch>=2.2",
+  "transformers>=4.40",
+]
+qrag = [
+  "datasets>=3,<5",
+  "hydra-core>=1.3,<2",
+  "nltk>=3.9,<4",
+  "numpy>=1.26,<3",
+  "omegaconf>=2.3,<3",
+  "rotary-embedding-torch>=0.8,<1",
+  "sortedcontainers>=2.4,<3",
+  "torch>=2.2",
+  "transformers>=4.51,<6",
+]
+qrag-fit = [
+  "datasets>=3,<5", "hydra-core>=1.3,<2", "nltk>=3.9,<4", "numpy>=1.26,<3",
+  "omegaconf>=2.3,<3", "rotary-embedding-torch>=0.8,<1", "sortedcontainers>=2.4,<3",
+  "torch>=2.6,<3", "transformers>=4.51,<6", "safetensors>=0.5,<1", "tensorboard>=2.18,<3",
+]
+r2ag-fit = ["torch>=2.6,<3", "transformers>=5.15,<6", "sentence-transformers>=5,<6", "numpy>=1.26,<2", "accelerate>=1.10,<2", "bitsandbytes==0.49.2", "safetensors>=0.5,<1", "kernels==0.16.0"]
+process-monitoring = ["psutil>=5.9"]
+gpu-monitoring = [
+  "psutil>=5.9",
+  "nvidia-ml-py>=12",
+]
+yaml = ["PyYAML>=6.0"]
+querygym = [
+  "PyYAML>=6.0",
+  "tqdm>=4.66",
+]
+
+[project.scripts]
+agentinputlab = "agentinputlab.cli.main:main"
+agentinputlab-experiments = "agentinputlab.experiments.cli:main"
+agentinputlab-studio = "agentinputlab.studio.server:main"
+agentinputlab-annotate = "agentinputlab.annotation.server:main"
+agentinputlab-serve = "agentinputlab.api:main"
+
+[project.urls]
+Homepage = "https://data-designer.github.io/AgentInputLab/"
+Repository = "https://github.com/Data-Designer/AgentInputLab-toolkit"
+Documentation = "https://github.com/Data-Designer/AgentInputLab-toolkit/blob/main/docs/getting-started.md"
+Issues = "https://github.com/Data-Designer/AgentInputLab-toolkit/issues"
+
+[tool.setuptools]
+package-dir = {"" = "src", "workers" = "workers"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src", "."]
+include = ["agentinputlab*", "workers", "workers.*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json"]
+"agentinputlab" = ["py.typed"]
+"agentinputlab.benchmarks" = ["data/*.json"]
+"agentinputlab.registry" = ["data/*.json"]
+"agentinputlab.artifacts" = ["fixtures/*.json"]
+"agentinputlab.studio" = ["static/*.html", "static/*.css", "static/*.js"]
+"agentinputlab.annotation" = ["static/*.html", "static/*.css", "static/*.js"]
+
+[tool.setuptools.data-files]
+"share/agentinputlab" = ["CITATION.cff"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers"
+testpaths = ["tests"]
+pythonpath = ["src", "tools"]
+markers = [
+  "integration: multi-component offline integration tests",
+  "parity: upstream semantic parity tests",
+  "security: security and isolation tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["agentinputlab"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+# Alpha baseline measured with branch coverage across core and optional seams.
+# Raise this ratchet as real upstream parity tests replace protocol fixtures.
+fail_under = 75
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501", "UP038"]

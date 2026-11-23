@@ -1,0 +1,2 @@
+Q: Use the supplied evidence and reason one sentence at a time.
+A: Retrieve another fact when the answer is not yet supported.

@@ -1,0 +1,57 @@
+{
+  "schema_version": "agentinputlab.rrr.compatibility.v1",
+  "evidence_level": "pinned_tarball_compatible_chain",
+  "upstream": {
+    "repository": "https://github.com/xbmxb/RAG-query-rewriting",
+    "commit": "6bab6243e60c7f3e526b6ee44f95381b1024d471",
+    "archive_root": "RAG-query-rewriting-6bab6243e60c7f3e526b6ee44f95381b1024d471",
+    "tarball_sha256": "1fc4e570e00cb6be98914ec8e59f575864d5808db1cca463d9de1d1f7929b2fb",
+    "license_spdx": "NOASSERTION",
+    "license_file_present": false
+  },
+  "source_files": {
+    "README.md": "09c104d796416cdf24089cae5fbfaf2d348cccb39f525b5e1a3cb85f0eff2cb9",
+    "generate/inference.py": "9ef3486c2abf7091dd7173a0f3fe3f35aebecd4679eae47ef8c447bddcfea95d",
+    "generate/main-0514.py": "aad3c565e5fcf7185c4cb0cc66ee4a14661e634a715aaca8f31ed2e0b7f09aad",
+    "generate/bingenv.py": "7a7e61f3111c06db61e9e67b30f85b30cb164b2f6ad5631aee08fb4d496d50ec",
+    "generate/bing.py": "d1b1cb3c9c0041adb31163d714e95f5525137957e057be2ffc841e56cb81e045",
+    "generate/interllama.py": "9f78e03af4f7258b20d3429055cce6aaf2a63e8fd9107ca30e02fc74e0ae9fd6",
+    "generate/inprompts/myprompt.jsonl": "1483b80e5b81a26b97641cc2a5c4535c045eb39394d2b88651aade0d4afa5fb4",
+    "result_models/README.md": "f207247939fd65d359a5c3821047ec4db1df5757d2b7aac0bc22a6726c0f9dfd",
+    "rl/RL4LMs/rl4lms/envs/text_generation/warm_start.py": "0ee13eebfe1cc17cfad6c3d343cd06771e445db33a3c7014884b02381cd3c920"
+  },
+  "required_symbols": {
+    "generate/inference.py": ["add_prompt", "run_main", "run_searchre"],
+    "generate/main-0514.py": ["rewrite", "rewrite2"],
+    "generate/bingenv.py": ["BingEnv"],
+    "rl/RL4LMs/rl4lms/envs/text_generation/warm_start.py": ["ActorOnlyWarmStartMixin"]
+  },
+  "credential_risk_paths": [
+    "datasets/tasks/mmlu/evaluate.py",
+    "generate/bing.py",
+    "generate/bing_utils/bing.py",
+    "rl/RL4LMs/rl4lms/envs/text_generation/bing.py",
+    "rl/RL4LMs/rl4lms/envs/text_generation/bing_utils/bing.py",
+    "rl/RL4LMs/rl4lms/envs/text_generation/llm_utils.py",
+    "rl/RL4LMs/rl4lms/envs/text_generation/vicuna_utils.py"
+  ],
+  "runtime_contract": {
+    "stage_order": ["rewrite", "retrieve", "snippet", "reader"],
+    "query_separator": ";",
+    "generation_terminator": "**",
+    "search_wrapper": "search[{query}]",
+    "snippet_joiner": " ",
+    "supported_rewriter_profiles": ["prompt", "warmup_checkpoint", "ppo_checkpoint"],
+    "supported_search_modes": ["bing_cache", "controlled_static"],
+    "imports_upstream_runtime": false,
+    "trains_ppo": false
+  },
+  "artifact_policy": {
+    "checkpoint_license": "NOASSERTION",
+    "bundle_source": false,
+    "bundle_checkpoints": false,
+    "bundle_search_cache": false,
+    "local_files_only": true,
+    "trust_remote_code": false
+  }
+}

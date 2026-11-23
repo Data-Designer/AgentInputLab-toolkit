@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>AgentInputLab Audit</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div><span class="mark">AI</span><strong>AgentInputLab</strong><small>Measurement Audit</small></div>
+      <p>自动测量先运行，人工审计只验证可信度</p>
+    </header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">VERSIONED · LOCAL · AUTO-SAVE</p><h1>标注审计工作台</h1></div>
+        <div class="progress"><b id="progress-number">0 / 0</b><span><i id="progress-bar"></i></span><small id="version-label">尚未选择版本</small></div>
+      </section>
+
+      <section class="version-panel" id="version-panel">
+        <div><p class="eyebrow">01 / VERSION</p><h2>选择已有结果，或新建重标版本</h2></div>
+        <p id="version-message">正在检查已有标注……</p>
+        <div class="version-actions">
+          <label>已有版本<select id="version-select"><option value="">无</option></select></label>
+          <button id="resume-button" class="secondary" type="button">打开 / 复用</button>
+          <label>标注者<input id="annotator-id" value="annotator_a" maxlength="80"></label>
+          <button id="new-button" class="primary" type="button">新建重标版本</button>
+        </div>
+        <small>完成版本不可覆盖。重标会自动命名为新的 vNNN；后续实验与绘图读取显式选择 receipt。</small>
+      </section>
+
+      <section class="workspace" id="workspace" hidden>
+        <aside>
+          <p class="eyebrow">AUDIT QUEUE</p>
+          <div id="item-list" class="item-list"></div>
+        </aside>
+        <article>
+          <div class="item-header"><div><p class="eyebrow" id="item-kind">ITEM</p><h2 id="item-title">—</h2></div><span id="save-state">未保存</span></div>
+          <div id="item-content" class="content-card"></div>
+          <form id="annotation-form">
+            <div id="label-fields" class="label-grid"></div>
+            <label class="notes">备注（可选）<textarea id="notes" maxlength="4000" rows="4"></textarea></label>
+            <div class="form-actions">
+              <button id="previous-button" type="button" class="secondary">← 上一条</button>
+              <button id="save-button" type="submit" class="primary">保存并下一条 →</button>
+            </div>
+          </form>
+        </article>
+      </section>
+      <section class="complete-panel" id="complete-panel" hidden>
+        <div><p class="eyebrow">03 / FREEZE</p><h2>冻结并选择本版标注</h2></div>
+        <p>全部条目已自动保存。冻结后本版不可修改，并可显式选择为后续验证、实验导出和绘图所使用的人工审计版本。</p>
+        <button id="complete-button" class="primary" type="button">完成、冻结并选择</button>
+      </section>
+    </main>
+    <div id="toast" role="status"></div>
+  </body>
+</html>

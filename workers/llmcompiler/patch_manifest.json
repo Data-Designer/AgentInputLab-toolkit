@@ -1,0 +1,147 @@
+{
+  "schema_version": "agentinputlab.llmcompiler.patch-manifest.v1",
+  "upstream_commit": "a00c9d35507507da70e8c637eee64efc8c1857ae",
+  "patches": [
+    {
+      "id": "request_local_completed_dependency_lookup_v1",
+      "kind": "runtime_compatibility_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.task_fetching_unit.TaskFetchingUnit",
+        "src.llm_compiler.llm_compiler.LLMCompiler._acall"
+      ],
+      "changes": [
+        "retain completed task observations and completion events for dependency lookup across native replan TFU instances",
+        "preserve global upstream task IDs and dependency substitution without rewriting model responses or plans",
+        "keep each TFU iteration and scheduling set round-local so completed tasks are neither executed nor appended to scratchpad twice",
+        "scope the completed dependency cache to a single full invocation; never share observations between requests"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "explicit_host_live_callbacks_v1",
+      "kind": "transport_compatibility_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.planner.Planner.run_llm",
+        "src.llm_compiler.llm_compiler.LLMCompilerAgent.arun",
+        "src.tools.base.Tool"
+      ],
+      "changes": [
+        "add an explicitly selected authenticated numeric-loopback callback seam to caller-bound model and read-only tools",
+        "retain upstream planning, dependency substitution, scheduling, join and replan",
+        "bind callback requests to the root request identity and state execution budget",
+        "require worker source/version/dependency attestation before model or tool callbacks",
+        "bind explicit positional argument order for multi-parameter tool dispatch and task traces",
+        "record host-observed usage and genuine model/tool failures without automatic retries",
+        "declare streamed callbacks buffered after completion, without native-streaming latency or checkpoint parity claims"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "controlled_replay_model_type_gate_v1",
+      "kind": "transport_compatibility_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.planner.BaseLLM",
+        "src.llm_compiler.llm_compiler.BaseLLM"
+      ],
+      "changes": [
+        "bind the upstream BaseLLM isinstance gates to the worker-local replay adapter",
+        "preserve Planner.run_llm and LLMCompilerAgent.arun without importing a request-selected backend",
+        "match every planner and join prompt by SHA-256 before releasing its frozen response"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "bounded_task_fetching_trace_v1",
+      "kind": "safety_and_observability_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.task_fetching_unit.TaskFetchingUnit",
+        "src.llm_compiler.llm_compiler.TaskFetchingUnit"
+      ],
+      "changes": [
+        "subclass the official TaskFetchingUnit while retaining its dependency scheduling and argument substitution",
+        "bound concurrent task bodies with the request concurrency control",
+        "reject excess, duplicate, malformed, or non-allowlisted tasks before their execution",
+        "record planned, ready, running, completed, and failed scheduler states",
+        "unblock and abort the scheduler after a tool failure so the upstream busy loop cannot deadlock"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "fail_closed_join_guard_v1",
+      "kind": "security_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.llm_compiler.LLMCompiler.join"
+      ],
+      "changes": [
+        "refuse the join model call after any tool execution failure",
+        "never turn a missing or denied tool observation into a synthetic final answer"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "replan_control_translation_v1",
+      "kind": "configuration_compatibility_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.llm_compiler.LLMCompiler._acall"
+      ],
+      "changes": [
+        "translate AgentInputLab max_replans=N to the upstream loop bound N+1",
+        "retain one initial planning iteration when max_replans is zero"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "jsonl_stdout_isolation_v1",
+      "kind": "transport_safety_patch",
+      "upstream_symbols": [
+        "src.utils.logger_utils.enable_logging",
+        "src.utils.logger_utils.log"
+      ],
+      "changes": [
+        "disable official verbose logging",
+        "discard incidental stdout during imports and execution so stdout remains exactly one JSON response line"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "whole_run_timeout_and_async_cleanup_v1",
+      "kind": "runtime_safety_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.planner.Planner.aplan",
+        "src.llm_compiler.llm_compiler.LLMCompiler._acall",
+        "src.llm_compiler.task_fetching_unit.TaskFetchingUnit._run_task"
+      ],
+      "changes": [
+        "apply controls.timeout_seconds to the complete worker execution rather than an individual model call",
+        "always signal the streaming queue when its planner exits or fails",
+        "cancel and await planner and tool tasks on failure, cancellation, timeout, and successful shutdown",
+        "settle the upstream fire-and-forget planner task before permitting join"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "pre_schedule_dependency_validation_v1",
+      "kind": "runtime_safety_patch",
+      "upstream_symbols": [
+        "src.llm_compiler.task_fetching_unit.TaskFetchingUnit.set_tasks"
+      ],
+      "changes": [
+        "validate each incoming task batch atomically before passing it to the official scheduler",
+        "reject unknown, duplicate, self-referential, malformed, cyclic, or excess tasks before execution"
+      ],
+      "algorithm_logic_changed": false
+    },
+    {
+      "id": "complete_legacy_dependency_attestation_v1",
+      "kind": "compatibility_verification_patch",
+      "upstream_symbols": [
+        "requirements.txt"
+      ],
+      "changes": [
+        "verify every distribution version listed in compatibility_manifest.json",
+        "verify every imported top-level package originates inside its pinned distribution"
+      ],
+      "algorithm_logic_changed": false
+    }
+  ]
+}

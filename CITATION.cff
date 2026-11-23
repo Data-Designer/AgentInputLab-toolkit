@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use AgentInputLab, please cite the software and its preferred project paper."
+title: "AgentInputLab"
+type: software
+authors:
+  - family-names: Zhao
+    given-names: Chuang
+version: 0.1.0a15
+date-released: 2026-11-23
+repository-code: "https://github.com/Data-Designer/AgentInputLab-toolkit"
+license: MIT
+preferred-citation:
+  type: generic
+  title: "To Optimize or Not to Optimize: When Input Optimization Helps and Hurts LLM Agents"
+  authors:
+    - family-names: Zhao
+      given-names: Chuang
+    - family-names: Li
+      given-names: Xiaomeng
+  year: 2026

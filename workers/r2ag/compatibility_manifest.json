@@ -1,0 +1,55 @@
+{
+  "schema": "agentinputlab.r2ag.compatibility.v1",
+  "source": {
+    "repository": "yefd/RRAG",
+    "commit": "61cfd1027c0101172fda701ec816bc18360b5bab",
+    "tree": "f1757a51fc1c3d64fe9d1b8788178293c8d5ef3b",
+    "license_id": "MIT",
+    "vendoring_allowed": false,
+    "required_files": {
+      "LICENSE.txt": "0c8b7c4d48fc1a3c3ef53aead40f367e52bcb865b03e148dfb7bedd7c5f61044",
+      "README.md": "d0151edccdd4bf2c53bc1ea9e5a603d09d6fc1406fe1f100be33d81bdad2c483",
+      "RRAG/models/modeling_rrag.py": "6b63388bfc97ad093aee9464c73098b1a198e7dd4e8b439404dc1be4309b4be9",
+      "runner.py": "6e7eb0d721acc24a9419a7632a2aa97192248ce8b991dbc202eaaad982b5fd3e",
+      "retrieval/retrieval_utils.py": "6097ba8196f0847d19f6d1ae6cf857899ce85e0035f066d09a2a2d9ab87a6aa3",
+      "RRAG/dataset/load_hotpotqa.py": "6851a85a42dc18a958c4ff7a16fac8c5bcccae7b00092bc65180fd9e302027fe",
+      "RRAG/prompts/qa_similarity.prompt": "f850c6763671e7ec5567d13223ed9964077ab150fdcd5180d649af56fa0bb55f"
+    }
+  },
+  "runtime": {
+    "protocol": "agentinputlab.r2ag.v4",
+    "artifact_manifest_schema": "agentinputlab.artifact-closure.v1",
+    "rformer_symbol": "RRAG.models.modeling_rrag.RFormer",
+    "checkpoint_file": "RRAGLlama_pytorch_model.bin",
+    "checkpoint_config": "config.json",
+    "dependencies": {
+      "torch": "2.1.2",
+      "transformers": "4.40.2",
+      "sentence-transformers": "2.6.1"
+    },
+    "component_order": [
+      "retrieval_features",
+      "RFormer.forward",
+      "llama_proj",
+      "retrieval_marker_replacement",
+      "reader.generate"
+    ],
+    "max_num_k": 30,
+    "training_allowed": false,
+    "gold_metadata_allowed": false
+  },
+  "artifacts": {
+    "source_user_mounted": true,
+    "checkpoint_user_mounted": true,
+    "base_model_user_mounted": true,
+    "tokenizer_user_mounted": true,
+    "weights_bundled": false,
+    "official_weight_identity_claimed": false,
+    "local_files_only": true
+  },
+  "evidence": {
+    "host_label": "controlled_source_informed_formula",
+    "paper_checkpoint_parity": false,
+    "maximum_claim": "hash_bound_mounted_treatment_execution"
+  }
+}

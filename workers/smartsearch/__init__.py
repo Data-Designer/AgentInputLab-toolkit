@@ -1,0 +1,1 @@
+"""Pinned SmartSearch worker package."""

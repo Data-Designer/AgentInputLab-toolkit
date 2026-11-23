@@ -1,0 +1,39 @@
+{
+  "schema_version": "agentinputlab.ace.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/ace-agent/ace.git",
+    "commit": "bcb7cea0504afad6f55fec4845dd4864c9f9eee7",
+    "license_path": "LICENSE.txt",
+    "license_spdx": "Apache-2.0",
+    "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "pyproject.toml": "38856347e37fd50a80114e3f129a3767197e602e8d7b88ba87c7967dcd32ba09",
+    "ace/__init__.py": "5cffd7669d4b499d6e2de648cdc186297d7d0b663206fe4760d8a0ce64f39766",
+    "ace/ace.py": "70f7af3ff9088498afa8d6939c5e142cd8b0046179516ee336c57586b92ec914",
+    "ace/ace_batch.py": "6038bd54cc68597ed764e2dc5b011b4cb2523e31dbf942bcc7e1888597b29ff6",
+    "ace/core/__init__.py": "6dd2fc846149071e71a0b0f401c6ad703e6b9fde566b9c751bfc25dabc8c221f",
+    "ace/core/generator.py": "4b750a59752bd5bdb24b2f27b80938844d8a7b5d89e86d7d6bb726f3685c25f5",
+    "ace/core/reflector.py": "fe5ae8fb006fd16fdef7b8e7ad38dc746195a4bf0a366a82e69c473c9982b811",
+    "ace/core/curator.py": "863aa928b28538ded4b86ed330ce40c6012f6ca215f94618bef0615fb4de281b",
+    "ace/core/bulletpoint_analyzer.py": "c8348995c2e443a65343efb460939837655521d6962022d29aec1710947be4d2",
+    "ace/prompts/__init__.py": "803a8d38db890045fd344e36026a781947787e9b7d9d03e2d046faad33411a5b",
+    "ace/prompts/generator.py": "b8b12d4a6281ea4c422a2ee0bd919b50580d388027917e8740f82f97eb24eebb",
+    "ace/prompts/reflector.py": "72b343ce2781531dac2fd765543410b6abfc4817c39078dd4f83187c4d217e9c",
+    "ace/prompts/curator.py": "cca641bf025896b97f0daabf6208b110c081082930802e1f6d7ccf54fc90c9d7",
+    "llm.py": "cc615c5b26773fddc99c702bf2521a1c929e6363a905824b1be3e300337d1026",
+    "logger.py": "c54eda5fe3cdb8bc2cbef01be25f3f0a4eb6725123425c4a3674eed84d9cac23",
+    "utils.py": "7824aa262de2cd030b6914d1f7de698ec620dbec9c9e5f14ed1fe6322079570c",
+    "playbook_utils.py": "c67943f06cb0ee747be04d0599216e40d6c00e0cdf96ddc6af38fc26143e3a07"
+  },
+  "execution": {
+    "entrypoint": "ace.ace.ACE.run",
+    "mode": "offline",
+    "appworld_allowed": false,
+    "request_controlled_paths_allowed": false,
+    "request_controlled_imports_allowed": false,
+    "upstream_subprocess_allowed": false,
+    "verification_git_status_subprocess": true
+  }
+}

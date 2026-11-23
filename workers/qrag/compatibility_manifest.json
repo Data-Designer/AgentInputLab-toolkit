@@ -1,0 +1,64 @@
+{
+  "schema": "agentinputlab.qrag.compatibility.v1",
+  "source": {
+    "repository": "griver/Q-RAG",
+    "commit": "e7598130b63eaab868469877e88bcacc59a44efb",
+    "tree": "d0eb10175d98b21929bd35088b57e2f24d985bb6",
+    "archive_sha256": "a368b212e38e856603b945f44ab1152408ec883bdbdd3ec2911bbf1201217bf4",
+    "content_manifest_sha256": "86c49eee9c64329bd77f3b5a4286e937aadb7c5fcd67d1238f214421cc27ae1a",
+    "license_id": "NOASSERTION",
+    "readme_license_claim": "CC-BY-4.0",
+    "vendoring_allowed": false,
+    "required_files": {
+      "eval_retriever.py": "01d7f693d9507bbfef6c14f6a976c07ae45ce2d99a491a3f5559f8b4f4521f1a",
+      "envs/qa_env.py": "267c27c248f332478bf810a50f097a898a818cf6f8f4bd7b70a2893312c0eae1",
+      "envs/text_env.py": "2bfee69d8bea9e9fc2822dce8aa42c563344da1454a111f807fe2ac7a00fc39c",
+      "envs/utils.py": "c68b5950e32707f3468cd3a4056514b17a72741ae4c3b931a08e3471157255e3",
+      "envs/qa_dataset_adapter.py": "b2cf231177a1f079f7fdb213838df2ab967caf6c9977df5447bc31cf8abba5f3",
+      "rl/agents/pqn.py": "5e69ee5e20f098c101ceebb0c3713a3e63ffcd0a1b614d7180c1b474465cce39",
+      "rl/q_module.py": "8f5e50f1033aa04a326bba2ba14eff2ff8631d494f01913179652644e7832148",
+      "rl/bert_predictor.py": "7d82d0749afd0b57d1416dd6c39477f164fd710421f23faaadbd8a29e2f142c8",
+      "rl/feedback/feedback.py": "d28a12b111c81ce30d1fee701282e36f5b4c67b6bad30de4d62ac547b99bc7d3"
+    },
+    "forbidden_imports": [
+      "train_q_rag.py",
+      "eval_llm_openqa.py",
+      "eval_llm_synthetics.py"
+    ]
+  },
+  "checkpoint": {
+    "repository": "Q-RAG/qrag-ft-e5-on-hotpotqa",
+    "revision": "e0e48389f551075ace2ce61207522b6bad55593a",
+    "license_id": "CC-BY-4.0",
+    "model_best_sha256": "ccd4068d3917bed2e44afcd7ee7a9d66c8487b44dd2206252e6d2985352f92b7",
+    "model_best_size": 20151355435,
+    "config_sha256": "edbba621832e545a63723eda2b6652eccfd51b29eda7d04145ba22a7ea48c241"
+  },
+  "embedder": {
+    "repository": "intfloat/multilingual-e5-large",
+    "revision": "3d7cfbdacd47fdda877c5cd8a79fbcc4f2a574f3",
+    "trust_remote_code": false,
+    "local_files_only": true,
+    "model_safetensors_sha256": "020afdebf2762b29fcaf286629a96c3b3b65af241f6a08226b1cfee60a21def6"
+  },
+  "environment": {
+    "dataset_profile": "hotpotqa",
+    "max_steps": 2,
+    "sort_by_index": false,
+    "separator": " [SEP] ",
+    "position_processor": "AbsolutePositionProcessor",
+    "feedback_model": "DummyFeedbackModel",
+    "gold_available": false,
+    "reward_available": false,
+    "stop_action": false
+  },
+  "security": {
+    "weights_only": true,
+    "strict_state_dict_load": true,
+    "optimizer_state_loaded": false,
+    "training_allowed": false,
+    "network_during_selector": false,
+    "requires_isolated_non_root_worker": true,
+    "requires_read_only_mounts": true
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "agentinputlab.smartsearch.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/RUC-NLPIR/SmartSearch",
+    "commit": "5e9e7ec0d6af34f45fad145d4bff442529e7e6ff",
+    "archive_sha256": "c7eac6245e7481c50536a9d2e82adfdb86a47d9988004c9e967839dbd737fd33",
+    "license_spdx": "MIT",
+    "license_sha256": "aded117a2f6fe248e9abb2ab223070e2251f22c3c143318de523ddf1b3168ba9"
+  },
+  "source_files": {
+    "src/re_call/inference/re_call.py": "7d3c680cfa0186397c2970d1073d75ab2e587330ce107fdf632827b7857572ec",
+    "src/flashrag/pipeline/active_pipeline.py": "20394e3418b6e30b43057ca96b97a423b4e4d37a3a04901e0a0a0dbc3af221fa",
+    "src/verl/utils/reward_score/re_call.py": "2697ffa7479a0c9c4e6baf843164b7055b80350c627e01413584ecf4f76476bc"
+  },
+  "released_model": {
+    "repository": "vvv111222/SmartSearch-3B",
+    "revision": "82bfe8a845e3e08f0d9d00d8e1e2cfb6d50b5da8",
+    "architecture": "Qwen2ForCausalLM",
+    "parameters": 3397103616,
+    "license_spdx": "MIT"
+  },
+  "contracts": {
+    "profile_id": "smartsearch.controlled_frozen.v1",
+    "tool_schema_sha256": "a1349ee4630e42cff2a0631252bdf931d3621f2f1a5bb005430e1c0494508731",
+    "loop_contract_sha256": "8c64cda35d8b08f31c7dd8fba2efbb4e7adf3d57dc3a59a8a8e1c41e64d5e5b2",
+    "parser_contract_sha256": "b2104370b1b39a1a34b809c25fd369a5e97426a70bf55300de5f5dec8bf3af6a",
+    "max_rounds": 10,
+    "top_n": 5,
+    "max_new_tokens": 8192,
+    "temperature": 0.0,
+    "stop": ["</search>", "</answer>"],
+    "outer_retry_attempts": 1,
+    "search_tags_per_turn": 1
+  },
+  "forbidden_runtime_paths": [
+    "scripts/serving/sandbox.py",
+    "src/verl/workers/rollout",
+    "src/verl/trainer",
+    "src/llamafactory"
+  ]
+}

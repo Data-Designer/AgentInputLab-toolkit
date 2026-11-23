@@ -1,0 +1,43 @@
+{
+  "schema_version": "agentinputlab.recomp.compatibility.v1",
+  "evidence_level": "pinned_upstream_source",
+  "upstream": {
+    "repository": "https://github.com/carriex/recomp",
+    "commit": "51d4432151efb3275257a9407dc71d1e5ec6634d",
+    "license_spdx": "MIT",
+    "license_sha256": "cb0c2513e1d839f5a00ac788367fc0ce787a0ec42edeea18e0607b9bdcca9787",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "README.md": "e035ac4f298d7fdcd6480dba155c5ff4e0c8ebf377885d80345b3df1cbffa6b5",
+    "requirements.txt": "8af83d40a33c71ab446496c9a1ea065f189e93bd06f49bd2aed5986f126d827e",
+    "run_extractive_compressor.py": "d2835cb74eec14e1490a07d30fc01d65dfb618bf7d14c2b2a9477a9a2b57c155",
+    "train_hf_summarization_model.py": "0d89514a5f73f06f0f420b4274960871d8ae403877fe1e2865b7a3cb73e91c5d"
+  },
+  "runtime_contract": {
+    "extractive_symbol": "run_extractive_compressor.get_contriever_scores",
+    "extractive_top_k": -1,
+    "candidate_unit_kind": "presegmented_sentence",
+    "abstractive_input_template": "Question: {question}\n Document: {passages}\n Summary: ",
+    "abstractive_decode": "batch_decode_skip_special_tokens_strip"
+  },
+  "legacy_dependencies": {
+    "required_versions": {
+      "torch": "1.13.0",
+      "transformers": "4.24.0",
+      "tokenizers": "0.13.2"
+    },
+    "extractive_unpinned_imports": [
+      "pandas",
+      "rank_bm25",
+      "tqdm"
+    ]
+  },
+  "artifact_policy": {
+    "checkpoint_license": "NOASSERTION",
+    "bundle_checkpoint": false,
+    "bundle_training_data": false,
+    "local_files_only": true,
+    "trust_remote_code": false
+  }
+}

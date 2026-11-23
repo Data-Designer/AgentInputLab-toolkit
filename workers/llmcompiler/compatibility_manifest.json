@@ -1,0 +1,45 @@
+{
+  "schema_version": "agentinputlab.llmcompiler.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/SqueezeAILab/LLMCompiler",
+    "commit": "a00c9d35507507da70e8c637eee64efc8c1857ae",
+    "license_spdx": "MIT",
+    "license_sha256": "b5c278d9274ab2b639b2e82eb9132e41bae0c3602d65e299359dcccc29773719",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "requirements.txt": "13e544f2cbda9b6c0f25dbe7a4c25dd2f0200597e31ec55a4fe9278b1f9afb6c",
+    "src/callbacks/callbacks.py": "37c51e5b22c749c750ffa627aac9e864cb7912f507b045f38febf28b56856826",
+    "src/chains/chain.py": "e9ad8a24f0414e201f923cca943f152d89e32336864816ab60a2859876b4f856",
+    "src/executors/schema.py": "07eca326b67c01c7390e19f947f858417d330322ab746ab97d970608f5b616c3",
+    "src/llm_compiler/constants.py": "fd5d48017681b6870a10a75683659f369ef411063998e363ba39c0249ad66119",
+    "src/llm_compiler/llm_compiler.py": "9df5dd925f2c4539f488b2ff72f433556dacab8af7a1f2a70856c063063dd301",
+    "src/llm_compiler/output_parser.py": "fb187ec2ce4aa3f8cd1b83c0576da4de382fd5154935497f401830085f50f275",
+    "src/llm_compiler/planner.py": "d597890d8a6aee9fc7576400bd443eb2090201632ac2f64dcef349057aed9e05",
+    "src/llm_compiler/task_fetching_unit.py": "b4d11813149564d327b021006b725d21abe0a63557deb3314328852d461e094f",
+    "src/tools/base.py": "e26f0b28f51f352086f1213072ac005ab7d53d6017152f843a62ae62bdb0c9d7",
+    "src/utils/logger_utils.py": "507b32696b21512d7917048706be1d01712820e315dbc2e74cedc68c06eb5be2"
+  },
+  "legacy_dependencies": {
+    "requirements_sha256": "13e544f2cbda9b6c0f25dbe7a4c25dd2f0200597e31ec55a4fe9278b1f9afb6c",
+    "required_versions": {
+      "langchain": "0.2.6",
+      "langchain-community": "0.2.6",
+      "openai": "1.3.7",
+      "tiktoken": "0.5.2"
+    }
+  },
+  "patch_manifest": {
+    "path": "patch_manifest.json",
+    "sha256": "9c4eebc1afb816dc9660d66e641555349e0bf69022f994e3dd292fb7a4c32139"
+  },
+  "execution_policy": {
+    "model_transport": "sha256_bound_replay_or_explicit_host_callback",
+    "tool_transport": "manifest_replay_or_context_bound_readonly_callback",
+    "allow_request_selected_imports": false,
+    "allow_tool_commands": false,
+    "allow_tool_network": false,
+    "allow_tool_side_effects": false,
+    "allow_unverified_checkout": false
+  }
+}

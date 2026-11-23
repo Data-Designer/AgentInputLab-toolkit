@@ -1,0 +1,421 @@
+{
+  "schema_version": 1,
+  "asset_count": 12,
+  "assets": [
+    {
+      "asset_id": "beir.arguana.official",
+      "cell_id": "beir.arguana",
+      "source_url": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/arguana.zip",
+      "source_revision": "2021-01-23",
+      "sha256": "cfdf79adce27a401b3cd3ea267903134dbfab2c6afeb95d7fe5724a00bf7557b",
+      "size_bytes": 3773617,
+      "license_id": "CC-BY-SA-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "beir_zip_v1",
+      "expected_counts": {
+        "corpus": 8674,
+        "gold": 1406,
+        "inputs": 1406,
+        "orphan_qrels": 5,
+        "orphan_queries": 5,
+        "qrels": 1406
+      },
+      "prepared_sha256": {
+        "corpus.jsonl": "d7916d8e3f9fb56433202043c8fded6c1caaa116d1f0a6765614febaea220618",
+        "gold.jsonl": "9215b7caaa8822888753f28aa20203ef6dfb5ef33f92a1cc44ce42266da8cee8",
+        "inputs.jsonl": "9c72c6856de16d0d5151e88e2a42fef82175e828eae3b356ba5c759c530b577a"
+      },
+      "allowed_hosts": [
+        "public.ukp.informatik.tu-darmstadt.de"
+      ],
+      "provenance": {
+        "dataset_home": "https://www.tira.io/task/argument-search/",
+        "download_index": "https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/",
+        "source_repository": "https://github.com/beir-cellar/beir"
+      },
+      "note": "Full compact BEIR retrieval cell; source bytes are never included in the package. The pinned archive contains five qrels whose relevant corpus IDs are absent; they are preserved and explicitly counted rather than silently dropped."
+    },
+    {
+      "asset_id": "bfcl.v3.simple_python.v1_3",
+      "cell_id": "bfcl.v3.simple_python",
+      "source_url": "https://github.com/ShishirPatil/gorilla/archive/refs/tags/v1.3.tar.gz",
+      "source_revision": "ea13468e4423454d0c213704fb87cf7cb3990433",
+      "sha256": "57854157e82aed5723a1458d2a4ac426e3256959ded4a20ddc4d627c22edb7fe",
+      "size_bytes": 44552456,
+      "license_id": "Apache-2.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "bfcl_v3_simple_tar_v1",
+      "expected_counts": {
+        "audit": 1,
+        "functions": 400,
+        "gold": 400,
+        "ground_truth_candidates": 400,
+        "inputs": 400,
+        "source_files": 8
+      },
+      "prepared_sha256": {
+        "audit.jsonl": "55f7039db2bf049b99ff31ff0c1edd0356b6b074a77af6f39a8527087105d24b",
+        "gold.jsonl": "cebbd2664755ef02e7a9f8c557be124b4004bce02de829dbe4dc515f9297f352",
+        "inputs.jsonl": "c9fab55c3ad0309265d238cff6b736fdad047fba0d1476e2b56c4c241be0fc18"
+      },
+      "allowed_hosts": [
+        "codeload.github.com",
+        "github.com"
+      ],
+      "provenance": {
+        "official_release": "https://github.com/ShishirPatil/gorilla/releases/tag/v1.3",
+        "source_repository": "https://github.com/ShishirPatil/gorilla",
+        "v3_announcement": "https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html"
+      },
+      "note": "Official v1.3 source archive; only the 400-case BFCL_v3_simple Python non-live cell is normalized. Possible answers remain evaluator-only. Source bytes, model outputs, and result claims are never included in the package."
+    },
+    {
+      "asset_id": "bright.earth_science.examples",
+      "cell_id": "bright.earth_science",
+      "source_url": "https://huggingface.co/datasets/xlangai/BRIGHT/resolve/1c9ff4a4090306cd8d9412b108023f1f10942864/examples/earth_science-00000-of-00001.parquet",
+      "source_revision": "1c9ff4a4090306cd8d9412b108023f1f10942864",
+      "sha256": "5d29f108701111984eb91c93d3e340a784a99df47dc11f43783d1b994010a91d",
+      "size_bytes": 184093,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "bright_examples_parquet_v1",
+      "expected_counts": {
+        "excluded_documents": 0,
+        "gold": 116,
+        "inputs": 116,
+        "qrels": 585
+      },
+      "prepared_sha256": {
+        "gold.jsonl": "512eaa4220ed269772aab8f97613d16d7b1c531e4c93759921225c9ca6f70fb8",
+        "inputs.jsonl": "dec7334497de6ad63940dfda490f5f1cf552e0208c682d226887548be4f9c9b2"
+      },
+      "allowed_hosts": [
+        "cas-bridge.xethub.hf.co",
+        "cdn-lfs.huggingface.co",
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/xlangai/BRIGHT",
+        "dataset_home": "https://brightbenchmark.github.io/",
+        "source_repository": "https://github.com/xlang-ai/BRIGHT"
+      },
+      "note": "Official Earth Science query/qrel component. Pair with bright.earth_science.corpus; reasoning, answer, long qrels, and exclusions remain evaluator-only."
+    },
+    {
+      "asset_id": "bright.earth_science.corpus",
+      "cell_id": "bright.earth_science",
+      "source_url": "https://huggingface.co/datasets/xlangai/BRIGHT/resolve/ba248cfa7b4a12da78640f81a3dd064632e25fa6/documents/earth_science-00000-of-00001.parquet",
+      "source_revision": "ba248cfa7b4a12da78640f81a3dd064632e25fa6",
+      "sha256": "abcb2cd130d7d333b364bf5c89b7ff3829e0f88eb6a2de8232c3df1173eeb8a2",
+      "size_bytes": 23084671,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "bright_corpus_parquet_v1",
+      "expected_counts": {
+        "corpus": 121249
+      },
+      "prepared_sha256": {
+        "corpus.jsonl": "be5947fb747d4c0f3506bb71b013defb4b3a96d49d75fc5f24df17ecec583e69"
+      },
+      "allowed_hosts": [
+        "cas-bridge.xethub.hf.co",
+        "cdn-lfs.huggingface.co",
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/xlangai/BRIGHT",
+        "dataset_home": "https://brightbenchmark.github.io/",
+        "source_repository": "https://github.com/xlang-ai/BRIGHT"
+      },
+      "note": "Official Earth Science corpus component for bright.earth_science.examples; kept separately to preserve upstream layout and component hashes."
+    },
+    {
+      "asset_id": "bright.economics.examples",
+      "cell_id": "bright.economics",
+      "source_url": "https://huggingface.co/datasets/xlangai/BRIGHT/resolve/1c9ff4a4090306cd8d9412b108023f1f10942864/examples/economics-00000-of-00001.parquet",
+      "source_revision": "1c9ff4a4090306cd8d9412b108023f1f10942864",
+      "sha256": "2a79f0f3a881c7c03a258cf8ef8ac2db1ca9080963252d9a020bb45a264aa037",
+      "size_bytes": 219518,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "bright_examples_parquet_v1",
+      "expected_counts": {
+        "excluded_documents": 0,
+        "gold": 103,
+        "inputs": 103,
+        "qrels": 800
+      },
+      "prepared_sha256": {
+        "gold.jsonl": "e001474d30c67440da776fc5d0be893cdf183b73be93128343b4174ecf324951",
+        "inputs.jsonl": "42bf64a62f5628eb0e3e93e74fc1d36844314018ba19ced13351aad06ecfff2f"
+      },
+      "allowed_hosts": [
+        "cas-bridge.xethub.hf.co",
+        "cdn-lfs.huggingface.co",
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/xlangai/BRIGHT",
+        "dataset_home": "https://brightbenchmark.github.io/",
+        "source_repository": "https://github.com/xlang-ai/BRIGHT"
+      },
+      "note": "Official Economics query/qrel component. Pair with bright.economics.corpus; answer and reasoning annotations remain evaluator-only."
+    },
+    {
+      "asset_id": "bright.economics.corpus",
+      "cell_id": "bright.economics",
+      "source_url": "https://huggingface.co/datasets/xlangai/BRIGHT/resolve/ba248cfa7b4a12da78640f81a3dd064632e25fa6/documents/economics-00000-of-00001.parquet",
+      "source_revision": "ba248cfa7b4a12da78640f81a3dd064632e25fa6",
+      "sha256": "f3ba8a0fbc9a9aed07b4970cc686e32cfefcd06d6922402587adf871f006394c",
+      "size_bytes": 10969621,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "bright_corpus_parquet_v1",
+      "expected_counts": {
+        "corpus": 50220
+      },
+      "prepared_sha256": {
+        "corpus.jsonl": "1836a15aeae9a6686b504ce7b647240e2c1a32a3c6b5a21ed3c4444614708c1f"
+      },
+      "allowed_hosts": [
+        "cas-bridge.xethub.hf.co",
+        "cdn-lfs.huggingface.co",
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/xlangai/BRIGHT",
+        "dataset_home": "https://brightbenchmark.github.io/",
+        "source_repository": "https://github.com/xlang-ai/BRIGHT"
+      },
+      "note": "Official Economics corpus component for bright.economics.examples; kept separately to preserve upstream layout and component hashes."
+    },
+    {
+      "asset_id": "musique.answerable.dev",
+      "cell_id": "musique.answerable",
+      "source_url": "https://drive.usercontent.google.com/download?id=1tGdADlNjWFaHLeZZGShh2IRcpO6Lv24h&export=download&confirm=t",
+      "source_revision": "v1.0",
+      "sha256": "98f839bf2fd5319f5c688aed77901a6d5c30b3b9f9f691ab9a8ecafb045ee0cd",
+      "size_bytes": 272049578,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "musique_zip_v1",
+      "expected_counts": {
+        "context_blocks": 48315,
+        "gold": 2417,
+        "inputs": 2417,
+        "leakage_audit_records": 6371,
+        "leakage_audit_sources": 5,
+        "support_labels": 6404
+      },
+      "prepared_sha256": {
+        "audit.jsonl": "4cf952385298103bf977191a31a6485a262204ff3e1f2ef6952c6fcfdcb1e398",
+        "gold.jsonl": "83c3dbbdc027e7385202558ec4870b636b76246b3f30ede3464d594dd1fe531e",
+        "inputs.jsonl": "f691cdbf8d30c1fdb9ca13e809c65ed1e648940f9f0f9d900caa95a4c26cb5cc"
+      },
+      "allowed_hosts": [
+        "drive.usercontent.google.com"
+      ],
+      "provenance": {
+        "dataset_home": "https://github.com/StonyBrookNLP/musique",
+        "download_index": "https://github.com/StonyBrookNLP/musique#data",
+        "source_repository": "https://github.com/StonyBrookNLP/musique"
+      },
+      "note": "Official MuSiQue v1.0 archive; only answerable dev is normalized. Answers, aliases, decomposition, and support labels stay outside optimizer-visible inputs."
+    },
+    {
+      "asset_id": "2wiki.multihop.dev",
+      "cell_id": "2wiki.multihop",
+      "source_url": "https://dl.dropboxusercontent.com/s/ms2m13252h6xubs/data_ids_april7.zip",
+      "source_revision": "data_ids_april7",
+      "sha256": "95df2bf56fdabe034e27aebc580e02264232203cf52552f9efe8a919e5529eef",
+      "size_bytes": 258968175,
+      "license_id": "Apache-2.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "two_wiki_zip_v1",
+      "expected_counts": {
+        "alias_entities": 203297,
+        "alias_strings": 343265,
+        "context_blocks": 400943,
+        "duplicate_context_sentences": 1496,
+        "empty_context_sentences": 0,
+        "evidence_triples": 31120,
+        "gold": 12576,
+        "inputs": 12576,
+        "orphan_support_labels": 70,
+        "support_labels": 30687
+      },
+      "prepared_sha256": {
+        "audit.jsonl": "7a135219336c4fb828009e911e099667b2171de35e2c25e61feb3688625708e5",
+        "gold.jsonl": "da09635414ea70fd4d37624097af3d58bf56603bd16282e6747c95d6c38203d7",
+        "inputs.jsonl": "1f4cb07fc18e0994c435db53b49d4e3d49098ed1f53913edab4884198843ff45"
+      },
+      "allowed_hosts": [
+        "dl.dropboxusercontent.com"
+      ],
+      "provenance": {
+        "dataset_home": "https://github.com/Alab-NII/2wikimultihop",
+        "official_download": "https://www.dropbox.com/s/ms2m13252h6xubs/data_ids_april7.zip",
+        "source_repository": "https://github.com/Alab-NII/2wikimultihop"
+      },
+      "note": "Official corrected data_ids_april7 archive with v1.1 answer/evidence IDs and alias table. Only dev is normalized; train/test remain source-verified but are not emitted."
+    },
+    {
+      "asset_id": "hotpotqa.distractor.validation",
+      "cell_id": "hotpotqa.distractor",
+      "source_url": "https://huggingface.co/datasets/hotpotqa/hotpot_qa/resolve/1908d6afbbead072334abe2965f91bd2709910ab/distractor/validation-00000-of-00001.parquet",
+      "source_revision": "1908d6afbbead072334abe2965f91bd2709910ab",
+      "sha256": "c20b638ca82b21d04fe12e14ff417ad05153d4d215a65de54497fca4e972f7c6",
+      "size_bytes": 27452575,
+      "license_id": "CC-BY-SA-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "hotpotqa_parquet_v1",
+      "expected_counts": {
+        "context_blocks": 306438,
+        "duplicate_context_sentences": 0,
+        "empty_context_sentences": 49,
+        "gold": 7405,
+        "inputs": 7405,
+        "orphan_support_labels": 1,
+        "support_labels": 18005
+      },
+      "prepared_sha256": {
+        "gold.jsonl": "d53aa1257e243be256dee6751f7a4683113f52f619d76598c28bca3e9d2ff655",
+        "inputs.jsonl": "92c61fbf5661a9227b54c5e3594f932dd87ca39cbbf05602099cdb32ce2ebd72"
+      },
+      "allowed_hosts": [
+        "cas-bridge.xethub.hf.co",
+        "cdn-lfs.huggingface.co",
+        "huggingface.co",
+        "us.aws.cdn.hf.co"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/hotpotqa/hotpot_qa",
+        "dataset_home": "https://hotpotqa.github.io/",
+        "source_repository": "https://github.com/hotpotqa/hotpot"
+      },
+      "note": "Official Hugging Face organization mirror of the distractor validation split. One impossible upstream supporting-fact index is preserved and explicitly audited."
+    },
+    {
+      "asset_id": "qasper.dev.official",
+      "cell_id": "qasper.v0_3_dev",
+      "source_url": "https://qasper-dataset.s3.us-west-2.amazonaws.com/qasper-train-dev-v0.3.tgz",
+      "source_revision": "v0.3",
+      "sha256": "a28fdf966db827bcee3d873107d6b6669864fb7ca8fbf73a192f5e39191bdb5a",
+      "size_bytes": 10835856,
+      "license_id": "CC-BY-4.0",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "qasper_tgz_v1",
+      "expected_counts": {
+        "annotations": 1764,
+        "context_blocks": 66990,
+        "evidence_labels": 2808,
+        "gold": 1005,
+        "inputs": 1005,
+        "papers": 281,
+        "unique_paper_context_blocks": 18990
+      },
+      "prepared_sha256": {
+        "gold.jsonl": "b73b997187e5f05941cde19194e2338d6e7695d3270e133136da77ac9dcb8d9a",
+        "inputs.jsonl": "a0475bc93b9551fdb57f02213c88b06a373126cca545a5e50da53df6542accdf"
+      },
+      "allowed_hosts": [
+        "qasper-dataset.s3.us-west-2.amazonaws.com"
+      ],
+      "provenance": {
+        "dataset_card": "https://huggingface.co/datasets/allenai/qasper",
+        "dataset_home": "https://allenai.org/data/qasper",
+        "source_repository": "https://github.com/allenai/qasper-led-baseline"
+      },
+      "note": "Official QASPER v0.3 train/dev archive; only dev is normalized. The locked setting is caption-augmented full evidence (including FLOAT SELECTED captions), distinct from the LED text-only baseline."
+    },
+    {
+      "asset_id": "tau3.banking_knowledge.v1_0_1",
+      "cell_id": "tau3.banking_knowledge",
+      "source_url": "https://github.com/sierra-research/tau2-bench/archive/cf71a8070269883e38a365ffa85f78f46844c1f4.tar.gz",
+      "source_revision": "cf71a8070269883e38a365ffa85f78f46844c1f4",
+      "sha256": "c8e8dafdcbf3671f5129705b420a07dd9516f1f962ea6484809532ace1d7c708",
+      "size_bytes": 93248469,
+      "license_id": "MIT",
+      "redistribution": "downloader_only",
+      "status": "verified_smoke",
+      "processor": "tau3_banking_tar_v1",
+      "expected_counts": {
+        "audit": 1,
+        "corpus": 698,
+        "documents": 698,
+        "gold": 97,
+        "gold_actions": 955,
+        "inputs": 97,
+        "legacy_combined_task_mismatches": 13,
+        "required_document_labels": 959,
+        "required_document_unique": 218,
+        "tasks": 97,
+        "tasks_with_initial_state": 75,
+        "tasks_with_initialization_data": 53,
+        "tasks_with_message_history": 0,
+        "user_simulator_scripts": 97
+      },
+      "prepared_sha256": {
+        "audit.jsonl": "6aad364f6ab027bd1eac483a351b26b6a2348f1b61925dd4a64fac5b979826f9",
+        "corpus.jsonl": "c169e567d4f24b68345e128010c171caa990473300fe6e265db0b7e4f2d5582d",
+        "gold.jsonl": "1df4287a451701a6b837cd04126ce67a54417151c0e09904a618799e4363ad4a",
+        "inputs.jsonl": "7653ca07e93098ac9cba96fe3bcd565560fa51f793e51c5fc9d162f991bc1b35"
+      },
+      "allowed_hosts": [
+        "codeload.github.com",
+        "github.com"
+      ],
+      "provenance": {
+        "dataset_home": "https://taubench.com/",
+        "paper": "https://openreview.net/forum?id=XHZK5abtw2",
+        "source_repository": "https://github.com/sierra-research/tau2-bench",
+        "source_tree": "https://github.com/sierra-research/tau2-bench/tree/cf71a8070269883e38a365ffa85f78f46844c1f4/data/tau2/domains/banking_knowledge"
+      },
+      "note": "Official tau2 1.0.1 Banking Knowledge source. Individual task files are authoritative; static tasks contain hidden simulator/evaluator state and therefore require explicit replayable visible checkpoints before intervention. Source bytes and prepared rows are not packaged."
+    },
+    {
+      "asset_id": "clariq.dev.official",
+      "cell_id": "clariq.main",
+      "source_url": "https://raw.githubusercontent.com/aliannejadi/ClariQ/46885a544581a0af8aff0681d29e4971807e2912/data/dev.tsv",
+      "source_revision": "46885a544581a0af8aff0681d29e4971807e2912",
+      "sha256": "68d2a5f87eab73721979b5f45f64099a9b2f080db1d0ce4b979d9daa4249906e",
+      "size_bytes": 585998,
+      "license_id": "NOASSERTION",
+      "redistribution": "not_redistributed",
+      "status": "license_review_required",
+      "processor": "clariq_tsv_v1",
+      "expected_counts": {
+        "gold": 2313,
+        "inputs": 2313,
+        "topics": 50
+      },
+      "prepared_sha256": {
+        "gold.jsonl": "2ff6a5d45c87cc3f4cf55e1d78628a97c9969593e2bc8d0e101d23ea45d41330",
+        "inputs.jsonl": "bbf22cb67f1c21866074e85737d365fe38fcc4b34e1009b6aa8465db7d256670"
+      },
+      "allowed_hosts": [
+        "raw.githubusercontent.com"
+      ],
+      "provenance": {
+        "dataset_home": "https://github.com/aliannejadi/ClariQ",
+        "source_repository": "https://github.com/aliannejadi/ClariQ",
+        "source_tree": "https://github.com/aliannejadi/ClariQ/tree/46885a544581a0af8aff0681d29e4971807e2912/data"
+      },
+      "note": "Public official dev file, but the upstream repository publishes no dataset license; explicit local-use acceptance is required and no rows are redistributed."
+    }
+  ]
+}

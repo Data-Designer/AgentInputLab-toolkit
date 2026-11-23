@@ -1,0 +1,68 @@
+{
+  "schema_version": "agentinputlab.reformer.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/aminbigdeli/ReFormeR.git",
+    "commit": "72e52450a922bc0051b5b39c3a6307186a555137",
+    "license_spdx": "NOASSERTION",
+    "license_file_present": false,
+    "license_evidence_path": "README.md",
+    "license_evidence_sha256": "f8030ec4fd3de9ef43fafe78cf51fc7f71316f60acdf621ff6b52606920dabef",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "README.md": "f8030ec4fd3de9ef43fafe78cf51fc7f71316f60acdf621ff6b52606920dabef",
+    "requirements.txt": "6c3cd77a20101d96b729a8965e130ab41137e4107a9f6601edfc0555b8fedbfd",
+    "reformer/core/reformer.py": "1cacdc8dca84d863e4f559e2f078c777631e92f3b4cc7d6de6d3b76b31d592c5",
+    "reformer/prompt_manager.py": "7f154ca601470ce1918ebf2d72552fbef9d69bb21e78b6782fd94ac07e134d33",
+    "reformer/prompts.json": "536bd3bd9596baf65c6b8f98f05e1320d59f221ae9b8d1799461374cd3fad652",
+    "reformer/patterns/extracted_patterns.json": "e2d0b1c7edc73c82776a1f01fc03f0ec5b06f286ac178ba5577cc0865d9bcaa5",
+    "reformer/patterns/query_reformulation_prompts.py": "09a5e8e3c8757fb03c4deefb82a5544c3f53e3f346aa54b275dcf7f833ff3d1d",
+    "reformer/patterns/iterative_pattern_extraction.py": "c12709be03c5ae8b96332d00ad24495fdff9fc5121a177069627dbd6d7edef96"
+  },
+  "official_symbols": {
+    "runtime": {
+      "path": "reformer/core/reformer.py",
+      "class": "Reformulator",
+      "methods": [
+        "select_best_pattern",
+        "apply_pattern",
+        "reformulate_query"
+      ]
+    },
+    "induction_audit_only": {
+      "path": "reformer/patterns/iterative_pattern_extraction.py",
+      "class": "IterativePatternExtractor",
+      "methods": [
+        "extract_patterns_from_batch",
+        "run_iterative_extraction"
+      ]
+    }
+  },
+  "profiles": {
+    "rewrite.reformer.repo_native_r_only": {
+      "semantics": "r_only",
+      "pattern_mode": "automatic"
+    },
+    "rewrite.reformer.paper_spec_q_concat_r": {
+      "semantics": "q_concat_r",
+      "pattern_mode": "automatic"
+    },
+    "rewrite.reformer.controlled_r_only": {
+      "semantics": "r_only",
+      "pattern_mode": "manual"
+    },
+    "rewrite.reformer.controlled_q_concat_r": {
+      "semantics": "q_concat_r",
+      "pattern_mode": "manual"
+    }
+  },
+  "execution": {
+    "mode": "user_mounted_official_inference",
+    "vendored_upstream_source": false,
+    "license_acknowledgement_required_at_startup": true,
+    "license_acknowledgement_required_per_request": true,
+    "paper_result_parity_claimed": false,
+    "pattern_induction_runtime_enabled": false,
+    "pattern_induction_symbols_audited": true
+  }
+}

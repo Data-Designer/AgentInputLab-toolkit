@@ -1,0 +1,121 @@
+{
+  "schema_version": "agentinputlab.ircot.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/StonyBrookNLP/ircot",
+    "commit": "3c1820f698eea5eeddb4fba3c56b64c961e063e4",
+    "license_spdx": "Apache-2.0",
+    "license_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "commaqa/inference/configurable_inference.py": "6d19f148ef0637707d1dd481e604944144eb296754c88429706a514b111db54d",
+    "commaqa/inference/constants.py": "4482a7eb15e107e72f364b7357a8963662a063a730aa3861a6b51e3018d99570",
+    "commaqa/inference/data_instances.py": "018a4addbb5d6fb81c76af049e1ae1e50ac227ab48ee7a69a9cb453b00ff6317",
+    "commaqa/inference/ircot.py": "a2233cbdae107e80cd383993edadc43c2491d2360a878b05a97dfa66a0b0eebf",
+    "commaqa/inference/model_search.py": "c22ddb376bd165a0872da11fa0310cda8c25e00c62d9efa3e47cd36371889558",
+    "commaqa/inference/prompt_reader.py": "910b6e971edd00460a570260d669128163965f2f61fe230db64be055131d311e"
+  },
+  "allowed_model_names": [
+    "retrieve_and_reset_paragraphs",
+    "step_by_step_cot_gen",
+    "step_by_step_exit_controller"
+  ],
+  "profiles": {
+    "fixture.tiny.frozen.v1": {
+      "identity_kind": "controlled_fixture",
+      "config_scope": "worker",
+      "config_path": "fixture_config.json",
+      "config_sha256": "67cd9ed5011bd06b4f5b636a7e13c68095dd0f5c9d3482b1c0fba74ad63a9891",
+      "prompt_scope": "worker",
+      "prompt_path": "fixture_prompt.txt",
+      "prompt_sha256": "ec8cb750660f2bc7ed8718673e0a865582d273710ad6e44ee6403ffcec1753cb",
+      "bindings_scope": "worker",
+      "bindings_path": "fixture_bindings.json",
+      "bindings_sha256": "daa93b132cea7cdcf88cdf70c0bb6827a75dd39732ceb9d13bf4bba2867bcfbb",
+      "corpus_revision": "fixture-corpus-v1",
+      "index_revision": "fixture-index-v1",
+      "binding_attestation": "fixture_identity_only",
+      "config_ext_vars": {}
+    },
+    "upstream.hotpotqa.codex.v1": {
+      "identity_kind": "upstream_native",
+      "config_scope": "upstream",
+      "config_path": "base_configs/ircot_codex_hotpotqa.jsonnet",
+      "config_sha256": "36cdb0023d1f59266486c463a53bb4546a2364114672db8e83faac0a6d3645e3",
+      "prompt_scope": "upstream",
+      "prompt_path": "prompts/hotpotqa/gold_with_2_distractors_context_cot_qa_codex.txt",
+      "prompt_sha256": "af56b51582a5fdbebf5a5d50ab95cefcb95d92986cf820774ccbaa897a71552f",
+      "corpus_revision": "hotpotqa",
+      "index_revision_env": "AGENTINPUTLAB_IRCOT_INDEX_REVISION",
+      "binding_attestation": "exact_fingerprint_hashes_from_environment",
+      "generator_fingerprint_sha256_env": "AGENTINPUTLAB_IRCOT_GENERATOR_FINGERPRINT_SHA256",
+      "retriever_fingerprint_sha256_env": "AGENTINPUTLAB_IRCOT_RETRIEVER_FINGERPRINT_SHA256",
+      "config_ext_vars": {
+        "RETRIEVER_HOST": "AGENTINPUTLAB_IRCOT_RETRIEVER_HOST",
+        "RETRIEVER_PORT": "AGENTINPUTLAB_IRCOT_RETRIEVER_PORT"
+      },
+      "required_runtime_env": [
+        "OPENAI_API_KEY"
+      ]
+    },
+    "upstream.hotpotqa.flan_t5_xxl.v1": {
+      "identity_kind": "upstream_native",
+      "config_scope": "upstream",
+      "config_path": "base_configs/ircot_flan_t5_xxl_hotpotqa.jsonnet",
+      "config_sha256": "a2bb710cf7de45b3f148ee8eac9c7b7a09aa84979375219c48f8caf44fd6c9ac",
+      "prompt_scope": "upstream",
+      "prompt_path": "prompts/hotpotqa/gold_with_2_distractors_context_cot_qa_flan_t5.txt",
+      "prompt_sha256": "bcc08b7b4d2158b625be0825d5852d5ca013e65832882056931b93d322055db1",
+      "corpus_revision": "hotpotqa",
+      "index_revision_env": "AGENTINPUTLAB_IRCOT_INDEX_REVISION",
+      "binding_attestation": "exact_fingerprint_hashes_from_environment",
+      "generator_fingerprint_sha256_env": "AGENTINPUTLAB_IRCOT_GENERATOR_FINGERPRINT_SHA256",
+      "retriever_fingerprint_sha256_env": "AGENTINPUTLAB_IRCOT_RETRIEVER_FINGERPRINT_SHA256",
+      "config_ext_vars": {
+        "RETRIEVER_HOST": "AGENTINPUTLAB_IRCOT_RETRIEVER_HOST",
+        "RETRIEVER_PORT": "AGENTINPUTLAB_IRCOT_RETRIEVER_PORT"
+      },
+      "required_runtime_env": [
+        "LLM_SERVER_HOST",
+        "LLM_SERVER_PORT"
+      ]
+    }
+  },
+  "patches": [
+    {
+      "id": "controlled_limits_v1",
+      "upstream_symbols": [
+        "RetrieveAndResetParagraphsParticipant",
+        "StepByStepCOTGenParticipant",
+        "StepByStepExitControllerParticipant"
+      ],
+      "kind": "configuration_compatibility_patch",
+      "changes": [
+        "cap per-round retrieval, total active documents, reasoning sentences, and per-call generation",
+        "map replace_each_step to upstream cumulate_titles=false",
+        "reject deduplicate=false because the pinned upstream always de-duplicates"
+      ]
+    },
+    {
+      "id": "controller_trace_v1",
+      "upstream_symbol": "BestFirstDecomposer.find_answer_decomp",
+      "kind": "non_mutating_observability_wrapper",
+      "changes": [
+        "leave upstream best-first loop unchanged",
+        "snapshot controller inputs and outputs to reconstruct retrieval/CoT trajectory",
+        "capture accepted upstream retrieval responses without changing participant decisions"
+      ]
+    },
+    {
+      "id": "binding_gate_v1",
+      "upstream_symbol": "configurable_inference.load_config",
+      "kind": "security_patch",
+      "changes": [
+        "load only checksum-pinned config and prompt artifacts",
+        "read production endpoints only from manifest-named worker environment keys",
+        "require exact generator/retriever fingerprint hashes for upstream-native profiles",
+        "never accept request-controlled paths, imports, endpoints, commands, or credentials"
+      ]
+    }
+  ]
+}

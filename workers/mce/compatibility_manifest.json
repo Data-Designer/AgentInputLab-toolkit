@@ -1,0 +1,115 @@
+{
+  "schema": "agentinputlab.mce.compatibility.v2",
+  "source": {
+    "repository": "https://github.com/metaevo-ai/meta-context-engineering",
+    "commit": "c4b7a7c2ce3ffc4bf4a74c52d2dd8a9a8fb14c30",
+    "tree": "cdd68f5c651e8bc865d2569a5769872f09d4ef69",
+    "fixture": false,
+    "required_files": {
+      "mce/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mce/main.py": "769b9ea180ea468530c38893ad15178422d4ba0bbb23ff183d96bde86fdd8ffe",
+      "mce/base_agent.py": "000f1e05a5625bee892a5060ccd1e121314326780c476d815dc4588de65edd6b",
+      "mce/meta_agent.py": "16b68ea5855fa106f57b82979e61999af08020da0d1141050a93ec6618059500",
+      "mce/eval.py": "20ed30d4271ac01ff56318ea89b1b55cc19f5ff8ffbc45361f6a86541ea6fe57",
+      "mce/validation.py": "bf9f2a1d9966b32372779240496b976b6db9038eb6648613757c4dda5debdf2b",
+      "mce/utils.py": "34663702a0e84f516ffb4d4b8dcb7dc0296a954d003c4a777226b5ffdef1b0bd",
+      "mce/logging_utils.py": "506b10240b12072b1d9b16b35a8c4a261448cb9269a76aa9910eb6f34441eeb5",
+      "mce/llm_client.py": "299070f0e723a1a7aa8b955b6b26c13cafa0664bcdb584056255834fa25b245c",
+      "mce/prompts/base_agent.py": "b366d221e5912b498d331c4537e619bcd15344a15b93a9bcacf9ccc3cfd9eed4",
+      "mce/prompts/meta_agent.py": "13a498379a1e7f4d959bf7ca8130ca5f4cd6aa1fc8fe1ce4ced55f3b980786b1",
+      "mce/workspace_utils/__init__.py": "e7dc21f1ceb1a1996c7c2cccb940bdaf437afa5dcdd9c5dbb8820ae9768ad197",
+      "mce/workspace_utils/embedding.py": "8920e141310c06fc9931f825652af830dba8844694242d091fd2f8099db78648",
+      "mce/workspace_utils/llm.py": "1d36f6269788e12419f0fb4f24d7d9b3a00d7b27d66e6d2f6081f61989b8cf8a",
+      "env/__init__.py": "fc921d6e3682361c6b5b7d6a1f295df6aeb17bd6eb05f8edc74cd255a39caa35",
+      "env/base.py": "f66f7f1ea727bfbeb07e74d8481a6acb54531e7867ff5f7cc28ba0850887d38e",
+      "env/registry.py": "9d886cb08fa6e1922c40f1b4bfa8e23e8b9663e089752a77ee4e66e6a64c26f4",
+      "env/symptom_diagnosis/__init__.py": "1227ed42ca7116bac5cba117af63ea539dd861a3e6512db6d6bbbe109a1a1445",
+      "env/symptom_diagnosis/symptom_diagnosis_environment.py": "1145f22764856aea8d0397841871f08e93536986f1df6fcf352a73bf22b88e64",
+      "env/symptom_diagnosis_agent/__init__.py": "50decca3946bbf2f7698daac69dca6832c3c8815ebf7ff3883081b888b12cfe8",
+      "env/symptom_diagnosis_agent/symptom_diagnosis_agent_environment.py": "2660f013cb5689cf0287f4c224e51c43d3b129cc7fcdf9123c57e3dd106850fe",
+      "env/symptom_diagnosis_twostep/__init__.py": "240463cec6ddab89c74b0b0222aa1cd97e6d57f0806bbe97b25b6bca0ad218c5",
+      "env/symptom_diagnosis_twostep/symptom_diagnosis_twostep_environment.py": "9090197acb678583b512c2ea581ccb44b6e44bcdc1515fd35da5b3e24cc8cef0"
+    },
+    "import_closure": {
+      "mce/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mce/main.py": "769b9ea180ea468530c38893ad15178422d4ba0bbb23ff183d96bde86fdd8ffe",
+      "mce/base_agent.py": "000f1e05a5625bee892a5060ccd1e121314326780c476d815dc4588de65edd6b",
+      "mce/meta_agent.py": "16b68ea5855fa106f57b82979e61999af08020da0d1141050a93ec6618059500",
+      "mce/eval.py": "20ed30d4271ac01ff56318ea89b1b55cc19f5ff8ffbc45361f6a86541ea6fe57",
+      "mce/validation.py": "bf9f2a1d9966b32372779240496b976b6db9038eb6648613757c4dda5debdf2b",
+      "mce/utils.py": "34663702a0e84f516ffb4d4b8dcb7dc0296a954d003c4a777226b5ffdef1b0bd",
+      "mce/logging_utils.py": "506b10240b12072b1d9b16b35a8c4a261448cb9269a76aa9910eb6f34441eeb5",
+      "mce/llm_client.py": "299070f0e723a1a7aa8b955b6b26c13cafa0664bcdb584056255834fa25b245c",
+      "mce/prompts/base_agent.py": "b366d221e5912b498d331c4537e619bcd15344a15b93a9bcacf9ccc3cfd9eed4",
+      "mce/prompts/meta_agent.py": "13a498379a1e7f4d959bf7ca8130ca5f4cd6aa1fc8fe1ce4ced55f3b980786b1",
+      "mce/workspace_utils/__init__.py": "e7dc21f1ceb1a1996c7c2cccb940bdaf437afa5dcdd9c5dbb8820ae9768ad197",
+      "mce/workspace_utils/embedding.py": "8920e141310c06fc9931f825652af830dba8844694242d091fd2f8099db78648",
+      "mce/workspace_utils/llm.py": "1d36f6269788e12419f0fb4f24d7d9b3a00d7b27d66e6d2f6081f61989b8cf8a",
+      "env/__init__.py": "fc921d6e3682361c6b5b7d6a1f295df6aeb17bd6eb05f8edc74cd255a39caa35",
+      "env/base.py": "f66f7f1ea727bfbeb07e74d8481a6acb54531e7867ff5f7cc28ba0850887d38e",
+      "env/registry.py": "9d886cb08fa6e1922c40f1b4bfa8e23e8b9663e089752a77ee4e66e6a64c26f4",
+      "env/symptom_diagnosis/__init__.py": "1227ed42ca7116bac5cba117af63ea539dd861a3e6512db6d6bbbe109a1a1445",
+      "env/symptom_diagnosis/symptom_diagnosis_environment.py": "1145f22764856aea8d0397841871f08e93536986f1df6fcf352a73bf22b88e64",
+      "env/symptom_diagnosis_agent/__init__.py": "50decca3946bbf2f7698daac69dca6832c3c8815ebf7ff3883081b888b12cfe8",
+      "env/symptom_diagnosis_agent/symptom_diagnosis_agent_environment.py": "2660f013cb5689cf0287f4c224e51c43d3b129cc7fcdf9123c57e3dd106850fe",
+      "env/symptom_diagnosis_twostep/__init__.py": "240463cec6ddab89c74b0b0222aa1cd97e6d57f0806bbe97b25b6bca0ad218c5",
+      "env/symptom_diagnosis_twostep/symptom_diagnosis_twostep_environment.py": "9090197acb678583b512c2ea581ccb44b6e44bcdc1515fd35da5b3e24cc8cef0"
+    }
+  },
+  "license": {
+    "schema": "agentinputlab.mce.license.v1",
+    "license_id": "MIT",
+    "path": "LICENSE",
+    "sha256": "d788eaa578b8355d0155039fa5e0e4f46ab795393872b974d9c3ee5f45129aea"
+  },
+  "provenance": {
+    "schema": "agentinputlab.mce.provenance.v1",
+    "repository": "https://github.com/metaevo-ai/meta-context-engineering",
+    "commit": "c4b7a7c2ce3ffc4bf4a74c52d2dd8a9a8fb14c30",
+    "tree": "cdd68f5c651e8bc865d2569a5769872f09d4ef69",
+    "implementation": "pinned_external_worker",
+    "paper_result_parity": false
+  },
+  "semantic_patch": {
+    "schema": "agentinputlab.mce.semantic-patch.v2",
+    "patch_id": "agentinputlab.mce.semantic-patch.v2",
+    "upstream_commit": "c4b7a7c2ce3ffc4bf4a74c52d2dd8a9a8fb14c30",
+    "upstream_main_sha256": "769b9ea180ea468530c38893ad15178422d4ba0bbb23ff183d96bde86fdd8ffe",
+    "seams": {
+      "mce.main.run_meta_agent": "isolated_manager.run_agent.meta",
+      "mce.main.run_base_agent": "isolated_manager.run_agent.base",
+      "mce.main.load_interfaces": "isolated_manager.validate_interfaces_static",
+      "mce.main.batch_evaluate": "trusted_oracle_supervisor.batch_evaluate"
+    },
+    "seed_derivation": {
+      "python_random": "base_seed_once_per_run",
+      "manager_logical_call": "base_seed_plus_logical_call_index",
+      "provider_subcall": "sha256_canonical_logical_seed_and_stable_subcall_index_63bit"
+    },
+    "generated_code_imported_by_worker": false
+  },
+  "algorithm_contract": {
+    "baseline_iteration": 0,
+    "baseline_artifact": "canonical_empty",
+    "evolved_skill_required": true,
+    "selection": "max_primary_metric_first_tie",
+    "meta_agent_enabled": true,
+    "base_agent_enabled": true
+  },
+  "security": {
+    "validation_oracle_mode": "evaluator_only",
+    "oracle_mount_mode": "supervisor_only_hidden",
+    "oracle_process_boundary": "trusted_supervisor_out_of_process",
+    "generated_workspace_oracle_visible": false,
+    "usage_accounting_mode": "trusted_supervisor_ipc",
+    "provider_guard_mode": "provider_transport_pre_call",
+    "seed_mode": "python_once_and_manager_logical_call_index_v1",
+    "provider_subcall_seed_mode": "sha256_logical_seed_and_stable_subcall_index_63bit_v1",
+    "validation_scoring_mode": "supervisor_only",
+    "pre_call_budget_enforced": true,
+    "artifact_store": "persistent_content_addressed_v1",
+    "artifact_egress": "manifest_and_opaque_handle_only",
+    "host_code_execution": false,
+    "paper_result_parity_claimed": false
+  }
+}

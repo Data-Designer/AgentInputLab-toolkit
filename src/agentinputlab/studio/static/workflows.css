@@ -1,0 +1,40 @@
+.workflow-canvas { max-width: 1250px; }
+.sidebar .local-policy p { overflow-wrap: anywhere; word-break: break-word; }
+.wf-lead { max-width: 65ch; color: var(--muted); line-height: 1.6; }
+.wf-card { margin-top: 24px; padding: 28px; border: 1px solid var(--line); background: var(--surface); border-radius: var(--radius); }
+.wf-section-title { display: flex; gap: 14px; align-items: flex-start; margin: 10px 0 22px; }
+.wf-section-title:not(:first-child) { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+.wf-section-title h2 { margin: 0; font-size: 20px; letter-spacing: -.02em; }
+.wf-section-title p, .wf-help { margin: 8px 0 16px; color: #adb8b2; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.wf-number { color: var(--accent); padding-top: 4px; font: 12px ui-monospace, monospace; }
+.wf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.wf-grid-three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.wf-wide { grid-column: 1 / -1; }
+.workflow-canvas label { display: grid; gap: 8px; font-size: 14px; color: var(--text); min-width: 0; }
+.workflow-canvas input, .workflow-canvas select, .workflow-canvas textarea { width: 100%; min-width: 0; min-height: 44px; padding: 11px 12px; border: 1px solid #49534e; border-radius: 6px; background: var(--bg); color: var(--text); font: inherit; }
+.workflow-canvas textarea { resize: vertical; font: 13px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; }
+.workflow-canvas small { font-size: 12px; color: #adb8b2; line-height: 1.5; }
+.workflow-canvas button, .wf-file { min-height: 44px; padding: 10px 16px; border: 1px solid #49534e; border-radius: 6px; background: var(--surface-raised); color: var(--text); cursor: pointer; font-size: 14px; }
+.workflow-canvas button:hover:not(:disabled), .wf-file:hover { border-color: var(--accent); }
+.workflow-canvas .wf-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.workflow-canvas button:disabled { cursor: not-allowed; opacity: .45; }
+.workflow-canvas :is(button,input,select,textarea,summary,a):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.workflow-canvas [aria-invalid="true"] { border-color: var(--danger); }
+.wf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 20px 0; }
+.wf-details { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 12px; }
+.wf-details summary { min-height: 44px; padding: 10px 0; cursor: pointer; color: var(--accent); }
+.wf-details[open] summary { margin-bottom: 12px; }
+.workflow-canvas pre { max-height: 420px; overflow: auto; padding: 16px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; white-space: pre-wrap; overflow-wrap: anywhere; font: 13px/1.6 ui-monospace, monospace; }
+.workflow-canvas .wf-check { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0; line-height: 1.5; }
+.wf-check input { width: 20px; height: 20px; min-height: 20px; flex: none; accent-color: var(--accent); }
+.wf-notice { padding: 14px 18px; margin-top: 20px; background: var(--surface-raised); border-left: 3px solid var(--accent); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.wf-notice.error { border-color: var(--danger); }
+.wf-inspection ul { padding-left: 22px; }
+.wf-inspection li { padding: 8px 0; line-height: 1.6; font-size: 14px; overflow-wrap: anywhere; }
+.wf-inspection .blocked { color: var(--warning); }
+.wf-runs { display: grid; gap: 8px; margin-top: 20px; }
+.wf-runs button { text-align: left; overflow-wrap: anywhere; }
+.wf-file input { width: 100%; max-width: 280px; padding: 4px 0; border: 0; }
+@media (max-width: 900px) { .wf-grid-three { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 600px) { .wf-card { padding: 18px; } .wf-grid, .wf-grid-three { grid-template-columns: minmax(0,1fr); } .workflow-canvas { padding: 24px 16px; } .wf-actions > * { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

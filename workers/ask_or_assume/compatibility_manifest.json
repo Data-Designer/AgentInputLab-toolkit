@@ -1,0 +1,36 @@
+{
+  "schema_version": "agentinputlab.ask-or-assume.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/nedwards99/ask-or-assume.git",
+    "commit": "728464a755f15fd448aff61a5cb32dce97fd9c1d",
+    "license_path": "LICENSE",
+    "license_spdx": "MIT",
+    "license_sha256": "90bd960a6d24cce8f64f3f2b9be5923d5b33e2650afd6fb683ced4be83e5bb94",
+    "require_clean_checkout": true,
+    "excluded_prefixes": [
+      "enterprise/"
+    ]
+  },
+  "source_files": {
+    "openhands/agenthub/intent_agent/intent_agent.py": "26cd476dba1c85bf3e02b34155a038232287b533992e89690054d6ea18c7fc0c",
+    "openhands/agenthub/intent_agent/function_calling.py": "556168701e69013b172bca314c119dcca86236ff607b008a5dc06c92cf093b39",
+    "openhands/agenthub/intent_agent/prompts/system_prompt.j2": "c0a150af1020090a0016930c0a319f1df0e19eff40c034d07d141c690b611190",
+    "openhands/agenthub/intent_agent/tools/clarify_decision.py": "5613fbf610e1b20967a5ba849f4e833b195ae51ff6d14a01081f878c803146b5",
+    "openhands/agenthub/clarify_agent/clarify_agent.py": "5bd1f3d754d1bda046827210774d978572a10e9de7adada3df023a052de00bbc",
+    "openhands/agenthub/clarify_agent/function_calling.py": "62c558791d2567e14212a4f4529e43bab6a1b2c6c9f748fbdf63f6d221083a5f",
+    "openhands/agenthub/clarify_agent/tools/clarify.py": "4fee98d7958e80d6224edcd8cdb875611f8ea558ce2fced611fea7a00d545cb5",
+    "openhands/llm/tool_names.py": "87d1312257891805a77d1915d559c5d5ea8bb749f19834942479913706b11685"
+  },
+  "execution": {
+    "release_id": "clarify.ask_or_assume.intent_monitor_component",
+    "mode": "controlled_component_harness",
+    "official_intent_agent_direct_boot": false,
+    "uses_official_prompt": true,
+    "uses_official_tool_schemas": true,
+    "openhands_full_system": false,
+    "ua_multi_parity_claimed": false,
+    "enterprise_imports_allowed": false,
+    "request_controlled_paths_allowed": false,
+    "request_controlled_endpoints_allowed": false
+  }
+}

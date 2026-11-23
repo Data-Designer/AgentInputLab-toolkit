@@ -1,0 +1,61 @@
+{
+  "schema_version": "agentinputlab.adaptive-rag.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/starsuzi/Adaptive-RAG.git",
+    "commit": "0c88670af8707667eb5c1163151bb5ce61b14acb",
+    "tree": "8dadc754562d61d5d6e6e3ee2fc3aa4481763320",
+    "license_path": "LICENSE",
+    "license_spdx": "Apache-2.0",
+    "license_sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+    "require_clean_checkout": true,
+    "require_exact_git_tree": true
+  },
+  "source_files": {
+    "README.md": "1420c1778e1c61a13a5c9f92b19000638b590944bed791881b39e3c4784aa1c9",
+    "classifier/run_classifier.py": "adff6869e862712d34b08ec316980e707bc46722bc333a290c10e0b925532b54",
+    "classifier/utils.py": "42cbb7fd5674762ef89e751be5e3de33409e7dce43c5b7328dcaaa6bb1c561a8",
+    "classifier/postprocess/predict_complexity_on_classification_results.py": "679ae105cf4e0f8f0289ebeea2bddf93e422c0976068d85f22b5c30fe76c5bbf",
+    "run.py": "b519d9923eb496190d826c38d62365eead74b306204255cfb956ccd8a1bd08db",
+    "runner.py": "54e96e695b7e43688031f4d140750d7da55c64e3bab19dbcf50e72d595b678d1",
+    "run_retrieval_test.sh": "573d46c94962e301078740ed083efa38d8d1e2c5c5ff628ef2b1550f4f7f271f",
+    "commaqa/inference/ircot.py": "e7f7c69ed5e5e8dccb4fbe7985f781cef49e2fad51cc5df6046f33faa4913b3a",
+    "commaqa/inference/configurable_inference.py": "2477d8030dd6ff2d51d9fd18d927896330f8e6026ecb99a12d59654252dd508d",
+    "commaqa/inference/participant_qa.py": "762276540baac890692aded107fce8c3bb099b9fb9cd8066a2d47a2933a80939",
+    "commaqa/inference/participant_execution.py": "a2d32d65f9d24c61eadae0697190a215ffaf9f2cf3029737ac94c1c8fe859030"
+  },
+  "execution": {
+    "method_id": "adaptive_rag",
+    "release_id": "acquire.adaptive_rag.controlled_reimplementation",
+    "protocol_version": "agentinputlab.adaptive-rag.v1",
+    "route_labels": [
+      "A",
+      "B",
+      "C"
+    ],
+    "route_rule": "first_decoder_step_logit_argmax_A_first",
+    "strategy_map": {
+      "A": "no_retrieval",
+      "B": "single_retrieval",
+      "C": "ircot"
+    },
+    "prompt_files": {
+      "no_retrieval": "no_retrieval.txt",
+      "single_retrieval": "single_retrieval.txt",
+      "ircot": "ircot.txt"
+    },
+    "supervisor_event_schema": "agentinputlab.adaptive-rag.supervisor-event.v1",
+    "execution_evidence_schema": "agentinputlab.adaptive-rag.execution-evidence.v1"
+  },
+  "security": {
+    "request_supplied_paths_allowed": false,
+    "request_supplied_endpoints_allowed": false,
+    "request_supplied_attestations_allowed": false,
+    "evaluation_gold_fields_allowed": false,
+    "evaluation_silver_fields_allowed": false,
+    "evaluation_oracle_fields_allowed": false,
+    "production_fixture_runtime_allowed": false,
+    "budget_checked_before_every_external_call": true,
+    "selected_arm_only": true,
+    "official_parity_claimed": false
+  }
+}

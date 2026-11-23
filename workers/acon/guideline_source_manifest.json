@@ -1,0 +1,20 @@
+{
+  "schema": "agentinputlab.acon.guideline-source.v1",
+  "commit": "d63f9ae18959dc7215ff62899c94c5e8c56847ae",
+  "files": {
+    "experiments/prompt_optimizer/unified_update_history_prompt.py": "ad5e06fcf73f0aae10f777d5cfe8b4364d4426e4df4a8afb12c57a02e72c31a4",
+    "experiments/prompt_optimizer/common/__init__.py": "7f460b9e3fd306a313e7d0f8e36584f911542d73877ea0de63ed952c342b93a3",
+    "experiments/prompt_optimizer/common/aggregation.py": "f57f3f06811ff4f1edc2b2371c8bea509e9491a627f7b8d8bd4d727001f8ab4e",
+    "experiments/prompt_optimizer/common/config.py": "44bb75ac1c7df40de17fd69fbf084f7796f82a0136ab96b5aaa2876d2cfb8563",
+    "experiments/prompt_optimizer/common/llm.py": "f757e594d8e21be772917d9cebe857e028b53592d529835877b67bb7b0f1e848",
+    "experiments/prompt_optimizer/common/paths.py": "8603af124d27c758e9c214616e2c47f94b8e4d6119fe5c1f73936991755bc786",
+    "experiments/prompt_optimizer/common/system_prompts.py": "f89df3f9574ce46fccb913ea874ce79b707a8b6598bda819d8b39aead88a990f",
+    "experiments/prompt_optimizer/prompts/history_regression_prompt.jinja": "84911c932eb4372a83367bf40918a89842f6c15786f2f4010838b3abc8e33be5",
+    "experiments/prompt_optimizer/prompts/history_prompt_optimizer_prompt_by_samples.jinja": "01474ac37ab0acffc45dc24b9f266889b28e06b8a083a993b3d7418aa7e0717f",
+    "src/productive_agents/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/productive_agents/agents/__init__.py": "5f392e96fd2e57e420705ed4f828cc9ee19a856e4efc35a1f42d43dadee37335",
+    "src/productive_agents/agents/utils.py": "3eeaad54bc17d31f19cdd2f9585b17af02f2c84a3d7d4b8177e68f7a59b10e86",
+    "src/productive_agents/llm.py": "b09fcdd1717824de6746276796921ea0819ab648ca51d27f9cd2f2d36f697675",
+    "src/productive_agents/subtrate_api.py": "a69e97c6b4a6958a2b168018bae01e35773e0deebe77e6d09dd201b415f40b61"
+  }
+}

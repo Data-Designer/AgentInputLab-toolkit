@@ -1,0 +1,8 @@
+{
+  "schema": "agentinputlab.r2ag.features.v1",
+  "upstream_commit": "61cfd1027c0101172fda701ec816bc18360b5bab",
+  "order": ["rerank", "neighbor", "precedent"],
+  "range": [-1.0, 1.0],
+  "candidate_order": "rerank_desc",
+  "paper_checkpoint_parity": false
+}

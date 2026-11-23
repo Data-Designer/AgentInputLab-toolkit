@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Workflows · AgentInputLab Studio</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/workflows.css">
+  <script src="/workflows.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">AI</span><span><strong>AgentInputLab</strong><small>Experiment Studio</small></span></a>
+    <nav class="primary-nav" aria-label="Studio navigation">
+      <a class="nav-link active" href="/workflows" aria-current="page"><span>01</span>Workflows</a>
+      <a class="nav-link" href="/"><span>02</span>Quick experiments</a>
+      <a class="nav-link" href="/campaigns"><span>03</span>Campaigns</a>
+      <a class="nav-link" href="#history"><span>04</span>Saved runs</a>
+    </nav>
+    <div class="sidebar-spacer"></div>
+    <div class="local-policy"><div class="policy-heading">Your workspace</div><p id="workspace">Connecting…</p><p>Paths refer to the server. Use environment-variable names for credentials.</p></div>
+  </aside>
+  <main class="main-canvas workflow-canvas">
+    <header class="topbar"><div><p class="eyebrow">PREPARE → EXECUTE → SCORE</p><h1>Build your workflow</h1><p class="wf-lead">Choose a method, benchmark and model. Review the configuration, then run the existing native pipeline.</p></div></header>
+    <p id="workspace-notice" class="wf-notice" hidden>Configuration generation is available. To enable inspection and execution, restart with <code>agentinputlab-studio --workflow-root ./studio-workflows</code>.</p>
+    <div id="message" class="wf-notice" role="status" aria-live="polite" tabindex="-1">Loading available profiles…</div>
+    <form id="builder" class="wf-card">
+      <div class="wf-section-title"><span class="wf-number">01</span><div><h2>Choose a starting point</h2><p>Presets create editable drafts. They do not supply a model service or private artifacts.</p></div></div>
+      <div class="wf-grid">
+        <label>Preset<select id="preset"></select></label>
+        <label>Exact method profile<select id="method"></select></label>
+        <label>Benchmark<select id="benchmark"><option value="">Query / input intervention only</option></select></label>
+        <label>Number of cases<input id="limit" type="number" min="1" max="2000" value="1" required></label>
+        <label class="wf-wide">Query for input-only runs<textarea id="query" rows="2">Find a suitable flight</textarea></label>
+      </div>
+      <p id="recipe-note" class="wf-help"></p>
+      <div class="wf-section-title"><span class="wf-number">02</span><div><h2>Connect your model</h2><p>Leave all model fields empty for a prompt-only run. Model weights are not downloaded by this form.</p></div></div>
+      <div class="wf-grid">
+        <label>Served model ID<input id="model" placeholder="Exact ID from your model service" autocomplete="off"></label>
+        <label>API base URL<input id="endpoint" type="url" placeholder="http://127.0.0.1:8000/v1" autocomplete="off"></label>
+        <label>Model / deployment revision<input id="revision" placeholder="Revision identifying this deployment" autocomplete="off"></label>
+        <label>API key environment variable<input id="key-env" value="OPENAI_API_KEY" pattern="[A-Za-z_][A-Za-z0-9_]*"><small>Set its value in the server shell; never paste a key here.</small></label>
+      </div>
+      <div class="wf-section-title"><span class="wf-number">03</span><div><h2>Set per-case budgets</h2><p>Concurrency changes scheduling. Each case keeps its own token and call limits.</p></div></div>
+      <div class="wf-grid wf-grid-three">
+        <label>Total output tokens<input id="tokens" type="number" min="0" value="4096" required></label>
+        <label>Model calls<input id="calls" type="number" min="0" value="8" required></label>
+        <label>Retrieval calls<input id="retrieval-calls" type="number" min="0" value="8" required></label>
+        <label>Tool calls<input id="tool-calls" type="number" min="0" value="8" required></label>
+        <label>Seed<input id="seed" type="number" min="0" value="17" required></label>
+        <label>Case workers<input id="workers" type="number" min="1" max="4" value="1" required></label>
+      </div>
+      <details class="wf-details"><summary>Method parameters, retrieval and runtime settings</summary>
+        <p class="wf-help">Use the method's native parameter names for temperature, per-call output caps and max_length. Unknown parameters are reported by preflight. File paths are on the server.</p>
+        <div class="wf-grid">
+          <label class="wf-wide">Method parameters (JSON)<textarea id="parameters" rows="5" spellcheck="false">{}</textarea></label>
+          <label>Retriever (JSON)<textarea id="retriever" rows="4" spellcheck="false">{}</textarea></label>
+          <label>Artifacts (JSON)<textarea id="artifacts" rows="4" spellcheck="false">{}</textarea></label>
+          <label>Native runtime (JSON)<textarea id="runtime" rows="4" spellcheck="false">{}</textarea></label>
+          <label>Preparation (JSON)<textarea id="preparation" rows="4" spellcheck="false">{}</textarea></label>
+          <label class="wf-wide">Simulator / judge backend for arenas that require it (JSON)<textarea id="environment" rows="4" spellcheck="false">{}</textarea></label>
+        </div>
+        <p class="wf-help">Existing run.json can be pasted into the run object below. Extra target/scorer settings, case IDs, cache paths and local-model settings are editable in the full workflow.</p>
+      </details>
+      <div class="wf-actions"><button type="submit" class="wf-primary" id="generate">Generate configuration</button><label class="wf-file">Import workflow.json or run.json<input id="import" type="file" accept="application/json,.json"></label></div>
+    </form>
+    <section class="wf-card" aria-labelledby="review-heading">
+      <div class="wf-section-title"><span class="wf-number">04</span><div><h2 id="review-heading">Review and run</h2><p>This JSON is the execution configuration. Editing it does not start a model or download.</p></div></div>
+      <label>Complete workflow.json<textarea id="workflow" rows="14" spellcheck="false" aria-describedby="draft-note"></textarea></label>
+      <p id="draft-note" class="wf-help">Generate or import a configuration to begin.</p>
+      <details class="wf-details"><summary>Selected method's parameter reference</summary><pre id="parameter-reference">Generate a configuration to show the native parameter definitions.</pre></details>
+      <div class="wf-actions"><button id="export-workflow" type="button" disabled>Download workflow.json</button><button id="export-run" type="button" disabled>Download run.json</button><button id="inspect" type="button" disabled>Check prerequisites</button></div>
+      <label class="wf-check"><input id="probe" type="checkbox">Check model endpoint availability (no generation)</label>
+      <div id="inspection" class="wf-inspection" aria-live="polite"></div>
+      <label class="wf-check"><input id="network" type="checkbox">Allow configured dependency / dataset downloads during preparation</label>
+      <p class="wf-help">Running a model-backed workflow sends requests to your configured model service. Native scores, failures and consumed budgets are recorded.</p>
+      <button id="launch" type="button" class="wf-primary" disabled>Prepare, execute and score</button>
+    </section>
+    <section id="history" class="wf-card" aria-labelledby="history-heading">
+      <div class="wf-section-title"><span class="wf-number">05</span><div><h2 id="history-heading">Saved runs</h2><p>Refresh or reopen this page to inspect persisted runs. Resume uses the saved configuration and does not repeat completed attempts.</p></div></div>
+      <button id="refresh" type="button">Refresh runs</button>
+      <div id="runs" class="wf-runs"></div>
+      <div id="run-detail" hidden>
+        <h3 id="run-title"></h3><p id="output-path" class="wf-help"></p>
+        <div class="wf-actions"><button id="load-run" type="button">Load saved configuration</button><button id="resume" type="button">Resume saved run</button></div>
+        <pre id="run-summary"></pre>
+        <details class="wf-details"><summary>Full execution and preparation report</summary><pre id="run-report"></pre></details>
+        <h3>Outputs and native scores</h3><p class="wf-help">Bounded preview of the first 20 terminal records; the complete journal stays in the run directory.</p><pre id="run-results"></pre>
+        <details class="wf-details"><summary>Native records and provenance</summary><pre id="run-records"></pre></details>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

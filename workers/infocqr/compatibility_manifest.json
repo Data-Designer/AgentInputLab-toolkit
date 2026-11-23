@@ -1,0 +1,84 @@
+{
+  "schema_version": "agentinputlab.infocqr.compatibility.v1",
+  "upstream": {
+    "repository": "https://github.com/smartyfh/InfoCQR.git",
+    "commit": "2953c461aa0c6817b1b7656dbd5168050227b31d",
+    "license_spdx": "NOASSERTION",
+    "license_file_present": false,
+    "license_evidence_path": "README.md",
+    "license_evidence_sha256": "56a86f36169028602eda0fdf2a0ebd893eb3aaf10cfe790d90eabddb0f73d757",
+    "require_clean_checkout": true
+  },
+  "source_files": {
+    "README.md": "56a86f36169028602eda0fdf2a0ebd893eb3aaf10cfe790d90eabddb0f73d757",
+    "requirements.txt": "1e2b9e614b3ac85cbebabc1c94bc1fd92d04fc5817af2af0cf26fadf4ba864dc",
+    "rewrite_chatgpt_zsl.py": "93d6ba61da042f15ed6d506b3d69bac1a16d3e33453b84ec8f6b7317d018defc",
+    "rewrite_chatgpt_inctx.py": "9c447f5292a6c936160ab847d3eb18db4704ea62f3d46a896ef5613aac2ce6a6",
+    "rewrite_chatgpt_editor.py": "5c71071d213ac562651d5577e623f73d0b98ffc3279f2dc1727127e8475d1bba",
+    "rewrite_chatgpt_self_editor.py": "2fba6bb3b24a7b332c7896b89c7ae6480c2d21272f42bad893ee5151c7739373",
+    "post_processing.py": "7201ceaeb16beaaf3af874faf083ce4f64dd630636a2e302edf398cc4da8d3dd",
+    "fuse_rewrite.py": "81f521240d53b8e34de3a806d7f09223b9c8ea39bf9394bbafae9dff957c01f9",
+    "dataset_cleaning.py": "9d4bdd7f8c20b05a1baafce35f725fcffd319a40442a16d2526cd4fd05be968b",
+    "T5QR/T5test.py": "c9c1b78d8147035ea3c300e7b29c791fb171ce399f8c1269a6e1a11b9bc05eb8",
+    "T5QR/T5train.py": "d40bc17e365d9f626fd5bf1fd14fffd3073c0b6772434a78eac6412d6fd2f4de"
+  },
+  "prompt_profiles": {
+    "rw_zsl": {
+      "source_path": "rewrite_chatgpt_zsl.py",
+      "source_sha256": "93d6ba61da042f15ed6d506b3d69bac1a16d3e33453b84ec8f6b7317d018defc",
+      "official_function": "generate_rewrite"
+    },
+    "rw_fsl": {
+      "source_path": "rewrite_chatgpt_inctx.py",
+      "source_sha256": "9c447f5292a6c936160ab847d3eb18db4704ea62f3d46a896ef5613aac2ce6a6",
+      "official_function": "generate_rewrite"
+    },
+    "t5_edit": {
+      "source_path": "rewrite_chatgpt_editor.py",
+      "source_sha256": "5c71071d213ac562651d5577e623f73d0b98ffc3279f2dc1727127e8475d1bba",
+      "official_function": "generate_rewrite"
+    },
+    "self_edit": {
+      "source_path": "rewrite_chatgpt_self_editor.py",
+      "source_sha256": "2fba6bb3b24a7b332c7896b89c7ae6480c2d21272f42bad893ee5151c7739373",
+      "official_function": "generate_rewrite"
+    }
+  },
+  "known_author_caches": {
+    "test_rw_zsl": {
+      "path": "datasets/qrecc/test_chatgpt_ZSL.jsonl",
+      "sha256": "c5304470e0f0399d8f432d9f4701015ca3aad40e56bcb06fcdb8a350efdf7134",
+      "profile": "rw_zsl",
+      "split": "test"
+    },
+    "test_rw_fsl": {
+      "path": "datasets/qrecc/test_chatgpt_ICL.jsonl",
+      "sha256": "9007463f7d6af418ee933d476abb4c449f39f0aa06d2c46662178b0050c777ce",
+      "profile": "rw_fsl",
+      "split": "test"
+    },
+    "test_t5_edit": {
+      "path": "datasets/qrecc/test_chatgpt_editor.jsonl",
+      "sha256": "115993dd58b5307fd411329ccfd3fc4e6ccd10d33116db718e3824cc7d728150",
+      "profile": "t5_edit",
+      "split": "test"
+    },
+    "test_self_edit": {
+      "path": "datasets/qrecc/test_chatgpt_ICL_editor.jsonl",
+      "sha256": "da2778285f9d616bcfb5dff0ca2d0079d5bed54aca8086352135e698b9373f5f",
+      "profile": "self_edit",
+      "split": "test"
+    }
+  },
+  "execution": {
+    "vendored_upstream_source": false,
+    "license_acknowledgement_required_at_startup": true,
+    "license_acknowledgement_required_per_request": true,
+    "official_teacher_function_called": true,
+    "common_support_profile": "controlled_adapter_visible_dialogue_only",
+    "post_processing_compatibility_hash": "7201ceaeb16beaaf3af874faf083ce4f64dd630636a2e302edf398cc4da8d3dd",
+    "t5_student_runtime_enabled": false,
+    "released_t5_checkpoint_present": false,
+    "paper_result_parity_claimed": false
+  }
+}

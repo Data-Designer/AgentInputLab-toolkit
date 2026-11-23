@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>Research campaigns · AgentInputLab Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/campaigns.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="AgentInputLab Studio home">
+          <span class="brand-mark" aria-hidden="true">AI</span>
+          <span><strong>AgentInputLab</strong><small>Experiment Studio</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="Studio navigation">
+          <a class="nav-link" href="/workflows"><span>↗</span>Workflow builder</a>
+          <a class="nav-link" href="/#configure"><span>01</span>Configure</a>
+          <a class="nav-link active" href="/campaigns"><span>02</span>Campaigns</a>
+          <a class="nav-link" href="/#runs"><span>03</span>Run queue</a>
+          <a class="nav-link" href="/result"><span>04</span>Results</a>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="local-policy">
+          <div class="policy-heading">
+            <span class="status-dot" id="campaign-api-dot"></span>Server allowlist
+          </div>
+          <p>Profiles, paths, drivers, and environment bindings are fixed at startup—not entered here.</p>
+        </div>
+        <div class="build-label">STUDIO / CAMPAIGNS 01</div>
+      </aside>
+
+      <main class="main-canvas campaign-canvas">
+        <header class="topbar entrance">
+          <div>
+            <p class="eyebrow">RESEARCH CAMPAIGN CONTROL</p>
+            <h1>Frozen plans, explicit starts</h1>
+            <p class="campaign-subtitle">
+              Inspect allowlisted experiment blueprints and resolve every blocker before a separate execution confirmation.
+            </p>
+          </div>
+          <div class="topbar-meta">
+            <span id="campaign-profile-count">Loading profiles…</span>
+            <span class="local-chip" id="campaign-mode-state">PREFLIGHT ONLY</span>
+          </div>
+        </header>
+
+        <section class="campaign-workspace entrance entrance-delay-1" aria-label="Campaign preparation workspace">
+          <aside class="campaign-profile-rail">
+            <div class="campaign-section-heading">
+              <p class="section-index">01 / ALLOWLIST</p>
+              <h2>Profiles</h2>
+              <p>Only server-configured identities appear.</p>
+            </div>
+            <div id="campaign-profile-list" class="campaign-profile-list" role="listbox" aria-label="Campaign profiles"></div>
+          </aside>
+
+          <section class="campaign-plan-pane">
+            <div id="campaign-unconfigured" class="campaign-empty-state" hidden>
+              <span aria-hidden="true">↳</span>
+              <h2>Campaign mode is not configured</h2>
+              <p>Restart Studio with a server-side profile catalog. The ordinary tiny offline Studio remains available.</p>
+            </div>
+
+            <div id="campaign-profile-content">
+              <div class="campaign-profile-header">
+                <div>
+                  <p class="section-index">02 / PREFLIGHT + PLAN</p>
+                  <h2 id="campaign-profile-name">Select a profile</h2>
+                  <p id="campaign-profile-description">Choose one server allowlisted campaign to inspect its frozen blueprint.</p>
+                </div>
+                <button id="campaign-preflight-button" class="primary-action" type="button" disabled>
+                  <span>Preflight and plan</span><b aria-hidden="true">↗</b>
+                </button>
+              </div>
+
+              <dl class="campaign-identity-line">
+                <div><dt>Profile identity</dt><dd id="campaign-profile-identity">—</dd></div>
+                <div><dt>Blueprint</dt><dd id="campaign-blueprint-identity">—</dd></div>
+                <div><dt>Arm catalog</dt><dd id="campaign-arm-catalog-identity">—</dd></div>
+              </dl>
+
+              <div class="campaign-plan-status">
+                <div>
+                  <span class="validation-state waiting" id="campaign-preflight-state">NOT RUN</span>
+                  <h3 id="campaign-preflight-title">No materialized plan</h3>
+                  <p id="campaign-preflight-copy">Preflight checks assets and drivers without executing a benchmark cell.</p>
+                </div>
+                <dl class="campaign-stat-strip">
+                  <div><dt>Cells</dt><dd id="campaign-stat-cells">—</dd></div>
+                  <div><dt>Targets</dt><dd id="campaign-stat-targets">—</dd></div>
+                  <div><dt>Arms</dt><dd id="campaign-stat-arms">—</dd></div>
+                  <div><dt>Models × seeds</dt><dd id="campaign-stat-grid">—</dd></div>
+                </dl>
+              </div>
+
+              <div class="campaign-detail-grid">
+                <section>
+                  <div class="campaign-subheading"><p class="section-index">READINESS</p><span id="campaign-blocker-count">0 blockers</span></div>
+                  <ul id="campaign-blockers" class="issue-list campaign-issue-list">
+                    <li class="ok">Select a profile, then materialize its exact plan.</li>
+                  </ul>
+                </section>
+                <section>
+                  <div class="campaign-subheading"><p class="section-index">ARMS</p><span id="campaign-study-stage">—</span></div>
+                  <div id="campaign-arms" class="campaign-arm-list">
+                    <p class="campaign-placeholder">Arm identities appear after preflight.</p>
+                  </div>
+                </section>
+              </div>
+
+              <section class="campaign-cells-section">
+                <div class="campaign-subheading">
+                  <div><p class="section-index">CELL PREVIEW</p><h3>Frozen execution units</h3></div>
+                  <span id="campaign-plan-identity">No plan hash</span>
+                </div>
+                <div class="campaign-table-wrap">
+                  <table class="runs-table campaign-cells-table">
+                    <thead>
+                      <tr><th>Cell</th><th>Benchmark</th><th>Unit</th><th>Model</th><th>Seed</th><th>Arms</th></tr>
+                    </thead>
+                    <tbody id="campaign-cells-body">
+                      <tr><td colspan="6" class="empty-row">Preflight has not materialized cells.</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section class="campaign-confirmation">
+                <div>
+                  <p class="section-index">03 / SEPARATE CONFIRMATION</p>
+                  <h2>Queue the frozen plan</h2>
+                  <p id="campaign-execution-note">
+                    Execution stays locked until the profile, assets, output root, and plan are ready.
+                  </p>
+                </div>
+                <div class="campaign-confirm-controls">
+                  <label class="campaign-confirm-check">
+                    <input id="campaign-confirm-checkbox" type="checkbox" disabled>
+                    <span>I reviewed the exact plan hash and intend to execute it.</span>
+                  </label>
+                  <button id="campaign-execute-button" class="primary-action" type="button" disabled>
+                    <span>Queue confirmed plan</span><b aria-hidden="true">↗</b>
+                  </button>
+                </div>
+              </section>
+            </div>
+          </section>
+        </section>
+
+        <section class="runs-section entrance entrance-delay-2" aria-labelledby="campaign-executions-title">
+          <div class="runs-heading">
+            <div>
+              <p class="eyebrow">CAMPAIGN QUEUE</p>
+              <h2 id="campaign-executions-title">Execution progress</h2>
+            </div>
+            <button class="text-button" id="campaign-refresh-executions" type="button">Refresh</button>
+          </div>
+          <div class="runs-table-wrap">
+            <table class="runs-table">
+              <thead>
+                <tr><th>Execution</th><th>Profile</th><th>Status</th><th>Progress</th><th>Plan</th><th>Result identity</th></tr>
+              </thead>
+              <tbody id="campaign-executions-body">
+                <tr><td colspan="6" class="empty-row">No campaign execution has been queued.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="campaign-toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

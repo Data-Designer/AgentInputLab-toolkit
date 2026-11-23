@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>AgentInputLab Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/" aria-label="AgentInputLab Studio home">
+          <span class="brand-mark" aria-hidden="true">AI</span>
+          <span><strong>AgentInputLab</strong><small>Experiment Studio</small></span>
+        </a>
+        <nav class="primary-nav" aria-label="Studio navigation">
+          <a class="nav-link" href="/workflows"><span>↗</span>Workflow builder</a>
+          <a class="nav-link active" href="#configure"><span>01</span>Configure</a>
+          <a class="nav-link" href="/campaigns"><span>02</span>Campaigns</a>
+          <a class="nav-link" href="#runs"><span>03</span>Run queue</a>
+          <a class="nav-link" href="/result"><span>04</span>Results</a>
+        </nav>
+        <div class="sidebar-spacer"></div>
+        <div class="local-policy">
+          <div class="policy-heading"><span class="status-dot" id="api-dot"></span>Local runtime</div>
+          <p>Loopback only. No credentials, shell commands, or network runs are accepted.</p>
+        </div>
+        <div class="build-label">STUDIO / ALPHA 01</div>
+      </aside>
+
+      <main class="main-canvas">
+        <header class="topbar entrance">
+          <div>
+            <p class="eyebrow">CONTROLLED EXECUTION WORKSPACE</p>
+            <h1>Configure an experiment</h1>
+          </div>
+          <div class="topbar-meta">
+            <span id="catalog-count">Loading registry…</span>
+            <span class="local-chip">OFFLINE</span>
+          </div>
+        </header>
+
+        <section id="configure" class="workflow entrance entrance-delay-1" aria-labelledby="workflow-title">
+          <h2 id="workflow-title" class="sr-only">Experiment configuration workflow</h2>
+          <div class="step-rail" role="tablist" aria-label="Configuration sections">
+            <button class="step active" type="button" role="tab" aria-selected="true" data-step="method">
+              <span>01</span><strong>Method</strong><small>Algorithm + version</small>
+            </button>
+            <button class="step" type="button" role="tab" aria-selected="false" data-step="runtime">
+              <span>02</span><strong>Runtime</strong><small>Backend + limits</small>
+            </button>
+            <button class="step" type="button" role="tab" aria-selected="false" data-step="data">
+              <span>03</span><strong>Data</strong><small>Task + sample</small>
+            </button>
+            <button class="step" type="button" role="tab" aria-selected="false" data-step="controls">
+              <span>04</span><strong>Controls</strong><small>Fair comparison</small>
+            </button>
+          </div>
+
+          <form id="run-form" novalidate>
+            <div class="workspace-grid">
+              <div class="config-pane">
+                <section class="config-section active" data-panel="method" role="tabpanel">
+                  <div class="section-heading">
+                    <div><p class="section-index">01 / METHOD</p><h2>Select the intervention</h2></div>
+                    <p>Every version comes from the frozen registry. Studio-ready is narrower than registry-ready.</p>
+                  </div>
+                  <div class="field-grid two">
+                    <label class="field">
+                      <span>Algorithm</span>
+                      <select id="algorithm" name="algorithm_id" required></select>
+                      <small id="algorithm-family">Semantic family</small>
+                    </label>
+                    <label class="field">
+                      <span>Version profile</span>
+                      <select id="release" name="release_id" required></select>
+                      <small id="release-status">Runtime profile</small>
+                    </label>
+                  </div>
+                  <div class="method-note" id="method-note">
+                    <span class="mono-tag">PROFILE</span>
+                    <p>Select a method to inspect its implementation boundary.</p>
+                  </div>
+                </section>
+
+                <section class="config-section" data-panel="runtime" role="tabpanel" hidden>
+                  <div class="section-heading">
+                    <div><p class="section-index">02 / RUNTIME</p><h2>Pin the execution context</h2></div>
+                    <p>Only deterministic replay is enabled in this local Studio build.</p>
+                  </div>
+                  <label class="field full-field">
+                    <span>Model backend</span>
+                    <select id="backend" name="backend_id" required></select>
+                    <small id="backend-note">Backend capability</small>
+                  </label>
+                  <div class="parameter-grid">
+                    <label class="field compact"><span>Seed</span><input id="seed" type="number" min="0" max="2147483647" step="1"></label>
+                    <label class="field compact"><span>Samples</span><input id="sample-limit" type="number" min="1" max="4" step="1"></label>
+                    <label class="field compact"><span>Top k</span><input id="top-k" type="number" min="1" max="10" step="1"></label>
+                    <label class="field compact"><span>Temperature</span><input id="temperature" type="number" min="0" max="2" step="0.1"></label>
+                    <label class="field compact"><span>Soft word budget</span><input id="soft-word-budget" type="number" min="1" max="4096" step="1"></label>
+                    <label class="field compact"><span>Clarify threshold</span><input id="clarification-threshold" type="number" min="0" max="1" step="0.05"></label>
+                  </div>
+                  <p class="parameter-help">Parameters remain in the run manifest even when a selected algorithm does not consume them.</p>
+                </section>
+
+                <section class="config-section" data-panel="data" role="tabpanel" hidden>
+                  <div class="section-heading">
+                    <div><p class="section-index">03 / DATA</p><h2>Choose an evaluation cell</h2></div>
+                    <p>Registered datasets are visible; only verified prepared assets may run.</p>
+                  </div>
+                  <label class="field full-field">
+                    <span>Dataset / benchmark cell</span>
+                    <select id="dataset" name="dataset_id" required></select>
+                    <small id="dataset-readiness">Preparation status</small>
+                  </label>
+                  <div class="dataset-spec">
+                    <dl>
+                      <div><dt>Task</dt><dd id="dataset-task">—</dd></div>
+                      <div><dt>Scale</dt><dd id="dataset-size">—</dd></div>
+                      <div><dt>Metrics</dt><dd id="dataset-metrics">—</dd></div>
+                      <div><dt>Families</dt><dd id="dataset-families">—</dd></div>
+                    </dl>
+                    <div class="sample-preview">
+                      <span class="mono-tag">SAMPLE</span>
+                      <p id="dataset-sample">A sample appears for locally prepared fixtures.</p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="config-section" data-panel="controls" role="tabpanel" hidden>
+                  <div class="section-heading">
+                    <div><p class="section-index">04 / CONTROLS</p><h2>Protect the comparison</h2></div>
+                    <p>Disabling a control marks the run exploratory in the compatibility report.</p>
+                  </div>
+                  <div class="control-list">
+                    <label class="toggle-row"><span><strong>Paired baseline</strong><small>Evaluate the same frozen examples before and after intervention.</small></span><input id="paired-baseline" type="checkbox"><i></i></label>
+                    <label class="toggle-row"><span><strong>Fixed seed</strong><small>Derive every sample seed from one recorded run seed.</small></span><input id="fixed-seed" type="checkbox"><i></i></label>
+                    <label class="toggle-row"><span><strong>Shared retriever</strong><small>Use exactly one corpus, tokenizer, BM25 k1, and b configuration.</small></span><input id="shared-retriever" type="checkbox"><i></i></label>
+                    <label class="toggle-row"><span><strong>Freeze dependencies</strong><small>Record backend, corpus, and retriever identities in the result.</small></span><input id="freeze-dependencies" type="checkbox"><i></i></label>
+                    <label class="toggle-row"><span><strong>Fail on fingerprint drift</strong><small>Stop if a dependency identity changes across the paired run.</small></span><input id="fail-on-drift" type="checkbox"><i></i></label>
+                  </div>
+                </section>
+              </div>
+
+              <aside class="inspector" aria-live="polite">
+                <div class="inspector-heading">
+                  <p class="section-index">COMPATIBILITY</p>
+                  <span class="validation-state checking" id="validation-state">CHECKING</span>
+                </div>
+                <h3 id="compatibility-title">Validating configuration</h3>
+                <p id="compatibility-copy">The Studio is checking release, backend, data, and fairness constraints.</p>
+                <ul class="issue-list" id="issue-list"></ul>
+                <div class="manifest-preview">
+                  <p class="section-index">RUN MANIFEST</p>
+                  <dl>
+                    <div><dt>Profile</dt><dd id="manifest-release">—</dd></div>
+                    <div><dt>Backend</dt><dd id="manifest-backend">—</dd></div>
+                    <div><dt>Dataset</dt><dd id="manifest-dataset">—</dd></div>
+                    <div><dt>Mode</dt><dd id="manifest-mode">confirmatory</dd></div>
+                  </dl>
+                </div>
+              </aside>
+            </div>
+
+            <div class="run-bar">
+              <div><span class="status-dot"></span><p><strong>Local queue</strong><small id="queue-summary">No active runs</small></p></div>
+              <button id="run-button" class="primary-action" type="submit" disabled>
+                <span>Queue experiment</span><b aria-hidden="true">↗</b>
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section id="runs" class="runs-section entrance entrance-delay-2" aria-labelledby="runs-title">
+          <div class="runs-heading">
+            <div><p class="eyebrow">EXECUTION LOG</p><h2 id="runs-title">Run queue</h2></div>
+            <button class="text-button" id="refresh-runs" type="button">Refresh</button>
+          </div>
+          <div class="runs-table-wrap">
+            <table class="runs-table">
+              <thead><tr><th>Run</th><th>Profile</th><th>Dataset</th><th>Status</th><th>Quality</th><th>Cost</th><th></th></tr></thead>
+              <tbody id="runs-body"><tr><td colspan="7" class="empty-row">No experiments queued in this session.</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

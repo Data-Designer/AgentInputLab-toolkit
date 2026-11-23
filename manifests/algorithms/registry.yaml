@@ -1,0 +1,1959 @@
+{
+  "schema_version": 1,
+  "registry_id": "agentinputlab.algorithms.v1",
+  "audit_date": "2026-08-06",
+  "reserve_pool_status": "NOT_FROZEN",
+  "algorithms": [
+    {
+      "method_id": "rewrite.query2doc",
+      "display_name": "Query2doc",
+      "paper_title": "Query2doc: Query Expansion with Large Language Models",
+      "semantic_family": "reformulate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "EMNLP",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.emnlp-main.585/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/ls3-lab/QueryGym",
+        "commit": "6d2d19213c7212c7940143e7b9b5f1d2af7ff47b",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true,
+        "license_notes": "Live implementation is the QueryGym community implementation; official cached generations are CC-BY-4.0 and separately locked."
+      },
+      "semantic_tags": [
+        "query_expansion",
+        "retrieval"
+      ],
+      "releases": [
+        {
+          "id": "rewrite.query2doc.official_cached",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.query2doc:Query2DocOfficialCached",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.query2doc.querygym_live",
+          "implementation_kind": "community_implementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.query2doc:QueryGymLiveBridge",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.query2doc.controlled_live",
+          "implementation_kind": "community_implementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.query2doc:Query2DocControlledLive",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "rewrite.rrr",
+      "display_name": "Rewrite-Retrieve-Read",
+      "paper_title": "Query Rewriting in Retrieval-Augmented Large Language Models",
+      "semantic_family": "reformulate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "EMNLP",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.emnlp-main.322/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/xbmxb/RAG-query-rewriting",
+        "commit": "6bab6243e60c7f3e526b6ee44f95381b1024d471",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "External checkout only; pinned source also requires credential-like configuration security review."
+      },
+      "semantic_tags": [
+        "query_rewriting",
+        "retrieval",
+        "reinforcement_learning"
+      ],
+      "releases": [
+        {
+          "id": "rewrite.rrr.common_support_prompt",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.rrr:RRRCommonSupport",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.rrr.prompt_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.rrr:RRRPromptExternal",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "security review required",
+            "a pinned external worker and exact prompt artifact are required"
+          ]
+        },
+        {
+          "id": "rewrite.rrr.warmup_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.rrr:RRRPromptExternal",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "user-mounted warm-up checkpoint and frozen inference artifacts are required"
+          ]
+        },
+        {
+          "id": "rewrite.rrr.ppo_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.rrr:RRRPromptExternal",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "user-mounted PPO checkpoint is inference-only; RL training remains outside scope"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "rewrite.reformer",
+      "display_name": "ReFormeR",
+      "paper_title": "ReFormeR: Learning and Applying Explicit Query Reformulation Patterns",
+      "semantic_family": "reformulate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ECIR",
+        "year": 2026,
+        "paper_url": "https://link.springer.com/chapter/10.1007/978-3-032-21300-6_30"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/aminbigdeli/ReFormeR",
+        "commit": "72e52450a922bc0051b5b39c3a6307186a555137",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "source_subdir": "reformer",
+        "license_notes": "README badge is insufficient; no root license text was found."
+      },
+      "semantic_tags": [
+        "query_rewriting",
+        "explicit_patterns"
+      ],
+      "releases": [
+        {
+          "id": "rewrite.reformer.repo_native_r_only",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.reformer:ReFormeRRepoNative",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "a pinned external worker and pattern artifact are required"
+          ]
+        },
+        {
+          "id": "rewrite.reformer.paper_spec_q_concat_r",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.reformer:ReFormeRPaperConcat",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "a pinned external worker and pattern artifact are required"
+          ]
+        },
+        {
+          "id": "rewrite.reformer.controlled_r_only",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.reformer:ReFormeRControlledROnly",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "a pinned external worker and controlled backend/retriever are required"
+          ]
+        },
+        {
+          "id": "rewrite.reformer.controlled_q_concat_r",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.reformer:ReFormeRControlledConcat",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "a pinned external worker and controlled backend/retriever are required"
+          ]
+        },
+        {
+          "id": "training.reformer.pattern_induction",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "training_recipe",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": ["controlled_adapter"],
+          "entrypoint": "agentinputlab.recipes.reformer:ReFormeRPatternInduction",
+          "blocking_reasons": [
+            "caller-mounted pinned source and explicit source acknowledgement are required",
+            "bounded training backend and disjoint caller-declared split pairs are required"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "rewrite.infocqr",
+      "display_name": "InfoCQR",
+      "paper_title": "Enhancing Conversational Search: Large Language Model-Aided Informative Query Rewriting",
+      "semantic_family": "reformulate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "Findings of EMNLP",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.findings-emnlp.398/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/smartyfh/InfoCQR",
+        "commit": "2953c461aa0c6817b1b7656dbd5168050227b31d",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "Cached replay or user-mounted external worker only until licensing is clarified."
+      },
+      "semantic_tags": [
+        "conversational_query_rewriting",
+        "retrieval"
+      ],
+      "releases": [
+        {
+          "id": "rewrite.infocqr.cached_rw_zsl",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQRZeroShotReplay",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.infocqr.cached_rw_fsl",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQRFewShotReplay",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.infocqr.cached_edit",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQREditReplay",
+          "blocking_reasons": []
+        },
+        {
+          "id": "rewrite.infocqr.live_teacher_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQRLiveTeacherExternal",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "requires a user-mounted pinned checkout and teacher API/deployment"
+          ]
+        },
+        {
+          "id": "rewrite.infocqr.common_support_rw_zsl",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQRCommonSupportZeroShot",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "requires a pinned external worker and controlled visible-state serializer"
+          ]
+        },
+        {
+          "id": "rewrite.infocqr.t5_student_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.reformulate.infocqr:InfoCQRStudentExternal",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "requires a caller-mounted trained InfoCQR T5 checkpoint with pinned files and a training provenance receipt; generic t5-base is not a substitute"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "plan.plan_and_solve",
+      "display_name": "Plan-and-Solve",
+      "paper_title": "Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models",
+      "semantic_family": "decompose",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ACL",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.acl-long.147/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/AGI-Edgerunners/Plan-and-Solve-Prompting",
+        "commit": "9d5a176f5b4de1011d426009ab6398dc76046e88",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "Prompt behavior is reconstructed from the paper; upstream checkout remains external."
+      },
+      "semantic_tags": [
+        "planning",
+        "zero_shot_reasoning"
+      ],
+      "releases": [
+        {
+          "id": "plan.plan_and_solve.ps_prompt",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_solve:PlanAndSolvePSPrompt",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_solve.ps_plus_prompt",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_solve:PlanAndSolvePSPlusPrompt",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_solve.plan_component",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_solve:PlanAndSolvePlanComponent",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "plan.decomp",
+      "display_name": "Decomposed Prompting",
+      "paper_title": "Decomposed Prompting: A Modular Approach for Solving Complex Tasks",
+      "semantic_family": "decompose",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2023,
+        "paper_url": "https://openreview.net/forum?id=_nGgzQjzaRy"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/allenai/DecomP",
+        "commit": "8b157f6fe9ff5676ae51bd054f1df7b015adf278",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true,
+        "license_notes": "Open-domain QA is a separate upstream lock and is not implied by this commit."
+      },
+      "semantic_tags": [
+        "modular_decomposition",
+        "best_first_search"
+      ],
+      "releases": [
+        {
+          "id": "plan.decomp.common_support_odqa",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.decomp:DecompCommonSupport",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.decomp.full",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.decomp:DecompFullBridge",
+          "blocking_reasons": [
+            "full execution requires the pinned external DecomP worker runtime"
+          ]
+        },
+        {
+          "id": "plan.decomp.planner_component",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.decomp:DecompPlannerComponent",
+          "blocking_reasons": [
+            "requires the pinned native planner runtime, explicit config artifact and raw completion backend"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "plan.self_ask",
+      "display_name": "Self-Ask",
+      "paper_title": "Measuring and Narrowing the Compositionality Gap in Language Models",
+      "semantic_family": "decompose",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "Findings of EMNLP",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.findings-emnlp.378/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/ofirpress/self-ask",
+        "commit": "559e56ec1ba8dc93cf63c4148ec1f4717caf4b60",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "License file is named license.txt; official artifact is a demonstration notebook."
+      },
+      "semantic_tags": [
+        "iterative_subquestions",
+        "retrieval_loop"
+      ],
+      "releases": [
+        {
+          "id": "plan.self_ask.full_loop",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.self_ask:SelfAskLoop",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.self_ask.planner_component",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.self_ask:SelfAskPlannerComponent",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "plan.llm_compiler",
+      "display_name": "LLMCompiler",
+      "paper_title": "An LLM Compiler for Parallel Function Calling",
+      "semantic_family": "decompose",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICML",
+        "year": 2024,
+        "paper_url": "https://proceedings.mlr.press/v235/kim24y.html"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/SqueezeAILab/LLMCompiler",
+        "commit": "a00c9d35507507da70e8c637eee64efc8c1857ae",
+        "license_id": "MIT",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "dependency_dag",
+        "parallel_function_calling"
+      ],
+      "releases": [
+        {
+          "id": "plan.llm_compiler.full",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.llm_compiler:LLMCompilerFullBridge",
+          "blocking_reasons": [
+            "a pinned external worker, LLM backend, ToolConnector, and frozen tool schema are required"
+          ]
+        },
+        {
+          "id": "plan.llm_compiler.planner_component",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.llm_compiler:LLMCompilerPlannerBridge",
+          "blocking_reasons": [
+            "a pinned external worker, LLM backend, ToolConnector, and frozen tool schema are required"
+          ]
+        },
+        {
+          "id": "plan.llm_compiler.common_support_planner",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.llm_compiler:LLMCompilerCommonSupportPlanner",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "plan.plan_and_budget",
+      "display_name": "Plan-and-Budget",
+      "paper_title": "Plan-and-Budget",
+      "semantic_family": "decompose",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2505.16122"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/junhongmit/P-and-B",
+        "commit": "2ca2d90c6d3d630ec2b11cc22e0f56751f7f2b7e",
+        "license_id": "MIT",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "budgeted_planning",
+        "decomposition"
+      ],
+      "releases": [
+        {
+          "id": "plan.plan_and_budget.full",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_budget:PlanAndBudgetFull",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_budget.decomposer_component",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_budget:PlanAndBudgetDecomposerComponent",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_budget.native_cached_soft_budget",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_budget:PlanAndBudgetCachedSoftBudget",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_budget.native_regenerated_soft_budget",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_budget:PlanAndBudgetRegeneratedSoftBudget",
+          "blocking_reasons": []
+        },
+        {
+          "id": "plan.plan_and_budget.hard_cap_extension",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "composite",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.decompose.plan_and_budget:PlanAndBudgetHardCapExtension",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "acquire.hyde",
+      "display_name": "HyDE",
+      "paper_title": "Precise Zero-Shot Dense Retrieval without Relevance Labels",
+      "semantic_family": "acquire",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ACL",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.acl-long.99/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/texttron/hyde",
+        "commit": "a2fd8734307612cb0225d71ffbf26e0d225986b8",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "The must-ship path is a clearly labeled paper reimplementation."
+      },
+      "semantic_tags": [
+        "hypothetical_document",
+        "dense_retrieval"
+      ],
+      "releases": [
+        {
+          "id": "acquire.hyde.paper_reimplementation",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:HyDECleanRoom",
+          "blocking_reasons": []
+        },
+        {
+          "id": "acquire.hyde.official_external_patched",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:HyDEOfficialExternalPatched",
+          "blocking_reasons": [
+            "caller-mounted upstream source requires operator source/terms review; it is not redistributed",
+            "runtime requires the exact reviewed encoder-shape patch manifest and injected observed model/index dependencies"
+          ]
+        },
+        {
+          "id": "acquire.hyde.controlled",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:HyDEControlled",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "acquire.ircot",
+      "display_name": "IRCoT",
+      "paper_title": "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
+      "semantic_family": "acquire",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ACL",
+        "year": 2023,
+        "paper_url": "https://aclanthology.org/2023.acl-long.557/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/StonyBrookNLP/ircot",
+        "commit": "3c1820f698eea5eeddb4fba3c56b64c961e063e4",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true,
+        "license_notes": "Native dependencies require a dedicated legacy worker environment."
+      },
+      "semantic_tags": [
+        "interleaved_retrieval",
+        "multi_hop"
+      ],
+      "releases": [
+        {
+          "id": "acquire.ircot.prediction_replay",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:IRCoTPredictionReplay",
+          "blocking_reasons": [
+            "requires an operator-mounted checksum manifest, exact source-query/model bindings, original prediction file and declared provenance; archives are not redistributed",
+            "author releases and controlled captures remain separately labelled; replay is not fresh inference under the current seed or budget"
+          ]
+        },
+        {
+          "id": "acquire.ircot.native_like_substituted",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "composite",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "factorial_adapter",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:IRCoTNativeLikeSubstituted",
+          "blocking_reasons": [
+            "requires the complete pinned upstream QA source and native dependencies plus an acknowledged exact model/index/tokenizer substitution manifest",
+            "native controller/prompt/answer extraction are retained, but the substituted model/index deployment is not historical Codex/Elasticsearch or published-score parity"
+          ]
+        },
+        {
+          "id": "acquire.ircot.controlled",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:IRCoTControlledWorker",
+          "blocking_reasons": [
+            "controlled execution requires the pinned IRCoT external worker and index service"
+          ]
+        },
+        {
+          "id": "acquire.ircot.common_support",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:IRCoTCommonSupport",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "acquire.adaptive_rag",
+      "display_name": "Adaptive-RAG",
+      "paper_title": "Adaptive-RAG: Learning to Adapt Retrieval-Augmented Large Language Models through Question Complexity",
+      "semantic_family": "acquire",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "NAACL",
+        "year": 2024,
+        "paper_url": "https://aclanthology.org/2024.naacl-long.389/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/starsuzi/Adaptive-RAG",
+        "commit": "0c88670af8707667eb5c1163151bb5ce61b14acb",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "retrieval_routing",
+        "question_complexity"
+      ],
+      "releases": [
+        {
+          "id": "acquire.adaptive_rag.selector_replay",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "planned",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.adaptive_rag:AdaptiveRAGSelectorReplay",
+          "blocking_reasons": []
+        },
+        {
+          "id": "acquire.adaptive_rag.rebuilt_offline",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:AdaptiveRAGOfflineTraining",
+          "blocking_reasons": [
+            "native silver-label inputs, safe T5 initialization and genuine NLTK resources must be mounted; isolated locked training runtime and trained-router/four-reader acceptance required"
+          ]
+        },
+        {
+          "id": "acquire.adaptive_rag.controlled_reimplementation",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.adaptive_rag:AdaptiveRAGControlledWorker",
+          "blocking_reasons": [
+            "the upstream first-step A/B/C router rule is preserved, but all selected arms are controlled reimplementations rather than upstream arm-parity executions",
+            "production requires an exact worker fingerprint plus router snapshot/weights/tokenizer, generator, retriever, corpus, index, and prompt closures",
+            "real T5-large, Elasticsearch, FLAN, and IRCoT assets have not passed implementation or result-parity validation"
+          ]
+        },
+        {
+          "id": "acquire.adaptive_rag.common_support",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire:AdaptiveRAGCommonSupport",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "acquire.r2ag",
+      "display_name": "R²AG",
+      "paper_title": "R²AG: Incorporating Retrieval Information into Retrieval Augmented Generation",
+      "semantic_family": "acquire",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "Findings of EMNLP",
+        "year": 2024,
+        "paper_url": "https://aclanthology.org/2024.findings-emnlp.678/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/yefd/RRAG",
+        "commit": "61cfd1027c0101172fda701ec816bc18360b5bab",
+        "license_id": "MIT",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "evidence_conditioning",
+        "retrieval_features",
+        "custom_model"
+      ],
+      "releases": [
+        {
+          "id": "acquire.r2ag.official_retrained",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:R2AGOfflineTraining",
+          "blocking_reasons": [
+            "retriever features and generator projection require reader/schema/count-aligned retraining",
+            "no official paper checkpoint or result-parity evidence is available"
+          ]
+        },
+        {
+          "id": "acquire.r2ag.controlled_same_candidates",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "composite",
+          "status": "retrain_required",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.r2ag:R2AGControlledWorker",
+          "blocking_reasons": [
+            "a reader/schema/count-aligned checkpoint and feature schema are required",
+            "a pinned external worker, closed artifact manifests, and candidate-pool fingerprint are required",
+            "fixture round-trip tests do not establish production neural-runtime or result parity"
+          ]
+        },
+        {
+          "id": "acquire.r2ag.common_support",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.r2ag:R2AGCommonSupport",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "acquire.qrag",
+      "display_name": "Q-RAG",
+      "paper_title": "Q-RAG: Long Context Multi-Step Retrieval via Value-Based Embedder Training",
+      "semantic_family": "acquire",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR Oral",
+        "year": 2026,
+        "paper_url": "https://openreview.net/forum?id=MS9nWFY7LG"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/griver/Q-RAG",
+        "commit": "e7598130b63eaab868469877e88bcacc59a44efb",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "Source and asset licensing must be accepted separately; default branch is pqn-qa."
+      },
+      "semantic_tags": [
+        "value_based_retrieval",
+        "long_context"
+      ],
+      "releases": [
+        {
+          "id": "acquire.qrag.released_checkpoint_native",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "composite",
+          "status": "native_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.qrag:QRAGNativeWorker",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "source and checkpoint require separate user-mount acknowledgements",
+            "checkpoint, embedder, candidate order and fixed selection horizon are treatment-locked",
+            "ground-truth termination is replaced by DummyFeedbackModel, so paper-native parity is not claimed"
+          ]
+        },
+        {
+          "id": "acquire.qrag.reader_transfer_factorial",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.qrag:QRAGReaderTransferWorker",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "released checkpoint must be materialized",
+            "a pinned external worker and reader fingerprint are required"
+          ]
+        },
+        {
+          "id": "acquire.qrag.common_support",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.acquire.qrag:QRAGCommonSupport",
+          "blocking_reasons": []
+        },
+        {
+          "id": "training.qrag.value_policy",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [],
+          "entrypoint": "agentinputlab.recipes:QRAGValuePolicyTraining",
+          "blocking_reasons": [
+            "upstream source license is NOASSERTION",
+            "native GT-labeled train/dev records, closed full E5 initialization and isolated fit runtime are required",
+            "trained policies are distinct artifacts; bounded compatibility does not establish published quality"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "clarify.ask_or_assume",
+      "display_name": "Ask or Assume?",
+      "paper_title": "Ask or Assume? Uncertainty-Aware Clarification-Seeking in Coding Agents",
+      "semantic_family": "clarify",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "arXiv",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2603.26233"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/nedwards99/ask-or-assume",
+        "commit": "728464a755f15fd448aff61a5cb32dce97fd9c1d",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "The enterprise subtree uses PolyForm and is excluded from builds."
+      },
+      "semantic_tags": [
+        "uncertainty",
+        "clarification",
+        "coding_agents"
+      ],
+      "releases": [
+        {
+          "id": "clarify.ask_or_assume.openhands_full",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "blocked",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "official_native",
+            "factorial_adapter"
+          ],
+          "entrypoint": null,
+          "blocking_reasons": [
+            "full OpenHands worker and effective-budget parity are post-v1"
+          ]
+        },
+        {
+          "id": "clarify.ask_or_assume.intent_monitor_component",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.clarify.ask_or_assume:AskOrAssumeIntentMonitor",
+          "blocking_reasons": [
+            "a pinned external worker and intent model are required",
+            "full-system effect claims require OpenHands effective-budget parity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "clarify.udcs",
+      "display_name": "UDCS",
+      "paper_title": "Uncertainty Decomposition for Clarification Seeking in LLM Agents",
+      "semantic_family": "clarify",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "arXiv",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2606.19559"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/PE51K/udcs-in-llm-agents",
+        "commit": "7ff4a704b3d7f5ac40b14ccae2b8bf9bb38badba",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "uncertainty_decomposition",
+        "clarification_routing"
+      ],
+      "releases": [
+        {
+          "id": "clarify.udcs.repo_native_prompt_route",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.clarify:UDCSPromptNativePolicy",
+          "blocking_reasons": []
+        },
+        {
+          "id": "clarify.udcs.paper_spec_deterministic_route",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.clarify:UDCSPaperSpecDeterministicPolicy",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "clarify.future_turns",
+      "display_name": "Future-Turn Clarification",
+      "paper_title": "Modeling Future Conversation Turns to Teach LLMs to Ask Clarifying Questions",
+      "semantic_family": "clarify",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2025,
+        "paper_url": "https://openreview.net/forum?id=cwuSAR7EKd"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/mikejqzhang/clarifying_questions",
+        "commit": "cfda2bdf3946de19a7ab4e7a8bc764ee8526ef95",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "Training/inference code and AmbigQA/NQ-Open derived data are public; no trained checkpoint or repository license file was released."
+      },
+      "semantic_tags": [
+        "double_turn_preference",
+        "future_outcome_modeling",
+        "clarify_or_answer"
+      ],
+      "releases": [
+        {
+          "id": "clarify.future_turns.future_outcome_match",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.clarify:FutureTurnClarifier",
+          "blocking_reasons": [
+            "the authors did not release trained SFT/DPO checkpoint weights; this profile preserves the double-turn future-outcome preference at inference time",
+            "official AmbigQA/NQ-Open result parity requires author training assets and is not claimed"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "clarify.active_task_disambiguation",
+      "display_name": "Active Task Disambiguation",
+      "paper_title": "Active Task Disambiguation with LLMs",
+      "semantic_family": "clarify",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2025,
+        "paper_url": "https://openreview.net/forum?id=JAMxRSXLFz"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/kasia-kobalczyk/active-task-disambiguation",
+        "commit": "4c8ecb4d4ffdbffcc611366743fc1e2461037772",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "Official Section 4.2 code and generated HumanEval/APPS results are public; no repository license file is present."
+      },
+      "semantic_tags": [
+        "bayesian_experimental_design",
+        "expected_information_gain",
+        "solution_space_reasoning"
+      ],
+      "releases": [
+        {
+          "id": "clarify.active_task_disambiguation.eig_uniform",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.clarify:ActiveTaskDisambiguation",
+          "blocking_reasons": [
+            "the common-support adapter generalizes released HumanEval/APPS uniform-EIG logic to visible agent task hypotheses",
+            "paper-result parity remains a separate native-domain profile and is not claimed"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "curate.longllmlingua",
+      "display_name": "LongLLMLingua",
+      "paper_title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+      "semantic_family": "curate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ACL",
+        "year": 2024,
+        "paper_url": "https://aclanthology.org/2024.acl-long.91/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/microsoft/LLMLingua",
+        "commit": "e0e9d99beb94098bbd924aa53c2c112eac41c758",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "Package version 0.2.2; model revisions remain separate assets."
+      },
+      "semantic_tags": [
+        "long_context",
+        "prompt_compression"
+      ],
+      "releases": [
+        {
+          "id": "curate.longllmlingua.official",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate:LongLLMLinguaOfficialAdapter",
+          "blocking_reasons": []
+        },
+        {
+          "id": "curate.longllmlingua.controlled",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate:LongLLMLinguaControlled",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "curate.llmlingua2",
+      "display_name": "LLMLingua-2",
+      "paper_title": "LLMLingua-2: Data Distillation for Efficient and Faithful Task-Agnostic Prompt Compression",
+      "semantic_family": "curate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "Findings of ACL",
+        "year": 2024,
+        "paper_url": "https://aclanthology.org/2024.findings-acl.57/"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/microsoft/LLMLingua",
+        "commit": "e0e9d99beb94098bbd924aa53c2c112eac41c758",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "Runtime source is MIT; distilled training data is CC-BY-NC-SA-4.0 and separately gated."
+      },
+      "semantic_tags": [
+        "extractive_compression",
+        "token_classification"
+      ],
+      "releases": [
+        {
+          "id": "curate.llmlingua2.xlm_roberta_official",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate:LLMLingua2OfficialAdapter",
+          "blocking_reasons": []
+        },
+        {
+          "id": "curate.llmlingua2.bert_multilingual_official",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate:LLMLingua2BertMultilingualOfficialAdapter",
+          "blocking_reasons": []
+        },
+        {
+          "id": "training.llmlingua2.distillation",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": ["controlled_adapter"],
+          "entrypoint": "agentinputlab.recipes:LLMLingua2DistillationTraining",
+          "blocking_reasons": [
+            "requires pinned native LLMLingua training source, safe local BERT/XLM-R initialization, English spaCy model, and source-bound real teacher-compressed data; source/data terms remain separate",
+            "native label alignment, percentile filtering, seeded random 80/20 split and Adam loop are retained; no implicit GPT-4 calls or paper-result parity claim; run in a dedicated compatible environment"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "curate.recomp",
+      "display_name": "RECOMP",
+      "paper_title": "RECOMP: Improving Retrieval-Augmented LMs with Compression and Selective Augmentation",
+      "semantic_family": "curate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2024,
+        "paper_url": "https://proceedings.iclr.cc/paper_files/paper/2024/hash/bda88ed2892f5e61c9a9bf215c566913-Abstract-Conference.html"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/carriex/recomp",
+        "commit": "51d4432151efb3275257a9407dc71d1e5ec6634d",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "Source is MIT; six model artifacts and training data have NOASSERTION licenses."
+      },
+      "semantic_tags": [
+        "selective_augmentation",
+        "retrieval_compression"
+      ],
+      "releases": [
+        {
+          "id": "curate.recomp.extractive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.recomp:RECOMPExtractiveExternal",
+          "blocking_reasons": [
+            "model artifact license is NOASSERTION",
+            "a pinned worker and model artifact manifest are required"
+          ]
+        },
+        {
+          "id": "curate.recomp.abstractive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.recomp:RECOMPAbstractiveExternal",
+          "blocking_reasons": [
+            "model artifact license is NOASSERTION",
+            "a pinned worker and model artifact manifest are required"
+          ]
+        },
+        {
+          "id": "curate.recomp.common_support_extractive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.recomp:RECOMPExtractiveCommonSupport",
+          "blocking_reasons": [
+            "paper-result parity is not claimed; the three-arena profile uses a frozen visible-context sentence splitter",
+            "a user-mounted, checksum-closed official checkpoint is required"
+          ]
+        },
+        {
+          "id": "curate.recomp.selective",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.recomp:RECOMPSelectiveRuntime",
+          "blocking_reasons": [
+            "model artifact license is NOASSERTION",
+            "pinned local abstractive compressor and retriever identities are required; controlled v1 reader assembly is not published FLAN-UL2 prompt parity"
+          ]
+        },
+        {
+          "id": "training.recomp.extractive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "blocked",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [],
+          "entrypoint": "agentinputlab.recipes:RECOMPExtractiveTraining",
+          "blocking_reasons": [
+            "user-mounted native training records and safe encoder initialization require explicit asset acknowledgement; isolated legacy training dependencies and bounded optimizer plan required"
+          ]
+        },
+        {
+          "id": "training.recomp.abstractive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "blocked",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [],
+          "entrypoint": "agentinputlab.recipes:RECOMPAbstractiveTraining",
+          "blocking_reasons": [
+            "user-mounted native seq2seq records, safe model and genuine NLTK assets require acknowledgement; isolated dependencies, bounded optimizer plan and trained-artifact reader acceptance required"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "curate.acon",
+      "display_name": "ACON",
+      "paper_title": "ACON",
+      "semantic_family": "curate",
+      "release_tier": "core",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICML",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2510.00615"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/microsoft/acon",
+        "commit": "d63f9ae18959dc7215ff62899c94c5e8c56847ae",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "Pinned code predates the camera-ready paper and is described only as a public artifact supporting the pipeline."
+      },
+      "semantic_tags": [
+        "history_compression",
+        "observation_compression",
+        "guideline_optimization"
+      ],
+      "releases": [
+        {
+          "id": "curate.acon.history_runtime",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.acon:ACONHistoryRuntimeExternal",
+          "blocking_reasons": [
+            "a pinned worker and frozen guideline/model/tokenizer identities are required"
+          ]
+        },
+        {
+          "id": "curate.acon.observation_runtime",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.acon:ACONObservationRuntimeExternal",
+          "blocking_reasons": [
+            "a pinned worker and frozen guideline/model/tokenizer identities are required"
+          ]
+        },
+        {
+          "id": "curate.acon.common_support_observation",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.algorithms.curate.acon:ACONObservationCommonSupport",
+          "blocking_reasons": [
+            "paper-result parity is not claimed; context block zero is a frozen three-arena mapping",
+            "a checksum-locked ACON checkout, prompt profile, tokenizer, and optimizer deployment are required"
+          ]
+        },
+        {
+          "id": "training.acon.guideline_optimization",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [],
+          "entrypoint": "agentinputlab.recipes:ACONGuidelinePipeline",
+          "blocking_reasons": [
+            "guideline optimization must be split-isolated and rerun for changed models",
+            "source-locked candidate producer is available; real fitted-guideline deployment acceptance is incomplete"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "recipe.smartsearch",
+      "display_name": "SmartSearch",
+      "paper_title": "SmartSearch: Process Reward-Guided Query Refinement for Search Agents",
+      "semantic_family": "reformulate",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "SIGIR",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2601.04888"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/RUC-NLPIR/SmartSearch",
+        "commit": "5e9e7ec0d6af34f45fad145d4bff442529e7e6ff",
+        "license_id": "MIT",
+        "vendoring_allowed": true
+      },
+      "semantic_tags": [
+        "reformulate",
+        "acquire",
+        "process_reward",
+        "training_recipe"
+      ],
+      "releases": [
+        {
+          "id": "rewrite.smartsearch.common_support_queries",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "runtime",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:SmartSearchCommonSupportQueries",
+          "blocking_reasons": []
+        },
+        {
+          "id": "recipe.smartsearch.frozen_3b_inference",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "composite",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:SmartSearchFrozenInference",
+          "blocking_reasons": [
+            "a pinned 3B checkpoint, retrieval runtime, and external worker are required",
+            "test-time reward and query-refiner access must remain disabled",
+            "upstream did not publish pinned corpus/retriever/index assets, so native parity is not claimed"
+          ]
+        },
+        {
+          "id": "training.smartsearch.sft_dpo_grpo",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [],
+          "entrypoint": "agentinputlab.recipes:SmartSearchNativeTrainingRecipe",
+          "blocking_reasons": [
+            "requires pinned native source and data modules, safe Qwen policy snapshots, disjoint train/development data, stage-specific CUDA runtimes, and a separately metered helper",
+            "explicit native stages and artifact-chain verification are implemented; full recipe and benchmark acceptance remain separate gates"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "recipe.rqrag",
+      "display_name": "RQ-RAG",
+      "paper_title": "RQ-RAG: Learning to Refine Queries for Retrieval Augmented Generation",
+      "semantic_family": "reformulate",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "COLM",
+        "year": 2024,
+        "paper_url": "https://arxiv.org/abs/2404.00610"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/chanchimin/RQ-RAG",
+        "commit": "df5f2597eec9c229e1d54a6884bf236236870b32",
+        "license_id": "NOASSERTION",
+        "vendoring_allowed": false,
+        "license_notes": "External worker only; source and checkpoint licenses are not declared."
+      },
+      "semantic_tags": [
+        "reformulate",
+        "acquire",
+        "supervised_finetuning"
+      ],
+      "releases": [
+        {
+          "id": "recipe.rqrag.released_7b_external",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "composite",
+          "status": "blocked",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.recipes:RQRAGReleased7BExternal",
+          "blocking_reasons": [
+            "upstream license is NOASSERTION",
+            "three audited inference bugs require explicit patch parity",
+            "execution remains fail-closed until license clearance and patch attestation are supplied"
+          ]
+        },
+        {
+          "id": "recipe.rqrag.method_tree_search",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "composite",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:RQRAGMethodTreeSearch",
+          "blocking_reasons": []
+        },
+        {
+          "id": "recipe.rqrag.common_support_queries",
+          "implementation_kind": "paper_reimplementation",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:RQRAGCommonSupportQueries",
+          "blocking_reasons": []
+        }
+      ]
+    },
+    {
+      "method_id": "recipe.ace",
+      "display_name": "ACE",
+      "paper_title": "Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models",
+      "semantic_family": "curate",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICLR",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2510.04618"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/ace-agent/ace",
+        "commit": "bcb7cea0504afad6f55fec4845dd4864c9f9eee7",
+        "license_id": "Apache-2.0",
+        "vendoring_allowed": true,
+        "license_notes": "AppWorld submodule and Mind2Web data require separate locks and terms."
+      },
+      "semantic_tags": [
+        "offline_context_evolution",
+        "playbook"
+      ],
+      "releases": [
+        {
+          "id": "recipe.ace.offline",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "external_only",
+          "delivery_tier": "must_ship",
+          "profile_modes": [
+            "official_native"
+          ],
+          "entrypoint": "agentinputlab.recipes:ACEOfflineRecipe",
+          "blocking_reasons": [
+            "faithful ACE execution requires the pinned external ACE worker runtime"
+          ]
+        },
+        {
+          "id": "recipe.ace.eval_only",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "factorial_adapter",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:ACEPlaybookCommonSupport",
+          "blocking_reasons": []
+        },
+        {
+          "id": "recipe.ace.online_transductive",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "retrain_required",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:ACEOnlineRecipe",
+          "blocking_reasons": [
+            "explicit transductive-feedback acknowledgement, pinned native ACE checkout and isolated compatible provider environment required; initial evaluation and adaptation share each case budget and are not held-out evidence"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "recipe.mce",
+      "display_name": "MCE",
+      "paper_title": "Meta Context Engineering via Agentic Skill Evolution",
+      "semantic_family": "curate",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "ICML",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2601.21557"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/metaevo-ai/meta-context-engineering",
+        "commit": "c4b7a7c2ce3ffc4bf4a74c52d2dd8a9a8fb14c30",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "The separate artifact repository and derived-data provenance are not yet cleared."
+      },
+      "semantic_tags": [
+        "meta_context",
+        "skill_evolution",
+        "generated_code",
+        "controlled_semantic_patch"
+      ],
+      "releases": [
+        {
+          "id": "recipe.mce.sandboxed_offline",
+          "implementation_kind": "thin_external_wrapper",
+          "execution_kind": "training_recipe",
+          "status": "external_only",
+          "delivery_tier": "blocked_or_post_v1",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:MCEOfflineRecipe",
+          "blocking_reasons": [
+            "execution requires a pinned upstream checkout plus an operator-attested isolated manager",
+            "a hash-bound semantic patch replaces only run_meta_agent, run_base_agent, load_interfaces, and batch_evaluate while preserving pinned run_iteration orchestration; this is not official-native E2B parity",
+            "real provider credentials, deployment attestation, model/usage instrumentation, and generated-artifact provenance are operator-supplied"
+          ]
+        },
+        {
+          "id": "recipe.mce.final_artifact_eval",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:MCEFinalArtifactEvaluator",
+          "blocking_reasons": [
+            "requires a hash-bound frozen sandboxed_offline artifact, original fit split audit and the same model/source/environment/store identities",
+            "requires an operator-attested isolated manager with actual-provider output-token reservations and a persistent supervisor-only test oracle",
+            "this controlled executable-artifact path is distinct from text_artifact_eval; production generated-code execution is not certified by fixture tests"
+          ]
+        },
+        {
+          "id": "recipe.mce.text_artifact_eval",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "artifact_replay",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:MCETextArtifactCommonSupport",
+          "blocking_reasons": [
+            "requires a frozen text-only artifact produced by pinned upstream run_iteration with the four documented seams bound to the controlled host runtime",
+            "generated Python is rejected and never imported; this controlled profile is not official E2B or paper-result parity"
+          ]
+        }
+      ]
+    },
+    {
+      "method_id": "recipe.skillopt",
+      "display_name": "SkillOpt",
+      "paper_title": "SkillOpt: Executive Strategy for Self-Evolving Agent Skills",
+      "semantic_family": "curate",
+      "release_tier": "optional",
+      "status": "source_audited",
+      "publication": {
+        "venue": "arXiv",
+        "year": 2026,
+        "paper_url": "https://arxiv.org/abs/2605.23904"
+      },
+      "upstream": {
+        "repo_url": "https://github.com/microsoft/SkillOpt",
+        "commit": "9639719632daecacd1baaa47fe781f3c0253600a",
+        "license_id": "MIT",
+        "vendoring_allowed": true,
+        "license_notes": "AgentInputLab invokes the pinned upstream CLI and does not rewrite its six-stage optimizer."
+      },
+      "semantic_tags": [
+        "prompt_optimization",
+        "skill_document",
+        "validation_gate",
+        "offline_text_optimization"
+      ],
+      "releases": [
+        {
+          "id": "recipe.skillopt.offline",
+          "implementation_kind": "official_adapter",
+          "execution_kind": "training_recipe",
+          "status": "external_only",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "official_native",
+            "controlled_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:SkillOptOfflineRecipe",
+          "blocking_reasons": [
+            "execution requires the pinned upstream checkout, benchmark-specific data, and operator-supplied model credentials",
+            "paper-result parity remains separate from successful upstream CLI execution"
+          ]
+        },
+        {
+          "id": "recipe.skillopt.eval_only",
+          "implementation_kind": "artifact_replay",
+          "execution_kind": "component",
+          "status": "experimental",
+          "delivery_tier": "stretch",
+          "profile_modes": [
+            "controlled_adapter",
+            "factorial_adapter"
+          ],
+          "entrypoint": "agentinputlab.recipes:SkillOptSkillCommonSupport",
+          "blocking_reasons": [
+            "requires an immutable best_skill.md produced by the pinned upstream six-stage training CLI",
+            "common-support replay proves artifact deployment, not SkillOpt paper-result parity"
+          ]
+        }
+      ]
+    }
+  ]
+}

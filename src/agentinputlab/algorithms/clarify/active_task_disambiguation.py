@@ -105,7 +105,7 @@ class ActiveTaskDisambiguation:
             label="active-disambiguation hypotheses",
             minimum=2,
             maximum=self.controls.total_hypotheses,
-            text_fields=("text", "description"),
+            text_fields=("text", "description", "hypothesis", "statement"),
             normalizations=normalizations,
         )
         question_payload = self._call(
@@ -284,8 +284,9 @@ def _atd_string_list(
 ) -> tuple[str, ...]:
     """Unwrap only unambiguous text records; do not repair generated content.
 
-    Saved O20 responses use {text: ...} questions and {id, description}
-    hypotheses. IDs are display metadata: subsequent partition prompts use
+    Questions use {text: ...}; hypothesis records also accept description,
+    hypothesis, or statement as the sole text field. IDs are display metadata:
+    subsequent partition prompts use
     freshly enumerated positions, exactly as for the original string array.
     Unknown fields, conflicting text fields and duplicate IDs are rejected.
     """

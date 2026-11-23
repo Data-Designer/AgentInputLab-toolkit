@@ -167,6 +167,51 @@ def test_atd_rejects_ambiguous_records_without_dropping_fields_or_filling_conten
                              text_fields=("text", "description"), normalizations=[])
 
 
+def test_atd_hypothesis_aliases_preserve_next_requests_and_decisions() -> None:
+    def run(field):
+        first = (["intent a", "intent b"] if field is None else
+                 [{"id": "H1", field: "intent a"}, {"id": "H2", field: "intent b"}])
+        outputs = iter([
+            _response({"hypotheses": first}),
+            _response({"questions": ["Which intent?"]}),
+            _response({"answers": [{"hypothesis_id": 0, "answer_category": "a"},
+                                   {"hypothesis_id": 1, "answer_category": "b"}]}),
+        ])
+        backend = CallableBackend(fn=lambda _: next(outputs), revision="alias-test-v1",
+                                  callable_id="atd-alias-test", capabilities=_CAPABILITIES)
+        patch = ActiveTaskDisambiguation(backend=backend).propose(
+            FrozenAgentState(query="Ambiguous task",
+                             budget=ExecutionBudget(max_model_calls=8, max_output_tokens=4096)),
+            InterventionContext(seed=17),
+        )
+        return backend.calls, patch
+
+    reference_calls, reference_patch = run(None)
+    for field in ("text", "description", "hypothesis", "statement"):
+        calls, patch = run(field)
+        assert calls == reference_calls
+        assert patch.operations == reference_patch.operations
+        assert patch.metadata["entropies"] == reference_patch.metadata["entropies"]
+        assert patch.trace.counters["model_calls"] == 3
+        assert [r.max_tokens for r in calls] == [512, 512, 512]
+
+
+def test_atd_hypothesis_aliases_do_not_accept_conflicts_or_discard_fields() -> None:
+    invalid = [
+        [{"hypothesis": "a", "text": "a"}, "b"],
+        [{"hypothesis": "a", "statement": "b"}, "b"],
+        [{"statement": "a", "confidence": 0.9}, "b"],
+        [{"hypothesis": ""}, "b"],
+        [{"statement": ["a"]}, "b"],
+        [{"id": "H1", "hypothesis": "a"}, {"id": "H1", "statement": "b"}],
+    ]
+    for value in invalid:
+        with unittest.TestCase().assertRaises(AlgorithmOutputError):
+            _atd_string_list(value, label="hypotheses", minimum=2, maximum=8,
+                             text_fields=("text", "description", "hypothesis", "statement"),
+                             normalizations=[])
+
+
 def test_atd_empty_or_truncated_final_is_not_retried_or_replaced_by_reasoning() -> None:
     for final in (None, "", '{"hypotheses":["unfinished'):
         response = GenerationResponse(

@@ -221,6 +221,46 @@ def test_file_instruction_profile_preserves_instruction_and_selected_annotations
     assert [p["document_id"] for p in json.loads(request.prompt)["selected_passages"]] == ["c0", "c1"]
 
 
+@pytest.mark.parametrize(("instruction_profile", "answer", "scored"), [
+    (True, "", True), (False, "", False), (True, None, False),
+])
+def test_qrag_instruction_evaluate_scores_empty_text_without_a_second_call(
+    wired, instruction_profile, answer, scored,
+):
+    from agentinputlab.algorithms.acquire.qrag import (
+        QRAG_INSTRUCTION_PROMPT_SHA256, QRAG_INSTRUCTION_READER_PROFILE,
+    )
+    from agentinputlab.benchmarks import BenchmarkExample
+    from tests.unit.test_benchmark_configuration import Adapter
+
+    class VisibleQA(Adapter):
+        def examples(self, split):
+            return (BenchmarkExample(example_id="a", query="Which?",
+                instruction="Answer using the evidence." if instruction_profile else "",
+                visible_context=state().context),)
+
+        def score(self, example, prediction):
+            assert prediction.answer == ""
+            return super().score(example, prediction)
+
+    value, backend, selections, invocations = wired
+    if instruction_profile:
+        value["parameters"]["artifacts"].update(reader_profile=QRAG_INSTRUCTION_READER_PROFILE,
+                                               reader_prompt_sha256=QRAG_INSTRUCTION_PROMPT_SHA256)
+    backend.responses = [(json.dumps(dict(answer=answer, support_ids=[], evidence_ids=[], evidence_texts=[])), 7)]
+    adapter = VisibleQA()
+    result = RunConfig.from_dict(value).evaluate("2wiki.multihop", split="dev", limit=1, adapter=adapter,
+        predictor_parameters={"schema_version": 1, "qa": {"output_format": "structured_json"}})
+    row, = result["records"]
+    assert row["scored"] is scored
+    assert row["usage"]["model_calls"] == len(selections) == len(invocations) == len(backend.requests) == 1
+    if scored:
+        assert result["metrics_over_scored_cases"] == {"answer_em": 0.0}
+        assert row["downstream_metadata"]["empty_answer_policy"] == "qrag_instruction_native_string.v1"
+    else:
+        assert row["failure"]["type"] == "ValidationError" and not adapter.scored
+
+
 def test_reader_identity_mismatch_stops_before_policy_or_model(wired):
     value, backend, selections, invocations = wired
     value["parameters"]["artifacts"]["reader_deployment_fingerprint_sha256"] = "b" * 64

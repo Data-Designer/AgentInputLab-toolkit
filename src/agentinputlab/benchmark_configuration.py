@@ -407,6 +407,7 @@ def evaluate_config(
         history_qa = _parse_predictor_parameters(parameters)["qa"]
         if not history_qa["system_prompt"]:
             raise ValidationError("static history requires the reader's existing nonempty system prompt")
+    qrag_qa_preserve_empty_answer = False
     if config.runtime.get("kind") == "qrag_native":
         from agentinputlab.algorithms.acquire.qrag.reader_adapter import (
             QRAG_INSTRUCTION_READER_PROFILE,
@@ -414,6 +415,9 @@ def evaluate_config(
         )
 
         reader_profile = method.artifacts.reader_profile
+        # The explicit instruction reader requires a string, including
+        # an empty answer that the original QA scorer can grade.
+        qrag_qa_preserve_empty_answer = reader_profile == QRAG_INSTRUCTION_READER_PROFILE
         if composite_retrieval is not None and reader_profile == QRAG_INSTRUCTION_READER_PROFILE:
             raise ValidationError("Q-RAG QA reader conflicts with query-only retrieval; explicitly select "
                                   "factorial_native_query_reader_transfer and prepare its identity")
@@ -778,9 +782,12 @@ def evaluate_config(
                     prediction, audit = _parse_visible_qa_prediction(
                         intervention.result.final_answer, benchmark_id=benchmark_id, state=state,
                         output_format=qa["output_format"], identifier_policy=qa["identifier_policy"],
-                        allow_json_fence=qa.get("allow_json_fence", False))
+                        allow_json_fence=qa.get("allow_json_fence", False),
+                        preserve_empty_answer=qrag_qa_preserve_empty_answer)
                     row["downstream_metadata"] = {"composite_answer_no_extra_call": True,
                                                    "identifier_audit": to_jsonable(audit)}
+                    if qrag_qa_preserve_empty_answer:
+                        row["downstream_metadata"]["empty_answer_policy"] = "qrag_instruction_native_string.v1"
                 ledger.require_within_budget()
                 stage = "score"
                 scored = build_benchmark_example_record(adapter, example, state_hash=state.state_hash,

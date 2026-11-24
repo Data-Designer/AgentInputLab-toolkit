@@ -3064,6 +3064,7 @@ def _parse_visible_qa_prediction(
     output_format: str,
     identifier_policy: str = "native_sets.v1",
     allow_json_fence: bool = False,
+    preserve_empty_answer: bool = False,
 ) -> tuple[QAPrediction, Mapping[str, Any]]:
     if type(allow_json_fence) is not bool:
         raise ValidationError("QA allow_json_fence must be boolean")
@@ -3118,7 +3119,7 @@ def _parse_visible_qa_prediction(
             f"unknown={sorted(set(value) - expected)}"
         )
     answer = value["answer"]
-    if not isinstance(answer, str) or not answer.strip():
+    if not isinstance(answer, str) or (not answer.strip() and not preserve_empty_answer):
         raise ValidationError("structured QA answer must be non-empty text")
     identifier_audit: dict[str, Any] = {"identifier_policy": identifier_policy, **envelope_audit}
     malformed_support_ids: tuple[Any, ...] = ()

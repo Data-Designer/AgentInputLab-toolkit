@@ -1192,6 +1192,10 @@ in the decoder audit and predictor fingerprint. It removes only the outer fence;
 surrounding commentary, multiple objects, duplicate keys and invalid schemas
 remain errors. It never retries the model or changes the generated answer.
 
+The explicit Q-RAG instruction-preserving QA reader passes an empty answer
+string to the benchmark scorer as returned. It does not turn an absent answer,
+a non-string answer, or malformed JSON into a prediction.
+
 Choose `answer_only` only for an explicitly answer-only protocol; it does not
 invent support/evidence annotations. Retrieval settings use the existing
 `retrieval` object (`top_k`, `query_mode`, `source_mode`, `score_mode`).

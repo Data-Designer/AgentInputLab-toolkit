@@ -38,7 +38,8 @@ class _Policy:
                 compatibility_manifest_path=Path(value["compatibility_manifest_path"]),
                 compatibility_manifest_sha256=self.artifacts["compatibility_manifest_sha256"],
                 embedder_manifest_sha256=self.artifacts["embedder_manifest_sha256"],
-                device=value.get("device", "cpu"))
+                device=value.get("device", "cpu"),
+                single_candidate_axis_compat=value.get("single_candidate_axis_compat", False))
             response = runtime.select(QRAGPolicyRequest(question=question, seed=seed,
                 max_steps=max_steps, candidates=tuple(RetrievalResult(
                     Document(row["document_id"], row["text"]), 0.0, index + 1)

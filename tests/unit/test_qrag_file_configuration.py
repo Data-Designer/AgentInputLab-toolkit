@@ -62,6 +62,10 @@ def test_composite_file_is_valid_without_loading_assets(tmp_path, monkeypatch, r
     {"device": "cuda; command"}, {"timeout_seconds": 0}, {"timeout_seconds": True},
     {"python_executable": ""}, {"policy_replay_path": "saved.json"},
     {"policy_replay_sha256": "b" * 64}, {"shell": "arbitrary"}, {"fixture_mode": True},
+    {"single_candidate_axis_compat": "true"}, {"single_candidate_axis_compat": 1},
+    {"single_candidate_axis_compat": None},
+    {"single_candidate_axis_compat": True, "policy_replay_path": "saved.json",
+     "policy_replay_sha256": "b" * 64},
 ])
 def test_invalid_native_runtime_rejected(change):
     value = configuration()
@@ -130,6 +134,8 @@ def wired(monkeypatch):
     class Policy:
         def __init__(self, **options):
             assert options["device"] == "cpu"
+            assert options["single_candidate_axis_compat"] is value["runtime"].get(
+                "single_candidate_axis_compat", False)
 
         def select(self, request):
             selections.append(request)
@@ -176,6 +182,26 @@ def test_file_live_composite_preserves_native_prompt_seed_budget_and_cost(wired)
     assert worker.command == (sys.executable, "-I", "-B", "-m", "workers.qrag.configured")
     assert worker.environment["CUDA_VISIBLE_DEVICES"] == ""
     assert not Path(worker.working_directory).exists()
+
+
+def test_file_live_native_axis_opt_in_reaches_worker_on_single_candidate(wired):
+    from agentinputlab import ContextBlock, FrozenAgentState
+    from agentinputlab.algorithms.acquire.qrag.bridge import QRAG_READER_USER_TEMPLATE
+
+    value, backend, selections, invocations = wired
+    value["release_id"] = "acquire.qrag.released_checkpoint_native"
+    value["parameters"]["artifacts"]["reader_profile"] = "upstream_qwq32b_family_controlled"
+    value["runtime"]["single_candidate_axis_compat"] = True
+    visible = FrozenAgentState(query="Which?", context=(ContextBlock(block_id="c0", text="only"),))
+    result = RunConfig.from_dict(value).run(visible)
+    assert len(invocations) == len(selections) == len(backend.requests) == 1
+    assert invocations[0][1]["configuration"]["runtime"]["single_candidate_axis_compat"] is True
+    assert len(selections[0].candidates) == 1 and selections[0].max_steps == 2
+    request = backend.requests[0]
+    assert request.prompt == QRAG_READER_USER_TEMPLATE.format(question="Which?", context="only")
+    assert request.max_tokens == 200 and request.seed == 23
+    assert result["record"]["usage"]["model_calls"] == 1
+    assert result["record"]["usage"]["embedding_calls"] == 4
 
 
 def test_file_instruction_profile_preserves_instruction_and_selected_annotations(wired):

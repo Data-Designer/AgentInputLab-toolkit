@@ -48,7 +48,8 @@ def validate_runtime(config):
         raise ValidationError("qrag_native is for the frozen Q-RAG composite profiles, not common_support")
     _known(value, {"kind", "source_root", "checkpoint_root", "embedder_root",
                    "compatibility_manifest_path", "python_executable", "device", "timeout_seconds",
-                   "policy_replay_path", "policy_replay_sha256", "prepared_state_sha256"}, "runtime")
+                   "policy_replay_path", "policy_replay_sha256", "prepared_state_sha256",
+                   "single_candidate_axis_compat"}, "runtime")
     if value.get("kind") != "qrag_native":
         raise ValidationError("runtime.kind must be qrag_native")
     if "prepared_state_sha256" in value and (
@@ -69,7 +70,12 @@ def validate_runtime(config):
         valid = False
     if not valid:
         raise ValidationError("Q-RAG timeout_seconds must be positive and finite")
+    axis_compat = value.get("single_candidate_axis_compat", False)
+    if not isinstance(axis_compat, bool):
+        raise ValidationError("Q-RAG single_candidate_axis_compat must be boolean")
     if "policy_replay_path" in value or "policy_replay_sha256" in value:
+        if axis_compat:
+            raise ValidationError("Q-RAG single_candidate_axis_compat applies only to live policy execution")
         path, digest = value.get("policy_replay_path"), value.get("policy_replay_sha256")
         if not isinstance(path, str) or not path.strip() or "\x00" in path:
             raise ValidationError("Q-RAG policy replay requires a local path")

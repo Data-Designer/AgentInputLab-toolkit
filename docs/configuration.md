@@ -1438,6 +1438,14 @@ the identity also binds the selected reader prompt, original source, frozen
 checkpoint, embedder, corpus and candidate index. Do not copy an unrelated
 experiment's identities. Paths resolve relative to the configuration file.
 
+If the frozen selector reaches a one-candidate input, including an input
+that starts with exactly one candidate, set
+`"single_candidate_axis_compat": true` in the `qrag_native` runtime block
+to preserve the policy's candidate axis. This is an explicit live-policy
+option. The default is unchanged, and the option cannot be combined with
+`policy_replay_path`. Candidate order, selection budget and reader limits
+are unchanged.
+
 For a visible-state run, you can instead **remove** `parameters.artifacts`
 from the template and generate it from your mounted assets and candidate texts:
 

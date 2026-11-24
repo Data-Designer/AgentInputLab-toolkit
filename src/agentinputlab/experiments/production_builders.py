@@ -3065,6 +3065,7 @@ def _parse_visible_qa_prediction(
     identifier_policy: str = "native_sets.v1",
     allow_json_fence: bool = False,
     preserve_empty_answer: bool = False,
+    preserve_answer_text: bool = False,
 ) -> tuple[QAPrediction, Mapping[str, Any]]:
     if type(allow_json_fence) is not bool:
         raise ValidationError("QA allow_json_fence must be boolean")
@@ -3179,7 +3180,7 @@ def _parse_visible_qa_prediction(
     all_invalid_evidence_ids = (*malformed_evidence_ids, *invalid_evidence_ids)
     return (
         QAPrediction(
-            answer=answer.strip(),
+            answer=answer if preserve_answer_text else answer.strip(),
             support_ids=valid_support_ids,
             evidence_ids=valid_evidence_ids,
             evidence_texts=evidence_texts,

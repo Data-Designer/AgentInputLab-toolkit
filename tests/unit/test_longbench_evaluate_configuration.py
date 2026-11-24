@@ -270,7 +270,8 @@ class CompositeAdapter(Adapter):
 def test_structured_composite_scores_answer_only_without_generation(tmp_path, cell, fenced):
     from tests.unit.test_composite_ir_evaluate_configuration import setup
 
-    text = json.dumps(dict(answer="answer", support_ids=["x", "x"],
+    answer = "    answer\n"
+    text = json.dumps(dict(answer=answer, support_ids=["x", "x"],
                            evidence_ids=["e", "e"], evidence_texts=[]))
     if fenced:
         text = "```json\n" + text + "\n```"
@@ -280,7 +281,7 @@ def test_structured_composite_scores_answer_only_without_generation(tmp_path, ce
         context=context, predictor_parameters={"schema_version": 1, "native_text": {
             "composite_output_format": "structured_qa_json", "allow_json_fence": fenced}})
     assert result["scored_count"] == 1
-    assert adapter.predictions == ["answer"]
+    assert adapter.predictions == [answer]
     assert len(backend.requests) == 1
     row = result["records"][0]
     assert row["intervention"]["result"]["final_answer"] == text

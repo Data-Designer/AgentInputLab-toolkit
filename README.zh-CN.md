@@ -16,7 +16,7 @@
 python -m venv .venv
 # Linux / macOS；Windows PowerShell 使用 .venv\Scripts\Activate.ps1
 source .venv/bin/activate
-python -m pip install agentinputlab==0.1.0a18
+python -m pip install agentinputlab==0.1.0a19
 python -m agentinputlab --version
 python -m agentinputlab doctor --offline --json
 python -m agentinputlab smoke --json

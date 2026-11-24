@@ -865,8 +865,9 @@ Both initial and rewrite retrievals count against the shared retrieval budget.
 For an answer-producing profile whose declared response is the four-field QA
 JSON object (for example Q-RAG's instruction-preserving reader), explicitly set
 `native_text.composite_output_format` to `"structured_qa_json"`. Only its decoded
-`answer` is then passed to the native LongBench text scorer; support/evidence
-fields are not LongBench metrics. Set `native_text.allow_json_fence` to `true`
+`answer` is then passed unchanged to the native LongBench text scorer, including
+code indentation; support/evidence fields are not LongBench metrics. Set
+`native_text.allow_json_fence` to `true`
 only to accept one complete JSON code fence. Both options are recorded; the
 default remains unmodified text. Invalid JSON/schema is a retained failure,
 never a fallback answer. This adds no model calls and does not change the prompt,

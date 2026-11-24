@@ -209,7 +209,8 @@ def composite_prediction(text, *, state, benchmark_id, settings):
 
     prediction, audit = _parse_visible_qa_prediction(
         text, benchmark_id=benchmark_id, state=state, output_format="structured_json",
-        identifier_policy="native_sets.v1", allow_json_fence=settings["allow_json_fence"])
+        identifier_policy="native_sets.v1", allow_json_fence=settings["allow_json_fence"],
+        preserve_answer_text=True)
     return prediction.answer, {**metadata, "composite_output_format": "structured_qa_json",
         "identifier_audit": audit, "scoring_fields": ["answer"],
         "support_and_evidence_scored": False}

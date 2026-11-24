@@ -5,7 +5,7 @@ type: software
 authors:
   - family-names: Zhao
     given-names: Chuang
-version: 0.1.0a18
+version: 0.1.0a19
 date-released: 2026-11-23
 repository-code: "https://github.com/Data-Designer/AgentInputLab-toolkit"
 license: MIT

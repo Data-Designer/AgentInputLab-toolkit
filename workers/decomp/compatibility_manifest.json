@@ -181,6 +181,16 @@
       ]
     },
     {
+      "id": "typed_missing_route_match_v1",
+      "kind": "invalid_output_diagnostic",
+      "upstream_symbol": "decomp.inference.participant_execution_routed.RoutedExecutionParticipant.query",
+      "changes": [
+        "check the pinned participant's own three patterns before dispatch",
+        "report a typed invalid output when none matches, without rewriting the instruction or retrying",
+        "leave matching transitions and other participants unchanged"
+      ]
+    },
+    {
       "id": "context_identity_passthrough_v2",
       "upstream_symbol": "decomp.inference.configurable_inference.inference_mode",
       "kind": "input_contract_compatibility_patch",

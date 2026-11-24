@@ -145,6 +145,31 @@ class _BoundedCapture(io.TextIOBase):
         return self.digest.hexdigest()
 
 
+def _validate_routed_instruction(controller: Any, state: Any, participant: str) -> None:
+    """Reject missing native matches before the pinned router dereferences one."""
+    native = sys.modules.get("decomp.inference.participant_execution_routed")
+    router_type = getattr(native, "RoutedExecutionParticipant", None)
+    models = getattr(controller, "model_list", None)
+    if not isinstance(router_type, type) or not isinstance(models, Mapping):
+        return
+    route = models.get(participant)
+    router = getattr(route, "__self__", None)
+    if type(router) is not router_type or getattr(route, "__func__", None) is not router_type.query:
+        return
+
+    # These are the verified participant's own regex objects, in its own order.
+    # Other participants and matching instructions still execute unchanged.
+    question = state._data.get_last_question()
+    if isinstance(question, str) and not (
+        router.model_question_regex.match(question)
+        or router.operation_model_question_regex.match(question)
+        or router.operation_only_regex.match(question)
+    ):
+        raise DriverError(
+            "UPSTREAM_OUTPUT_INVALID", "native DecomP router received an invalid instruction"
+        )
+
+
 class _AuditedBestFirst:
     """Control-flow-equivalent bounded form of upstream BestFirstDecomposer."""
 
@@ -214,6 +239,7 @@ class _AuditedBestFirst:
                 return current, "max_steps"
 
             participant = _command_text(current.next)
+            _validate_routed_instruction(self.controller, current, participant)
             outputs = self.controller.execute(current, debug=False)
             self.execute_calls += 1
             if not isinstance(outputs, list):

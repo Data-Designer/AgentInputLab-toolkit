@@ -5,11 +5,15 @@ import hashlib
 import io
 import json
 import os
+import re
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
+from unittest.mock import patch
 
 from agentinputlab.algorithms.decompose.decomp import DecompFullBridge
 from agentinputlab.algorithms.decompose.decomp.worker_bridge import (
@@ -31,6 +35,7 @@ from workers.decomp.driver import (
     UPSTREAM_COMMIT,
     DecompDriver,
     DriverError,
+    _validate_routed_instruction,
     serve_jsonl,
 )
 from workers.decomp.runtime import PinnedDecompRuntime
@@ -250,6 +255,35 @@ def _typed_response(value: dict[str, Any]) -> DecompWorkerResponse:
 
 
 class DecompWorkerDriverTests(unittest.TestCase):
+    def test_unmatched_native_route_fails_without_echo_or_dispatch(self) -> None:
+        class RoutedExecutionParticipant:
+            model_question_regex = re.compile(r"\[([^\]]+)\] (.*)")
+            operation_model_question_regex = re.compile(r"\((.+)\) \[([^\]]+)\] (.*)")
+            operation_only_regex = re.compile(r"\((.+)\)(.*)")
+
+            def query(self, state, debug=False):
+                raise AssertionError("the guard must not dispatch native work")
+
+        router = RoutedExecutionParticipant()
+        module = SimpleNamespace(RoutedExecutionParticipant=RoutedExecutionParticipant)
+        controller = SimpleNamespace(model_list={"router": router.query})
+
+        def state(text):
+            return SimpleNamespace(_data=SimpleNamespace(get_last_question=lambda: text))
+
+        with patch.dict(sys.modules, {"decomp.inference.participant_execution_routed": module}):
+            for instruction in ("[qa] question", "(select) [qa] question", "(merge) #1 #2"):
+                with self.subTest(instruction=instruction):
+                    _validate_routed_instruction(controller, state(instruction), "router")
+            for malformed in ("", "unmatched private transcript"):
+                with self.subTest(instruction=malformed), self.assertRaises(DriverError) as caught:
+                    _validate_routed_instruction(controller, state(malformed), "router")
+                self.assertEqual(caught.exception.code, "UPSTREAM_OUTPUT_INVALID")
+                self.assertEqual(
+                    caught.exception.public_message, "native DecomP router received an invalid instruction"
+                )
+            _validate_routed_instruction(controller, object(), "different_participant")
+
     def test_distributed_upstream_license_matches_pinned_apache_text(self) -> None:
         license_path = (
             Path(__file__).parents[2] / "workers" / "decomp" / ("UPSTREAM_LICENSE.Apache-2.0.txt")

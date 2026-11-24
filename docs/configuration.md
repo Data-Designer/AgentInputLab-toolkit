@@ -196,6 +196,47 @@ the run's cumulative budget remains in force. This opt-in example changes the
 named stage allocation and its fingerprint. Raw-completion Decomp/UDCS profiles
 set their native per-call limits in method parameters.
 
+### Active Task Disambiguation: joint H2/Q2
+
+The default ATD layout samples hypotheses and questions separately, then
+partitions the hypotheses for each question. Set `request_layout` to
+`joint_h2q2` to request two hypotheses, then generate both questions and their
+answer categories in one joint request. The adapter uses uniform empirical
+information gain to select a clarification in either layout.
+
+```json
+{
+  "release_id": "clarify.active_task_disambiguation.eig_uniform",
+  "parameters": {
+    "controls": {
+      "request_layout": "joint_h2q2",
+      "total_hypotheses": 2,
+      "total_questions": 2,
+      "max_tokens": 512,
+      "temperature": 0.7
+    }
+  },
+  "backend": {
+    "base_url": "https://your-endpoint.example/v1",
+    "model_id": "your-model",
+    "deployment_identity": {"revision": "your-model-revision"},
+    "api_key_env": "OPENAI_API_KEY",
+    "max_output_tokens_per_call": 512,
+    "stage_output_caps": {
+      "active_task_disambiguation:partition_hypotheses": 1024
+    }
+  },
+  "budget": {"max_model_calls": 8, "max_output_tokens": 4096},
+  "seed": 17
+}
+```
+
+The endpoint must support chat, JSON-object output, seed, and the declared
+stage sizes. The two stages reserve 512 and 1,024 output tokens within the
+shared budget; allow at least two calls and 1,536 output tokens. If a configured
+backend wrapper would shorten either stage, ATD fails before the first request.
+An incomplete answer grid is reported as a method failure without retry.
+
 ## Per-case retrieval without hand-writing a document list
 
 For tasks whose native visible state contains documents, opt in to a fresh

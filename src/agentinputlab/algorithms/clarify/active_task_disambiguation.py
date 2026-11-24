@@ -14,6 +14,8 @@ from agentinputlab.backends.llm.base import require_capabilities
 from agentinputlab.contracts import (
     AlgorithmOutputError,
     BudgetExceededError,
+    CapabilityError,
+    ExecutionBudget,
     ExecutionTrace,
     ExternalDependencyError,
     FrozenAgentState,
@@ -34,6 +36,24 @@ ACTIVE_TASK_DISAMBIGUATION_UPSTREAM_COMMIT = "4c8ecb4d4ffdbffcc611366743fc1e2461
 ACTIVE_TASK_DISAMBIGUATION_RELEASE = "clarify.active_task_disambiguation.eig_uniform"
 ACTIVE_TASK_DISAMBIGUATION_PROTOCOL = "agentinputlab.active-task-disambiguation.v1"
 ACTIVE_TASK_RESPONSE_ADAPTER = "unambiguous-text-records.v1"
+_JOINT_LAYOUT_ID = "atd.hypothesis-then-joint-question-grid.v1"
+_JOINT_CAPS = {"sample_hypotheses": 512, "partition_hypotheses": 1024}
+_JOINT_HYPOTHESIS_SYSTEM = (
+    "Sample diverse hypotheses about unresolved user-side facts or preferences that would "
+    "change a justified next action under the visible request, instructions and tool catalog. "
+    "Keep all explicit observations and preferences fixed; treat a user interpretation or "
+    "diagnosis as a claim, not an independently verified fact. Do not create alternatives "
+    "by contradicting facts the user already supplied. Do not make the user guess database "
+    "records, policy eligibility or other facts that the advertised tools can inspect. "
+    "Use only the supplied visible information. Return concise JSON only."
+)
+_JOINT_QUESTION_SYSTEM = (
+    "Using the supplied visible facts and hypotheses, write two neutral clarification "
+    "questions about unresolved user-known facts or preferences needed for a justified "
+    "next action. Do not repeat facts already given or ask users for database facts "
+    "that available tools can inspect. Then predict a categorical answer to each "
+    "question under each hypothesis. Return only the complete JSON, no explanations."
+)
 
 
 @dataclass(frozen=True, slots=True)
@@ -42,6 +62,7 @@ class ActiveDisambiguationControls:
     total_questions: int = 4
     max_tokens: int = 768
     temperature: float = 0.7
+    request_layout: str = "separate"
 
     def __post_init__(self) -> None:
         if not 2 <= self.total_hypotheses <= 20:
@@ -52,6 +73,14 @@ class ActiveDisambiguationControls:
             raise ValidationError("active disambiguation max_tokens must be at least 128")
         if self.temperature < 0:
             raise ValidationError("active disambiguation temperature must be non-negative")
+        if self.request_layout not in ("separate", "joint_h2q2"):
+            raise ValidationError("active disambiguation request_layout must be separate or joint_h2q2")
+        if self.request_layout == "joint_h2q2" and (
+            self.total_hypotheses, self.total_questions, self.max_tokens
+        ) != (2, 2, _JOINT_CAPS["sample_hypotheses"]):
+            raise ValidationError(
+                "joint_h2q2 requires total_hypotheses=2, total_questions=2, and max_tokens=512"
+            )
 
 
 @dataclass(slots=True)
@@ -78,15 +107,18 @@ class ActiveTaskDisambiguation:
             backend,
             {ModelCapability.CHAT, ModelCapability.JSON_OBJECT, ModelCapability.SEED},
         )
-        per_call_output_cap = _fair_per_call_output_cap(
-            state,
-            requested=self.controls.max_tokens,
+        joint = self.controls.request_layout == "joint_h2q2"
+        if joint:
+            _require_joint_capacity(state.budget, backend, self.method_id)
+        per_call_output_cap = (
+            _JOINT_CAPS["sample_hypotheses"]
+            if joint else _fair_per_call_output_cap(state, requested=self.controls.max_tokens)
         )
         calls: list[dict[str, Any]] = []
         normalizations: list[dict[str, Any]] = []
         hypotheses_payload = self._call(
             backend,
-            system=(
+            system=_JOINT_HYPOTHESIS_SYSTEM if joint else (
                 "Sample diverse and representative solutions or user-intent hypotheses that "
                 "remain compatible with the visible problem statement. Return JSON only."
             ),
@@ -108,54 +140,16 @@ class ActiveTaskDisambiguation:
             text_fields=("text", "description", "hypothesis", "statement"),
             normalizations=normalizations,
         )
-        question_payload = self._call(
-            backend,
-            system=(
-                "Generate questions whose possible answers distinguish the compatible "
-                "hypotheses. Return JSON only."
-            ),
-            prompt=(
-                f"{visible_problem(state)}\n\nHypotheses:\n{_numbered(hypotheses)}\n\n"
-                f'Return {{"questions":[...]}} with exactly '
-                f"{self.controls.total_questions} concise questions."
-            ),
-            seed=context.seed + 1,
-            phase="sample_questions",
-            calls=calls,
-            max_tokens=per_call_output_cap,
-        )
-        questions = _atd_string_list(
-            question_payload.get("questions"),
-            label="active-disambiguation questions",
-            minimum=1,
-            maximum=self.controls.total_questions,
-            text_fields=("text",),
-            normalizations=normalizations,
-        )
-        entropies: list[float] = []
-        partitions: list[tuple[str, ...]] = []
-        for index, question in enumerate(questions):
-            payload = self._call(
-                backend,
-                system=(
-                    "Predict the categorical user answer to one candidate clarifying question "
-                    "under every supplied hypothesis. Use the same short category string for "
-                    "semantically equivalent answers. Return JSON only."
-                ),
-                prompt=(
-                    f"Hypotheses:\n{_numbered(hypotheses)}\n\nQuestion: {question}\n\n"
-                    'Return {"answers":[{"hypothesis_id":0,'
-                    '"answer_category":"..."},...]}; cover every hypothesis once. '
-                    "Use answer categories of at most six words."
-                ),
-                seed=context.seed + 2 + index,
-                phase="partition_hypotheses",
-                calls=calls,
-                max_tokens=per_call_output_cap,
+        if joint:
+            _check_joint_usage(state.budget, calls, per_call_output_cap)
+            questions, partitions = self._joint_questions(
+                backend, state, context.seed, hypotheses, calls, normalizations
             )
-            categories = _parse_partition(payload, expected=len(hypotheses))
-            partitions.append(categories)
-            entropies.append(empirical_entropy(categories))
+        else:
+            questions, partitions = self._separate_questions(
+                backend, state, context.seed, hypotheses, calls, normalizations, per_call_output_cap
+            )
+        entropies = [empirical_entropy(categories) for categories in partitions]
         selected_index = max(range(len(questions)), key=entropies.__getitem__)
         selected_question = questions[selected_index]
         trace = ExecutionTrace(
@@ -214,8 +208,108 @@ class ActiveTaskDisambiguation:
                 "response_adapter_revision": ACTIVE_TASK_RESPONSE_ADAPTER,
                 "response_normalizations": normalizations,
                 "backend_fingerprint": dict(backend.fingerprint()),
+                **({
+                    "request_layout_variant": _JOINT_LAYOUT_ID,
+                    "maximum_optimizer_calls": 2,
+                    "no_native_policy_change": True,
+                } if joint else {}),
             },
         )
+
+    def _separate_questions(
+        self,
+        backend: LLMBackend,
+        state: FrozenAgentState,
+        seed: int,
+        hypotheses: tuple[str, ...],
+        calls: list[dict[str, Any]],
+        normalizations: list[dict[str, Any]],
+        per_call_output_cap: int,
+    ) -> tuple[tuple[str, ...], list[tuple[str, ...]]]:
+        question_payload = self._call(
+            backend,
+            system=(
+                "Generate questions whose possible answers distinguish the compatible "
+                "hypotheses. Return JSON only."
+            ),
+            prompt=(
+                f"{visible_problem(state)}\n\nHypotheses:\n{_numbered(hypotheses)}\n\n"
+                f'Return {{"questions":[...]}} with exactly '
+                f"{self.controls.total_questions} concise questions."
+            ),
+            seed=seed + 1,
+            phase="sample_questions",
+            calls=calls,
+            max_tokens=per_call_output_cap,
+        )
+        questions = _atd_string_list(
+            question_payload.get("questions"),
+            label="active-disambiguation questions",
+            minimum=1,
+            maximum=self.controls.total_questions,
+            text_fields=("text",),
+            normalizations=normalizations,
+        )
+        partitions: list[tuple[str, ...]] = []
+        for index, question in enumerate(questions):
+            payload = self._call(
+                backend,
+                system=(
+                    "Predict the categorical user answer to one candidate clarifying question "
+                    "under every supplied hypothesis. Use the same short category string for "
+                    "semantically equivalent answers. Return JSON only."
+                ),
+                prompt=(
+                    f"Hypotheses:\n{_numbered(hypotheses)}\n\nQuestion: {question}\n\n"
+                    'Return {"answers":[{"hypothesis_id":0,'
+                    '"answer_category":"..."},...]}; cover every hypothesis once. '
+                    "Use answer categories of at most six words."
+                ),
+                seed=seed + 2 + index,
+                phase="partition_hypotheses",
+                calls=calls,
+                max_tokens=per_call_output_cap,
+            )
+            partitions.append(_parse_partition(payload, expected=len(hypotheses)))
+        return questions, partitions
+
+    def _joint_questions(
+        self,
+        backend: LLMBackend,
+        state: FrozenAgentState,
+        seed: int,
+        hypotheses: tuple[str, ...],
+        calls: list[dict[str, Any]],
+        normalizations: list[dict[str, Any]],
+    ) -> tuple[tuple[str, ...], list[tuple[str, ...]]]:
+        cap = _JOINT_CAPS["partition_hypotheses"]
+        payload = self._call(
+            backend,
+            system=_JOINT_QUESTION_SYSTEM,
+            prompt=(
+                f"{visible_problem(state)}\n\nHypotheses:\n{_numbered(hypotheses)}\n\n"
+                'Return {"questions":["short question?","short question?"],'
+                '"partitions":[["category","category"],["category","category"]]}. '
+                "Exactly two questions, each at most 15 words. Each row corresponds to "
+                "one question in order, and its two categories to hypotheses in order. "
+                "Within a row use identical categories for equivalent answers. Cover all "
+                "positions once; categories at most six words. No rationale fields."
+            ),
+            seed=seed + 2,
+            phase="partition_hypotheses",
+            calls=calls,
+            max_tokens=cap,
+        )
+        _check_joint_usage(state.budget, calls, cap)
+        questions = _atd_string_list(
+            payload.get("questions"),
+            label="active-disambiguation questions",
+            minimum=2,
+            maximum=2,
+            text_fields=("text",),
+            normalizations=normalizations,
+        )
+        return questions, _parse_joint_grid(payload)
 
     def _call(
         self,
@@ -271,6 +365,60 @@ class ActiveTaskDisambiguation:
                 f"{exc} [finish_reason={safe_reason}; "
                 f"output_tokens={response.usage.output_tokens}; max_tokens={max_tokens}]"
             ) from exc
+
+
+def _require_joint_capacity(budget: ExecutionBudget, backend: LLMBackend, method_id: str) -> None:
+    if budget.max_model_calls < 2 or budget.max_output_tokens < sum(_JOINT_CAPS.values()):
+        raise BudgetExceededError("joint_h2q2 requires 2 model calls and at least 1536 output tokens")
+    # Inspect declared wrappers, including observability/production bindings.
+    # An unadvertised provider-side limit cannot be inferred from the model ID.
+    pending = [backend.fingerprint()]
+    visited: set[int] = set()
+    while pending:
+        entry = pending.pop()
+        if not isinstance(entry, Mapping) or id(entry) in visited:
+            continue
+        visited.add(id(entry))
+        if entry.get("backend") == "per_call_output_cap":
+            overrides = entry.get("stage_output_caps", {})
+            for phase, needed in _JOINT_CAPS.items():
+                key = f"{method_id}:{phase}"
+                cap = overrides.get(key, entry.get("max_output_tokens_per_call"))
+                if type(cap) is not int or cap < needed:
+                    raise CapabilityError(
+                        f"joint_h2q2 requires backend output capacity of {needed} for {key}; "
+                        "configure the stage cap in every limiting wrapper"
+                    )
+        pending.extend(entry.get(key) for key in ("inner", "backend"))
+
+
+def _check_joint_usage(
+    budget: ExecutionBudget, calls: list[dict[str, Any]], stage_cap: int
+) -> None:
+    used = _usage_counters(calls)
+    if (calls[-1]["output_tokens"] > stage_cap
+        or used["output_tokens"] > budget.max_output_tokens
+        or (budget.max_context_tokens is not None and used["input_tokens"] > budget.max_context_tokens)
+        or (budget.max_cost_usd is not None and used["cost_usd"] > budget.max_cost_usd)):
+        raise BudgetExceededError("joint_h2q2 response exceeded the stage or cumulative budget")
+
+
+def _parse_joint_grid(payload: Any) -> list[tuple[str, ...]]:
+    rows = payload.get("partitions")
+    if not isinstance(rows, list) or len(rows) != 2:
+        raise AlgorithmOutputError("joint_h2q2 partitions must include one row per question")
+    out = []
+    for row in rows:
+        if not isinstance(row, list) or len(row) != 2:
+            raise AlgorithmOutputError("joint_h2q2 each row must cover both hypotheses")
+        out.append(_parse_partition(
+            {"answers": [
+                {"hypothesis_id": index, "answer_category": value}
+                for index, value in enumerate(row)
+            ]},
+            expected=2,
+        ))
+    return out
 
 
 def _atd_string_list(

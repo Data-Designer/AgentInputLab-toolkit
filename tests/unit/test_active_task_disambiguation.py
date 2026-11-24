@@ -3,7 +3,9 @@ from __future__ import annotations
 import json
 import math
 import unittest
+import pytest
 
+from agentinputlab import RunConfig
 from agentinputlab.algorithms.clarify import (
     ActiveDisambiguationControls,
     ActiveTaskDisambiguation,
@@ -11,13 +13,17 @@ from agentinputlab.algorithms.clarify import (
 )
 from agentinputlab.backends.llm import (
     CallableBackend, ModelCapability, ReplayBackend, GenerationResponse, Usage,
+    OpenAICompatibleBackend, PerCallOutputCapBackend,
 )
 from agentinputlab.algorithms.clarify.active_task_disambiguation import _atd_string_list
 from agentinputlab.contracts import (
     AlgorithmOutputError,
+    BudgetExceededError,
+    CapabilityError,
     ExecutionBudget,
     FrozenAgentState,
     InterventionContext,
+    ValidationError,
 )
 
 
@@ -69,6 +75,7 @@ def test_active_disambiguation_selects_maximum_entropy_question() -> None:
     assert patch.metadata["selected_question_index"] == 1
     assert patch.trace.counters["model_calls"] == 4
     assert math.isclose(patch.metadata["entropies"][1], math.log(2))
+    assert "request_layout_variant" not in patch.metadata
 
 
 def test_active_disambiguation_entropy_matches_uniform_partition() -> None:
@@ -232,3 +239,110 @@ def test_atd_empty_or_truncated_final_is_not_retried_or_replaced_by_reasoning() 
             )
         assert len(backend.calls) == 1
         assert backend.calls[0].max_tokens == 512
+
+
+_JOINT_CONTROLS = {
+    "total_hypotheses": 2,
+    "total_questions": 2,
+    "max_tokens": 512,
+    "request_layout": "joint_h2q2",
+}
+_JOINT_STAGE = "active_task_disambiguation:partition_hypotheses"
+_JOINT_REPLY = {
+    "questions": ["Which preference?", "Which recipient?"],
+    "partitions": [["same", " SAME "], ["primary", "secondary"]],
+}
+
+
+def test_joint_h2q2_config_uses_two_requests_and_the_maximum_entropy(monkeypatch) -> None:
+    requests = []
+    responses = iter([{"hypotheses": ["intent a", "intent b"]}, _JOINT_REPLY])
+
+    def generate(self, request):
+        requests.append(request)
+        return GenerationResponse(_response(next(responses)), usage=Usage(20, 30))
+
+    monkeypatch.setattr(OpenAICompatibleBackend, "generate", generate)
+    config = RunConfig.from_dict({
+        "release_id": "clarify.active_task_disambiguation.eig_uniform",
+        "parameters": {"controls": _JOINT_CONTROLS},
+        "backend": {
+            "base_url": "https://archive-only.invalid/v1",
+            "model_id": "configured-model",
+            "deployment_identity": {"revision": "fixture"},
+            "max_output_tokens_per_call": 512,
+            "stage_output_caps": {_JOINT_STAGE: 1024},
+        },
+        "budget": {"max_model_calls": 8, "max_output_tokens": 4096},
+    })
+    assert config.validate()["model_calls"] == 0 and not requests
+    result = config.run("Ambiguous task")
+    patch = result["record"]["patch"]
+    assert result["record"]["usage"]["model_calls"] == 2
+    assert [(r.seed, r.max_tokens, r.metadata["phase"]) for r in requests] == [
+        (17, 512, "sample_hypotheses"), (19, 1024, "partition_hypotheses"),
+    ]
+    assert all(r.response_format == {"type": "json_object"} for r in requests)
+    assert "0. intent a\n1. intent b" in requests[1].prompt
+    assert patch["metadata"]["request_layout_variant"] == "atd.hypothesis-then-joint-question-grid.v1"
+    assert patch["metadata"]["entropies"] == [0.0, math.log(2)]
+    assert patch["operations"][0]["value"] == "Which recipient?"
+
+
+@pytest.mark.parametrize("budget, message", [
+    (ExecutionBudget(max_model_calls=1, max_output_tokens=4096), "2 model calls"),
+    (ExecutionBudget(max_model_calls=8, max_output_tokens=1535), "1536 output tokens"),
+])
+def test_joint_h2q2_requires_capacity_before_any_model_call(budget, message) -> None:
+    backend = CallableBackend(fn=lambda _: pytest.fail("unexpected call"),
+                              revision="fixture", callable_id="capacity", capabilities=_CAPABILITIES)
+    method = ActiveTaskDisambiguation(controls=ActiveDisambiguationControls(**_JOINT_CONTROLS))
+    with pytest.raises(BudgetExceededError, match=message):
+        method.propose(FrozenAgentState(query="Ambiguous task", budget=budget),
+                       InterventionContext(backend=backend))
+    assert not backend.calls
+
+
+def test_joint_h2q2_rejects_a_nested_backend_that_would_clip_the_joint_request() -> None:
+    backend = CallableBackend(fn=lambda _: pytest.fail("unexpected call"),
+                              revision="fixture", callable_id="clip", capabilities=_CAPABILITIES)
+    limited = PerCallOutputCapBackend(
+        PerCallOutputCapBackend(backend, 512), 512, stage_output_caps={_JOINT_STAGE: 1024}
+    )
+    method = ActiveTaskDisambiguation(controls=ActiveDisambiguationControls(**_JOINT_CONTROLS))
+    with pytest.raises(CapabilityError, match="configure the stage cap in every limiting wrapper"):
+        method.propose(FrozenAgentState(query="Ambiguous task"), InterventionContext(backend=limited))
+    assert not backend.calls
+
+
+@pytest.mark.parametrize("grid", [
+    [["a", "b"]], [["a", "b"], ["c"]], [["a", "b"], ["", "c"]],
+    [["a", "b"], ["c", {"text": "d"}]],
+])
+def test_joint_h2q2_does_not_repair_or_retry_incomplete_grids(grid) -> None:
+    outputs = iter([{"hypotheses": ["a", "b"]}, {**_JOINT_REPLY, "partitions": grid}])
+    backend = CallableBackend(fn=lambda _: _response(next(outputs)),
+                              revision="fixture", callable_id="grid", capabilities=_CAPABILITIES)
+    method = ActiveTaskDisambiguation(controls=ActiveDisambiguationControls(**_JOINT_CONTROLS))
+    with pytest.raises(AlgorithmOutputError):
+        method.propose(FrozenAgentState(query="Ambiguous task"), InterventionContext(backend=backend))
+    assert len(backend.calls) == 2
+
+
+def test_joint_h2q2_rejects_over_budget_response_before_second_call() -> None:
+    response = GenerationResponse(_response({"hypotheses": ["a", "b"]}), usage=Usage(10, 513))
+    backend = CallableBackend(fn=lambda _: response, revision="fixture",
+                              callable_id="over-cap", capabilities=_CAPABILITIES)
+    method = ActiveTaskDisambiguation(controls=ActiveDisambiguationControls(**_JOINT_CONTROLS))
+    with pytest.raises(BudgetExceededError, match="stage or cumulative budget"):
+        method.propose(FrozenAgentState(query="Ambiguous task"), InterventionContext(backend=backend))
+    assert len(backend.calls) == 1
+
+
+@pytest.mark.parametrize("override", [
+    {"total_hypotheses": 3}, {"total_questions": 1}, {"max_tokens": 1024},
+    {"request_layout": "unknown"},
+])
+def test_joint_h2q2_rejects_combinations_outside_the_fixed_layout(override) -> None:
+    with pytest.raises(ValidationError):
+        ActiveDisambiguationControls(**(_JOINT_CONTROLS | override))

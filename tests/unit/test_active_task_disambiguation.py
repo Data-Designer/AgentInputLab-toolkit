@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import unittest
+
 import pytest
 
 from agentinputlab import RunConfig
@@ -11,11 +12,16 @@ from agentinputlab.algorithms.clarify import (
     ActiveTaskDisambiguation,
     empirical_entropy,
 )
-from agentinputlab.backends.llm import (
-    CallableBackend, ModelCapability, ReplayBackend, GenerationResponse, Usage,
-    OpenAICompatibleBackend, PerCallOutputCapBackend,
-)
 from agentinputlab.algorithms.clarify.active_task_disambiguation import _atd_string_list
+from agentinputlab.backends.llm import (
+    CallableBackend,
+    GenerationResponse,
+    ModelCapability,
+    OpenAICompatibleBackend,
+    PerCallOutputCapBackend,
+    ReplayBackend,
+    Usage,
+)
 from agentinputlab.contracts import (
     AlgorithmOutputError,
     BudgetExceededError,
@@ -227,7 +233,7 @@ def test_atd_empty_or_truncated_final_is_not_retried_or_replaced_by_reasoning() 
             raw={"choices": [{"message": {
                 "reasoning_content": '{"hypotheses":["a","b"]}'}}]},
         )
-        backend = CallableBackend(fn=lambda _: response, revision="v1", callable_id="atd-test",
+        backend = CallableBackend(fn=lambda _, response=response: response, revision="v1", callable_id="atd-test",
                                   capabilities=_CAPABILITIES)
         with unittest.TestCase().assertRaisesRegex(
             AlgorithmOutputError, "finish_reason=length; output_tokens=512; max_tokens=512"

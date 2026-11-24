@@ -14,7 +14,7 @@ from .contracts import (
 )
 from .fit_configuration import FitConfig
 
-__version__ = "0.1.0a20"
+__version__ = "0.1.0a21"
 
 __all__ = [
     "ContextBlock",

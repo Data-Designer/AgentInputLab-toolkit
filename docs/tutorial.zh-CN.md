@@ -9,7 +9,7 @@
 ```sh
 python -m venv .venv
 source .venv/bin/activate
-python -m pip install agentinputlab==0.1.0a20
+python -m pip install agentinputlab==0.1.0a21
 agentinputlab --version
 agentinputlab doctor --offline --json
 agentinputlab smoke --json
@@ -75,7 +75,7 @@ agentinputlab config run rrr.json --query "What is the capital of France?"
 以 LongBench MultiFieldQA-en 的一条固定顺序样本为例：
 
 ```sh
-python -m pip install 'agentinputlab[longbench]==0.1.0a20'
+python -m pip install 'agentinputlab[longbench]==0.1.0a21'
 ```
 
 按[数据准备指南](benchmark-setup.md)取得固定版本的数据压缩包、原生评分器和提示词模板，确认其许可。安装包不附带这些第三方资源。已有相同哈希的文件直接复用，不必再次下载。创建 `longbench.json`：

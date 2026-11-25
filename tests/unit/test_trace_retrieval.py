@@ -1,10 +1,12 @@
 import pytest
 
 from agentinputlab import ExecutionBudget, InterventionContext, RunConfig
+from agentinputlab.algorithms.acquire import adaptive_rag_common_support as adaptive
 from agentinputlab.backends.retrieval import Document, InMemoryBM25Retriever
 from agentinputlab.benchmarks import BenchmarkExample
 from agentinputlab.benchmarks.trace_retrieval import prediction_from_trace
 from agentinputlab.contracts import ExecutionTrace, TraceEvent, TracePhase, ValidationError
+from tests.unit.test_adaptive_router_file_configuration import run_config
 from tests.unit.test_benchmark_configuration import Backend
 
 
@@ -12,6 +14,7 @@ from tests.unit.test_benchmark_configuration import Backend
     ("release", "event", "field"),
     [
         ("plan.decomp.common_support_odqa", "decomp_common_support_result", "retrieved_document_ids"),
+        ("acquire.adaptive_rag.common_support", "adaptive_rag_selected_arm_exit", "document_ids"),
         ("acquire.ircot.common_support", "ircot_exit", "active_document_ids"),
         ("acquire.qrag.common_support", "qrag_selected_real_context", "selected_document_ids"),
     ],
@@ -24,6 +27,10 @@ def test_final_rank_keeps_exact_order_and_rejects_unobserved_ids(release, event,
         prediction_from_trace(trace, observed_document_ids={"b"})
     with pytest.raises(ValidationError, match="ambiguous"):
         prediction_from_trace(trace.append(record), observed_document_ids={"a", "b"})
+    with pytest.raises(ValidationError, match="duplicate"):
+        prediction_from_trace(ExecutionTrace(trace.method_id, release, (
+            TraceEvent(TracePhase.FINALIZE, event, {field: ("a", "a")}),
+        )), observed_document_ids={"a"})
 
 
 def test_self_ask_uses_first_retrieval_appearance_only():
@@ -75,6 +82,43 @@ def test_full_self_ask_uses_observed_rank_without_extra_reader_or_search():
     assert row["usage"]["model_calls"] == len(backend.requests) == 2
     assert row["usage"]["retrieval_calls"] == 1
     assert "secret-not-visible" not in str(backend.requests)
+
+
+@pytest.mark.parametrize("benchmark", ["bright.earth_science", "beir.fiqa_2018"])
+@pytest.mark.parametrize("label", ["A", "B", "C"])
+def test_adaptive_rag_scores_selected_route_without_extra_reader(monkeypatch, benchmark, label):
+    expected = [] if label == "A" else ["real-id"]
+    router_calls = []
+
+    class Router:
+        def route(self, question):
+            router_calls.append(question)
+            return adaptive.AdaptiveRAGRoute(label, {k: float(k == label) for k in "ABC"}, 3)
+
+        def fingerprint(self):
+            return {"fixture": "router"}
+
+    class Adapter(RetrievalAdapter):
+        benchmark_id = benchmark
+
+        def score(self, example, prediction):
+            assert example is self.case
+            assert list(prediction.scores) == expected
+            return {"ndcg_at_10": float(bool(expected))}
+
+    monkeypatch.setattr(adaptive, "T5AdaptiveRAGRouter", lambda **_: Router())
+    backend = Backend([("The answer is fruit.", 5)] if label == "C" else [])
+    row, = run_config().evaluate(benchmark, split="test", limit=1, adapter=Adapter(),
+        context=InterventionContext(backend=backend,
+            retriever=InMemoryBM25Retriever((Document("real-id", "apple fruit", corpus_revision="fixture-v1"),))),
+        predictor_parameters={"schema_version": 1, "trace_ranking": {"protocol": "observed_rank.v1"}})["records"]
+    assert row["status"] == "scored", row.get("failure")
+    assert row["downstream_metadata"]["ranked_document_ids"] == expected
+    assert row["observed_retrieval_ids"] == ([expected] if expected else [])
+    assert router_calls == ["apple?"]
+    assert len(backend.requests) == int(label == "C")
+    assert row["usage"]["model_calls"] == 1 + len(backend.requests)
+    assert row["usage"]["retrieval_calls"] == int(label != "A")
 
 
 def test_rank_protocol_rejects_other_releases_before_backend_call():

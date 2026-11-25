@@ -496,8 +496,8 @@ identical rankings to SQLite. Do not combine this retriever with a second
 
 ### Score observed retrieval rankings
 
-On BRIGHT Earth Science and FiQA, the supported Decomp, Self-Ask, RRR, IRCoT
-and Q-RAG patch releases can supply their own ranked retrieval evidence to
+On BRIGHT Earth Science and FiQA, the supported Decomp, Self-Ask, RRR, IRCoT,
+Q-RAG and Adaptive-RAG releases can supply their own ranked retrieval evidence to
 the native scorer. Bind the real corpus retriever and pass this predictor
 configuration:
 

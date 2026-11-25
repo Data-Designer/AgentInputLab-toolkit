@@ -10,6 +10,8 @@ from .retrieval import RetrievalPrediction
 
 _FINAL_RANK = {
     "plan.decomp.common_support_odqa": ("decomp_common_support_result", "retrieved_document_ids"),
+    # The no-retrieval route legitimately emits an empty document sequence.
+    "acquire.adaptive_rag.common_support": ("adaptive_rag_selected_arm_exit", "document_ids"),
     "acquire.ircot.common_support": ("ircot_exit", "active_document_ids"),
     "acquire.qrag.common_support": ("qrag_selected_real_context", "selected_document_ids"),
 }

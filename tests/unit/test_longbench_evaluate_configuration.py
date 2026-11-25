@@ -152,6 +152,48 @@ def test_rewritten_search_keeps_original_task_and_native_reader_budget(monkeypat
     assert row["usage"]["retrieval_calls"] == row["usage"]["model_calls"] == 1
 
 
+@pytest.mark.parametrize("cell", ["longbench.multifieldqa_en", "longbench.qmsum"])
+@pytest.mark.parametrize("change", [None, "retriever", "budget"])
+def test_controlled_query2doc_projects_only_from_the_frozen_visible_binding(cell, change):
+    from dataclasses import replace
+
+    from agentinputlab.algorithms.reformulate.query2doc import Query2DocLiveBindings
+    from agentinputlab.contracts.serialization import to_jsonable
+    from agentinputlab.visible_retrieval_configuration import VisibleContextBM25
+    from tests.unit.test_query2doc_controlled import Runtime
+
+    backend = Backend([("context", 4), ("answer", 3)])
+    runtime = Runtime(backend)
+    budget = ExecutionBudget(max_model_calls=2, max_output_tokens=300, max_retrieval_calls=1)
+    spec = {"kind": "visible_context_bm25", "chunk_words": 1}
+    prepared = InterventionContext(backend=backend, external_runtime=runtime,
+                                   retriever=VisibleContextBM25(spec))
+    binding = Query2DocLiveBindings.from_context(prepared, budget=budget)
+    if change == "retriever":
+        spec = {**spec, "chunk_words": 2}
+    elif change == "budget":
+        budget = replace(budget, max_model_calls=3)
+    cfg = RunConfig("rewrite.query2doc.controlled_live", budget=budget,
+                    parameters={"bindings": to_jsonable(binding)}, retriever=spec)
+    options = dict(split="test", example_ids=["case"], adapter=Adapter(cell),
+        context=InterventionContext(backend=backend, external_runtime=runtime),
+        predictor_parameters={"schema_version": 1, "native_text": {
+            "preserve_original_question": True, "rewrite_retrieval_top_k": 1}})
+    if change:
+        with pytest.raises(ValidationError, match=change):
+            cfg.evaluate(cell, **options)
+        assert not backend.requests
+        return
+    row, = cfg.evaluate(cell, **options)["records"]
+    assert row["status"] == "scored", row.get("failure")
+    assert row["longbench_question_projection"]["added_retrieval_calls"] == 1
+    assert row["intervention"]["patch"]["metadata"]["controlled_binding_sha256"] != binding.binding_hash
+    assert row["intervention"]["patch"]["release_id"] == cfg.release_id
+    assert row["usage"]["model_calls"] == 2 and row["usage"]["retrieval_calls"] == 1
+    assert backend.requests[1].prompt == "NATIVE TEMPLATE\nQuestion\ncontext"
+    assert backend.requests[1].max_tokens == 296
+
+
 def test_question_projection_rejects_noncase_evidence_and_preserves_unchanged_input():
     from dataclasses import replace
 

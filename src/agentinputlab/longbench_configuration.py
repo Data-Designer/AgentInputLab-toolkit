@@ -14,7 +14,11 @@ from agentinputlab.configuration import _known, _object, _unique
 from agentinputlab.contracts.errors import CapabilityError, ValidationError
 
 SOURCE_KEYS = {"data_zip", "scorer_path", "prompts_path"}
-LONG_TEXT_REWRITE_RELEASES = frozenset({"rewrite.query2doc.querygym_live", "rewrite.reformer.repo_native_r_only"})
+LONG_TEXT_REWRITE_RELEASES = frozenset({
+    "rewrite.query2doc.querygym_live",
+    "rewrite.query2doc.controlled_live",
+    "rewrite.reformer.repo_native_r_only",
+})
 LONG_TEXT_REWRITE_CELLS = frozenset({"longbench.multifieldqa_en", "longbench.qmsum"})
 
 

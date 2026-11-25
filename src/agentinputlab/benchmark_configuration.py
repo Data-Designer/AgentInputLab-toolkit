@@ -225,6 +225,7 @@ def evaluate_config(
     from agentinputlab.benchmarks.longbench import _SUBSETS as longbench_subsets
 
     is_longbench = benchmark_id in longbench_subsets
+    longbench_query2doc_binding = None
     if qrag_binder is not None and qrag_binder.longbench_context and not is_longbench:
         raise ValidationError("Q-RAG longbench_context applies only to LongBench")
     if longbench_sources is not None and not is_longbench:
@@ -370,6 +371,14 @@ def evaluate_config(
             raise ValidationError("LongBench rewrite retrieval requires a supported rewriter and a chunked visible corpus")
         if longbench_settings.get("preserve_original_question") and qrag_binder is not None:
             raise ValidationError("LongBench native-question projection does not alter an explicit Q-RAG reader")
+        if (longbench_settings.get("rewrite_retrieval_top_k") is not None
+                and config.release_id == "rewrite.query2doc.controlled_live"):
+            # The prepared recipe binds the visible-retriever specification.
+            # Only the benchmark may materialize it from a selected case.
+            longbench_query2doc_binding = method.bindings
+            longbench_query2doc_binding.require_match(base_context)
+            if longbench_query2doc_binding.budget != config.budget:
+                raise ValidationError("controlled Query2doc configured budget differs from binding")
         if longbench_settings.get("reformer_context_top_k") is not None and (
                 config.release_id != "rewrite.reformer.repo_native_r_only"
                 or longbench_settings["reformer_context_top_k"] != getattr(method, "top_document_count", None)):
@@ -641,6 +650,13 @@ def evaluate_config(
                 # response and the reader response are retained, charged once.
                 case_context = replace(case_context, external_runtime=config._runtime(
                     load=True, backend=captured))
+            if longbench_query2doc_binding is not None:
+                # Only the retriever identity changes upon native case binding.
+                # The method still verifies the original generator and runtime.
+                binding = replace(longbench_query2doc_binding, retriever=case_context.retriever.fingerprint())
+                case_config = replace(case_config, parameters={
+                    **case_config.parameters, "bindings": to_jsonable(binding),
+                })
             if trace_ranking:
                 from agentinputlab.benchmarks.trace_retrieval import CaseRetrievalEvidence
 
